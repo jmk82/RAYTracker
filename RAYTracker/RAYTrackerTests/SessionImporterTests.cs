@@ -177,13 +177,12 @@ namespace RAYTrackerTests
 
             for (int i = 0; i < 1000; i++)
             {
-                var randomNumberofDays = new TimeSpan(random.Next(180), 0, 0, 0);
                 var randomHour = random.Next(0, 24);
                 var randomMinute = random.Next(0, 60);
                 var randomDuration = new TimeSpan(0, random.Next(120), 0);
 
                 var tableSession = new TableSession();
-                tableSession.StartTime = new DateTime(2016, 1, 1, randomHour, randomMinute, 0) + randomNumberofDays;
+                tableSession.StartTime = new DateTime(2016, 1, 1, randomHour, randomMinute, 0);
                 tableSession.EndTime = tableSession.StartTime + randomDuration;
 
                 sessions.Add(tableSession);

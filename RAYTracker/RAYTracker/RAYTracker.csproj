@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Parser.cs" />
+    <Compile Include="Reader.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionImporter.cs" />
     <Compile Include="TableSession.cs" />
