@@ -60,6 +60,7 @@
     <Compile Include="Reader.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionImporter.cs" />
+    <Compile Include="SessionViewModel.cs" />
     <Compile Include="TableSession.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

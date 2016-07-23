@@ -19,7 +19,7 @@
         <Button Grid.Row="0" Grid.Column="0" x:Name="openFileButton" Content="Open File..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
         <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" Text="No file selected for import" VerticalAlignment="Top" />
         <Button Grid.Row="0" Grid.Column="2" x:Name="importButton" Content="Import" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click"/>
-        <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="dataGrid" Margin="25"/>
+        <DataGrid ItemsSource="{Binding Sessions}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="dataGrid" Margin="25"/>
 
     </Grid>
 </Window>

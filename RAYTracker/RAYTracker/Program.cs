@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Timers;
 using System.Windows;
 
 namespace RAYTracker
@@ -13,6 +10,8 @@ namespace RAYTracker
     {
         private string _filename;
         private MainWindow mw = (MainWindow) Application.Current.MainWindow;
+        public List<TableSession> TableSessions;
+        public IList<Session> Sessions { get; set; }
 
         public void OpenFile()
         {
@@ -23,30 +22,35 @@ namespace RAYTracker
                 mw.textBox.Text = "Opened file(s): " + openFileDialog.FileName;
         }
 
+        public IList<Session> GetSessions()
+        {
+            return Sessions;
+        }
+
         public void Import()
         {
             Reader reader = new Reader(_filename);
             Parser parser = new Parser(reader);
 
             var lines = reader.GetAllLinesAsStrings();
-            var tableSessions = new List<TableSession>();
+            TableSessions = new List<TableSession>();
 
             var start = DateTime.Now;
 
             foreach (var line in lines)
             {
-                tableSessions.Add(parser.CreateTableSession(parser.ParseLine(line)));
+                TableSessions.Add(parser.CreateTableSession(parser.ParseLine(line)));
             }
 
             SessionImporter importer = new SessionImporter();
-            var sessions = importer.CreateSessions(tableSessions);
+            Sessions = importer.CreateSessions(TableSessions);
 
-            var result = tableSessions.Sum(t => t.ChipsCashedOut - t.ChipsBought);
-            var timePlayed = sessions.Sum(s => s.Duration);
+            var result = TableSessions.Sum(t => t.ChipsCashedOut - t.ChipsBought);
+            var timePlayed = Sessions.Sum(s => s.Duration);
 
             var stop = DateTime.Now;
 
-            string message = tableSessions.Count + " table sessions imported!\nFound total " + sessions.Count +
+            string message = TableSessions.Count + " table sessions imported!\nFound total " + Sessions.Count +
                              " playing sessions.";
             message += "\nResult: " + result;
             message += "\nTime played: " + timePlayed / 60.0 + " hours";
