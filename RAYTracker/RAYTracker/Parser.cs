@@ -64,6 +64,11 @@ namespace RAYTracker
         private decimal ParseCurrency(string currency)
         {
             currency = currency.Remove(0, 1);
+
+            if (currency.IndexOf(',') != -1)
+            {
+                currency = currency.Remove(currency.IndexOf(','));
+            }
             currency = currency.Replace('.', ',');
             return Convert.ToDecimal(currency);
         }

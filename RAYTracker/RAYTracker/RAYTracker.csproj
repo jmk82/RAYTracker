@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Parser.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionImporter.cs" />
