@@ -96,7 +96,7 @@ namespace RAYTrackerTests
         {
             // Arrange
             SessionImporter importer = new SessionImporter();
-            ICollection<TableSession> sessions = new Collection<TableSession>();
+            IList<TableSession> sessions = new Collection<TableSession>();
 
             TableSession session1 = new TableSession();
             session1.StartTime = new DateTime(2016, 7, 1, 10, 0, 0);
@@ -129,7 +129,7 @@ namespace RAYTrackerTests
         {
             // Arrange
             SessionImporter importer = new SessionImporter();
-            ICollection<TableSession> sessions = new Collection<TableSession>();
+            IList<TableSession> sessions = new Collection<TableSession>();
 
             TableSession session1 = new TableSession();
             session1.StartTime = new DateTime(2016, 7, 1, 10, 0, 0);
@@ -171,7 +171,7 @@ namespace RAYTrackerTests
         public void AnotherRandomTest()
         {
             SessionImporter importer = new SessionImporter();
-            ICollection<TableSession> sessions = new Collection<TableSession>();
+            IList<TableSession> sessions = new List<TableSession>();
 
             Random random = new Random();
 

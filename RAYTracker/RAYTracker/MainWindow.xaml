@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Button x:Name="openFileButton" Content="Open File..." HorizontalAlignment="Left" Margin="25,23,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="235" Margin="25,62,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="466"/>
+        <Button x:Name="importButton" Content="Import" HorizontalAlignment="Left" Margin="124,23,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click"/>
+
     </Grid>
 </Window>

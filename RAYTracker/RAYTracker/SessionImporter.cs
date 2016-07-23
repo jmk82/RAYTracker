@@ -14,7 +14,7 @@ namespace RAYTracker
             //_sessions = new Collection<Session>();
         }
 
-        public IList<Session> CreateSessions(ICollection<TableSession> tableSessions)
+        public IList<Session> CreateSessions(IList<TableSession> tableSessions)
         {
             if (tableSessions == null)
             {
