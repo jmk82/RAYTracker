@@ -63,8 +63,23 @@ namespace RAYTracker
                 MessageBox.Show("Not a valid length for wcusersessionid!");
                 return;
             }
+            DataFetcher fetcher = new DataFetcher(sessionId);
+            if (startDatePicker.Text != "")
+            {
+                var startDateTokens = startDatePicker.Text.Split('.');
+                var startDate = startDateTokens[2] + "-" + startDateTokens[1] + "-" + startDateTokens[0];
+                fetcher.StartDate = startDate;
+            }
 
-            FetchedDataParser fp = new FetchedDataParser(new DataFetcher(sessionId));
+
+            if (endDatePicker.Text != "")
+            {
+                var endDateTokens = endDatePicker.Text.Split('.');
+                var endDate = endDateTokens[2] + "-" + endDateTokens[1] + "-" + endDateTokens[0];
+                fetcher.EndDate = endDate; 
+            }
+
+            FetchedDataParser fp = new FetchedDataParser(fetcher);
 
             var tableSessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
 

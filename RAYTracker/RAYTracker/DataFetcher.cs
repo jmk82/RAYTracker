@@ -9,7 +9,8 @@ namespace RAYTracker
         //private string baseUrl = "https://cashier.pt.ray.fi/payments/CashierProxy.php?language=fi&clienttype=poker&casino=ray&servicename=hcash_ray&failaction=1&webcashier=1&skin=ray-ray&realmode=1&preview=0&currency=eur&UseHTMLLayout=1&htmlstyle=2&localtime=20160725041924&script=%2Fpoker_sessions.php";
         private string baseUrl = "https://cashier.pt.ray.fi/payments/CashierProxy.php?language=fi&clienttype=poker&casino=ray&servicename=hcash_ray&failaction=1&webcashier=1&skin=ray-ray&realmode=1&preview=0&currency=eur&UseHTMLLayout=1&htmlstyle=2&localtime=20160725041924&script=%2Fpoker_sessions.php";
         public string Wcusersessionid { get; set; }
-        private string startdate = "2010-01-01";
+        public string StartDate { get; set; } = "2016-07-24";
+        public string EndDate { get; set; }
 
         public DataFetcher(string sessionId)
         {
@@ -18,7 +19,12 @@ namespace RAYTracker
 
         public string GenerateUrl()
         {
-            return baseUrl + "&wcusersessionid=" + Wcusersessionid + "&startdate=" + startdate;
+            var url = baseUrl + "&wcusersessionid=" + Wcusersessionid + "&startdate=" + StartDate;
+            if (EndDate != null)
+            {
+                url += "&enddate=" + EndDate;
+            }
+            return url;
         }
 
         public string GetData()
