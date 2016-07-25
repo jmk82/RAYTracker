@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 
 namespace RAYTracker
 {
@@ -46,6 +48,44 @@ namespace RAYTracker
         {
             // TODO: show session detail view here somehow
             MessageBox.Show("Clicked: " + (TableSession) tableSessionDataGrid.CurrentItem);
+        }
+
+        private void userSessionIdTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            userSessionIdTextBox.Clear();
+        }
+
+        private void fetchFromServerbutton_Click(object sender, RoutedEventArgs e)
+        {
+            var sessionId = userSessionIdTextBox.Text.Trim();
+            if (sessionId.Length != 32)
+            {
+                MessageBox.Show("Not a valid length for wcusersessionid!");
+                return;
+            }
+
+            FetchedDataParser fp = new FetchedDataParser(new DataFetcher(sessionId));
+
+            var tableSessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
+
+            SessionImporter importer = new SessionImporter();
+            var sessions = importer.CreateSessions(tableSessions);
+
+            sessionDataGrid.ItemsSource = sessions;
+
+            var result = tableSessions.Sum(t => t.ChipsCashedOut - t.ChipsBought);
+            var timePlayed = sessions.Sum(s => s.Duration.TotalMinutes);
+
+            string message = tableSessions.Count + " table sessions imported!\nFound total " + sessions.Count +
+                             " playing sessions.";
+            message += "\nTotal result: " + result + " €";
+            message += "\nTime played: " + (timePlayed / 60.0).ToString("N2") + " hours";
+            message += "\nHourly rate: " + ((double)result / (timePlayed / 60.0)).ToString("N2") + " €/h";
+            message += "\nTotal hands played: " + tableSessions.Sum(t => t.HandsPlayed);
+
+            MessageBox.Show(message);
+
+            //MessageBox.Show("Created table sessions: " + tableSessions.Count);
         }
     }
 }

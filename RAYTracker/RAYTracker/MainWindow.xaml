@@ -13,7 +13,7 @@
     </Window.Resources>    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70" />
+            <RowDefinition Height="110" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -46,6 +46,9 @@
                 <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource alignRight}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="fetchFromServerbutton" Content="Fetch" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Click="fetchFromServerbutton_Click"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="userSessionIdTextBox" Height="22" Margin="270,70,0,0" TextWrapping="Wrap" Text="Paste wcusersessionid here" VerticalAlignment="Top" GotFocus="userSessionIdTextBox_GotFocus" />
+        <Label x:Name="userSessionIdLabel" Content="wcusersessionid:" Grid.Column="1" HorizontalAlignment="Left" Margin="168,68,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

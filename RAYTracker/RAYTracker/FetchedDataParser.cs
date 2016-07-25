@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
 
 namespace RAYTracker
 {
@@ -8,38 +7,51 @@ namespace RAYTracker
     {
         private Reader _reader;
         private Parser _parser;
+        private DataFetcher _fetcher;
 
         public FetchedDataParser()
         {
-            DataFetcher fetcher = new DataFetcher();
+        }
+
+        public FetchedDataParser(DataFetcher fetcher)
+        {
+            _fetcher = fetcher;
             _parser = new Parser();
-            _reader = new Reader(fetcher.GetFetchedStreamReader());
+            _reader = new Reader(_fetcher.GetFetchedStreamReader());
         }
 
         public IList<string> GetFetchedDataLines()
         {
             var lines = _reader.GetAllLinesAsStrings();
 
-            lines.RemoveAt(0);
-            lines.RemoveAt(0);
+            //lines.RemoveAt(0);
+            //lines.RemoveAt(0);
 
             return lines;
         }
 
-        public string[] ParseTableSessions()
+        public IList<TableSession> ParseTableSessions(IList<string> rows)
         {
-            var lines = GetFetchedDataLines();
+            rows.RemoveAt(0);
+            rows.RemoveAt(0);
+
             IList<TableSession> tableSessions = new List<TableSession>();
             var tableSessionRows = new List<string>();
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < rows.Count; i++)
             {
-                tableSessionRows.Add(lines[i]);
+                if (i > 0 && i%16 == 0)
+                {
+                    tableSessions.Add(ParseTableSession(tableSessionRows));
+                    tableSessionRows.Clear();
+                }
+
+                tableSessionRows.Add(rows[i]);
             }
 
             tableSessions.Add(ParseTableSession(tableSessionRows));
 
-            return new string[1];
+            return tableSessions;
         }
 
         public TableSession ParseTableSession(IList<string> rows)
@@ -56,6 +68,7 @@ namespace RAYTracker
             tableSession.StartTime = Convert.ToDateTime(rowDatas[4]);
             tableSession.SessionDuration = _parser.ParseDuration(rowDatas[5]);
             tableSession.EndTime = tableSession.StartTime + tableSession.SessionDuration;
+            tableSession.HandsPlayed = Int32.Parse(rowDatas[6]);
             tableSession.GameType = rowDatas[13];
             tableSession.TotalBetsMade = _parser.ParseCurrency(rowDatas[7]);
             tableSession.TotalWonAmount = _parser.ParseCurrency(rowDatas[8]);

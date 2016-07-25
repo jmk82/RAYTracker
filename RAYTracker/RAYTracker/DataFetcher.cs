@@ -8,21 +8,27 @@ namespace RAYTracker
     {
         //private string baseUrl = "https://cashier.pt.ray.fi/payments/CashierProxy.php?language=fi&clienttype=poker&casino=ray&servicename=hcash_ray&failaction=1&webcashier=1&skin=ray-ray&realmode=1&preview=0&currency=eur&UseHTMLLayout=1&htmlstyle=2&localtime=20160725041924&script=%2Fpoker_sessions.php";
         private string baseUrl = "https://cashier.pt.ray.fi/payments/CashierProxy.php?language=fi&clienttype=poker&casino=ray&servicename=hcash_ray&failaction=1&webcashier=1&skin=ray-ray&realmode=1&preview=0&currency=eur&UseHTMLLayout=1&htmlstyle=2&localtime=20160725041924&script=%2Fpoker_sessions.php";
-        private string wcusersessionid = "dwwt2q4gCqkCF9FMTPmgoNDgUGBQMHAo";
-        private string startdate = "2016-07-24";
+        public string Wcusersessionid { get; set; }
+        private string startdate = "2010-01-01";
+
+        public DataFetcher(string sessionId)
+        {
+            Wcusersessionid = sessionId;
+        }
 
         public string GenerateUrl()
         {
-            return baseUrl + "&wcusersessionid=" + wcusersessionid + "&startdate=" + startdate;
+            return baseUrl + "&wcusersessionid=" + Wcusersessionid + "&startdate=" + startdate;
         }
 
         public string GetData()
         {
-            WebRequest request = WebRequest.Create(GenerateUrl());
+            var url = GenerateUrl();
+            Console.WriteLine(url);
+
+            WebRequest request = WebRequest.Create(url);
 
             WebResponse response = request.GetResponse();
-
-            string data;
             
             // Get the stream containing content returned by the server.
             Stream dataStream = response.GetResponseStream();
@@ -31,10 +37,10 @@ namespace RAYTracker
             StreamReader reader = new StreamReader(dataStream);
             
             // Read the content.
-            string responseFromServer = reader.ReadToEnd();
+            //string responseFromServer = reader.ReadToEnd();
             
             // Display the content.
-            Console.WriteLine(responseFromServer);
+            //Console.WriteLine(responseFromServer);
             
             // Clean up the streams and the response.
             reader.Close();
