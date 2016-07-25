@@ -46,7 +46,7 @@ namespace RAYTracker
             Sessions = importer.CreateSessions(TableSessions);
 
             var result = TableSessions.Sum(t => t.ChipsCashedOut - t.ChipsBought);
-            var timePlayed = Sessions.Sum(s => s.Duration);
+            var timePlayed = Sessions.Sum(s => s.Duration.TotalMinutes);
 
             var stop = DateTime.Now;
 
@@ -57,7 +57,7 @@ namespace RAYTracker
             message += "\nHourly rate: " + (double)result / (timePlayed / 60.0) + " €/h";
             message += "\nTime elapsed: " + (stop - start).TotalMilliseconds + " ms";
 
-            MessageBox.Show(message);
+            //MessageBox.Show(message);
         }
     }
 }

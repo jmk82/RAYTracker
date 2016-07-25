@@ -6,9 +6,15 @@
         xmlns:local="clr-namespace:RAYTracker"
         mc:Ignorable="d"
         Title="RAYTracker" Height="600" Width="800" MinHeight="300" MinWidth="400">
+    <Window.Resources>
+        <Style x:Key="alignRight" TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+    </Window.Resources>    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -19,7 +25,27 @@
         <Button Grid.Row="0" Grid.Column="0" x:Name="openFileButton" Content="Open File..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
         <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" Text="No file selected for import" VerticalAlignment="Top" />
         <Button Grid.Row="0" Grid.Column="2" x:Name="importButton" Content="Import" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click"/>
-        <DataGrid ItemsSource="{Binding Sessions}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="dataGrid" Margin="25"/>
+        <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="sessionDataGrid" Margin="10" SelectedCellsChanged="sessionDataGrid_SelectedCellsChanged" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Session start" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Session end" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Table sessions" Binding="{Binding TableSessions.Count}" ElementStyle="{StaticResource alignRight}"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource alignRight}"/>
+                <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource alignRight}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="tableSessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" MouseDoubleClick="tableSessionDataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Table session start" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Table session end" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Table name" Binding="{Binding TableName}"/>
+                <DataGridTextColumn Header="Game type" Binding="{Binding GameType}"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding SessionDuration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource alignRight}"/>
+                <DataGridTextColumn Header="Hands" Binding="{Binding HandsPlayed}" ElementStyle="{StaticResource alignRight}"/>
+                <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource alignRight}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </Window>

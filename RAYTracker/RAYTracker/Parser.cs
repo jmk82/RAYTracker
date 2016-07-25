@@ -32,13 +32,14 @@ namespace RAYTracker
             session.TableName = tokens[0];
             session.StartTime = Convert.ToDateTime(tokens[1]);
             session.SessionDuration = ParseDuration(tokens[2]);
-            session.EndTime = session.StartTime + new TimeSpan(0, session.SessionDuration, 0);
+            session.EndTime = session.StartTime + session.SessionDuration;
             session.GameType = tokens[3];
             session.TotalBetsMade = ParseCurrency(tokens[4]);
             session.TotalWonAmount = ParseCurrency(tokens[5]);
             session.HandsPlayed = Int32.Parse(tokens[6]);
             session.ChipsBought = ParseCurrency(tokens[7]);
             session.ChipsCashedOut = ParseCurrency(tokens[8]);
+            session.Result = session.ChipsCashedOut - session.ChipsBought;
 
             return session;
         }
@@ -55,10 +56,10 @@ namespace RAYTracker
             return tokens;
         }
 
-        public int ParseDuration(string duration)
+        public TimeSpan ParseDuration(string duration)
         {
             string[] temp = duration.Split(':');
-            return Int32.Parse(temp[0]) * 60 + Int32.Parse(temp[1]);
+            return new TimeSpan(Int32.Parse(temp[0]), Int32.Parse(temp[1]), 0);
         }
 
         private decimal ParseCurrency(string currency)

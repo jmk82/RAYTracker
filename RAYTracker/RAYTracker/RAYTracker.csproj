@@ -58,10 +58,12 @@
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Reader.cs" />
+    <Compile Include="ResultColorConverter.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionImporter.cs" />
     <Compile Include="SessionViewModel.cs" />
     <Compile Include="TableSession.cs" />
+    <Compile Include="TableSessionViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
