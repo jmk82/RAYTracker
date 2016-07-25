@@ -12,6 +12,11 @@ namespace RAYTracker
             _reader = new StreamReader(filename);
         }
 
+        public Reader(StreamReader reader)
+        {
+            _reader = reader;
+        }
+
         public IList<string> GetAllLinesAsStrings()
         {
             var lines = new List<string>();

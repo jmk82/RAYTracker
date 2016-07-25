@@ -44,7 +44,7 @@ namespace RAYTrackerTests
 
             Assert.AreEqual("(M) Hongkong, 483253799", session.TableName);
             Assert.AreEqual(new DateTime(2016, 7, 21, 18, 53, 0), session.StartTime);
-            Assert.AreEqual(188, session.SessionDuration);
+            Assert.AreEqual(new TimeSpan(0, 188, 0), session.SessionDuration);
             Assert.AreEqual("Holdem NL €0.1/€0.2", session.GameType);
             Assert.AreEqual(119.36m, session.TotalBetsMade);
             Assert.AreEqual(126.96m, session.TotalWonAmount);

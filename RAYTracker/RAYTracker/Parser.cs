@@ -62,7 +62,7 @@ namespace RAYTracker
             return new TimeSpan(Int32.Parse(temp[0]), Int32.Parse(temp[1]), 0);
         }
 
-        private decimal ParseCurrency(string currency)
+        public decimal ParseCurrency(string currency)
         {
             currency = currency.Remove(0, 1);
 
