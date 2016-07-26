@@ -22,36 +22,36 @@
             <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="0" Grid.Column="0" x:Name="OpenFileButton" Content="Open File..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="FileNameTextBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" Text="No file selected for import" VerticalAlignment="Top" />
-        <Button Grid.Row="0" Grid.Column="2" x:Name="ImportButton" Content="Import" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click"/>
-        <Button Grid.Row="0" x:Name="FetchFromServerbutton" Content="Fetch" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Click="fetchFromServerbutton_Click"/>
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="UserSessionIdTextBox" Height="22" Margin="270,70,0,0" TextWrapping="Wrap" Text="Paste wcusersessionid here" VerticalAlignment="Top" GotFocus="userSessionIdTextBox_GotFocus" />
-        <Label Grid.Row="0" x:Name="UserSessionIdLabel" Content="wcusersessionid:" Grid.Column="1" HorizontalAlignment="Left" Margin="168,68,0,0" VerticalAlignment="Top"/>
-        <DatePicker Grid.Row="0" Grid.Column="0" x:Name="StartDatePicker" HorizontalAlignment="Left" Margin="61,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="103"/>
-        <DatePicker Grid.Row="0" x:Name="EndDatePicker" HorizontalAlignment="Left" Margin="65,70,0,0" VerticalAlignment="Top" Width="103" Grid.Column="1"/>
-        <Label Grid.Row="0" Grid.Column="0" x:Name="FromLabel" Content="From:" HorizontalAlignment="Left" Margin="21,68,0,0" VerticalAlignment="Top"/>
-        <Label Grid.Row="0" x:Name="ToLabel" Content="To:" HorizontalAlignment="Left" Margin="39,69,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Button Grid.Row="0" Grid.Column="0" x:Name="OpenFileButton" Content="Avaa..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="FileNameTextBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" />
+        <Button Grid.Row="0" Grid.Column="2" x:Name="ImportButton" Content="Tuo" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click"/>
+        <Button Grid.Row="0" x:Name="FetchFromServerbutton" Content="Hae" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Click="fetchFromServerbutton_Click"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="UserSessionIdTextBox" Height="22" Margin="295,70,120,0" TextWrapping="Wrap" Text="Kopioi wcusersessionid tähän" VerticalAlignment="Top" GotFocus="userSessionIdTextBox_GotFocus" Grid.ColumnSpan="2" />
+        <Label Grid.Row="0" x:Name="UserSessionIdLabel" Content="wcusersessionid:" Grid.Column="1" HorizontalAlignment="Left" Margin="195,68,0,0" VerticalAlignment="Top"/>
+        <DatePicker Grid.Row="0" Grid.Column="0" x:Name="StartDatePicker" HorizontalAlignment="Left" Margin="55,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="103"/>
+        <DatePicker Grid.Row="0" x:Name="EndDatePicker" HorizontalAlignment="Left" Margin="85,70,0,0" VerticalAlignment="Top" Width="103" Grid.Column="1"/>
+        <Label Grid.Row="0" Grid.Column="0" x:Name="FromLabel" Content="Mistä:" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top"/>
+        <Label Grid.Row="0" x:Name="ToLabel" Content="Mihin:" HorizontalAlignment="Left" Margin="37,69,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.163,0.577"/>
 
         <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" SelectedCellsChanged="sessionDataGrid_SelectedCellsChanged" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Session start" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
-                <DataGridTextColumn Header="Session end" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
-                <DataGridTextColumn Header="Table sessions" Binding="{Binding TableSessions.Count}" ElementStyle="{StaticResource AlignRight}"/>
-                <DataGridTextColumn Header="Duration" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
-                <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Istuntoja" Binding="{Binding TableSessions.Count}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Kesto" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
         </DataGrid>
 
         <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="TableSessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Table session start" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
-                <DataGridTextColumn Header="Table session end" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
-                <DataGridTextColumn Header="Table name" Binding="{Binding TableName}"/>
-                <DataGridTextColumn Header="Game type" Binding="{Binding GameType}"/>
-                <DataGridTextColumn Header="Duration" Binding="{Binding SessionDuration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
-                <DataGridTextColumn Header="Hands" Binding="{Binding HandsPlayed}" ElementStyle="{StaticResource AlignRight}"/>
-                <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Pöydän nimi" Binding="{Binding TableName}"/>
+                <DataGridTextColumn Header="Peli" Binding="{Binding GameType}"/>
+                <DataGridTextColumn Header="Kesto" Binding="{Binding SessionDuration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Käsiä" Binding="{Binding HandsPlayed}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

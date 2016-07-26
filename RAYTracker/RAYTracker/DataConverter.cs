@@ -4,10 +4,6 @@ namespace RAYTracker
 {
     public class DataConverter
     {
-        public DataConverter()
-        {
-        }
-
         public TimeSpan ParseDuration(string duration)
         {
             string[] temp = duration.Split(':');

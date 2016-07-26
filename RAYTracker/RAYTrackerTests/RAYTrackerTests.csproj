@@ -57,6 +57,7 @@
     <Compile Include="TableSessionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataFetcherTests.cs" />
+    <Compile Include="ReporterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RAYTracker\RAYTracker.csproj">

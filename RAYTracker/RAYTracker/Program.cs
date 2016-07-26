@@ -9,23 +9,28 @@ namespace RAYTracker
 {
     public class Program
     {
-        private string _filename;
-        private readonly MainWindow mw = (MainWindow) Application.Current.MainWindow;
+        public string Filename { get; set; }
         public List<TableSession> TableSessions;
         public IList<Session> Sessions { get; set; }
+
+        public Program()
+        {
+            
+        }
 
         public void OpenFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            MainWindow mw = (MainWindow)Application.Current.MainWindow;
 
             if (openFileDialog.ShowDialog() == true)
-                _filename = openFileDialog.FileName;
+                Filename = openFileDialog.FileName;
                 mw.FileNameTextBox.Text = "Avattu tiedosto: " + openFileDialog.FileName;
         }
 
         public void ImportFromFile()
         {
-            Reader reader = new Reader(_filename);
+            Reader reader = new Reader(Filename);
             FileParser fileParser = new FileParser(reader);
 
             var lines = reader.GetAllLinesAsStrings();
@@ -39,9 +44,9 @@ namespace RAYTracker
             SessionGenerator generator = new SessionGenerator();
             Sessions = generator.GroupToSessions(TableSessions);
 
-            string message = Reporter.GetSimpleSessionTotalReport(TableSessions, Sessions);
+            //string message = Reporter.GetSimpleSessionTotalReport(TableSessions, Sessions);
 
-            MessageBox.Show(message);
+            //MessageBox.Show(message);
         }
 
         public IList<TableSession> FetchTableSessionsFromServer(string sessionId, string startDate, string endDate)

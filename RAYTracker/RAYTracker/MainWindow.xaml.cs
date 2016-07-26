@@ -51,7 +51,7 @@ namespace RAYTracker
 
             if (sessionId.Length != 32)
             {
-                MessageBox.Show("Not a valid length for wcusersessionid!");
+                MessageBox.Show("Virheellinen wcusersessionid!");
                 return;
             }
 

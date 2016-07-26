@@ -20,10 +20,5 @@ namespace RAYTracker.Model
             TableSessions = sessions;
             Result = TableSessions.Sum(t => t.ChipsCashedOut - t.ChipsBought);
         }
-
-        public override string ToString()
-        {
-            return "Start: " + StartTime + " End: " + EndTime + " TableSessions: " + TableSessions.Count;
-        }
     }
 }
