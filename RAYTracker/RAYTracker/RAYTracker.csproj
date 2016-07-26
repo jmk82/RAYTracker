@@ -55,17 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataConverter.cs" />
     <Compile Include="DataFetcher.cs" />
     <Compile Include="FetchedDataParser.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="FileParser.cs" />
+    <Compile Include="Model\Session.cs" />
+    <Compile Include="Model\TableSession.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Reader.cs" />
-    <Compile Include="ResultColorConverter.cs" />
-    <Compile Include="Session.cs" />
-    <Compile Include="SessionImporter.cs" />
-    <Compile Include="SessionViewModel.cs" />
-    <Compile Include="TableSession.cs" />
-    <Compile Include="TableSessionViewModel.cs" />
+    <Compile Include="Reporter.cs" />
+    <Compile Include="SessionGenerator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +105,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

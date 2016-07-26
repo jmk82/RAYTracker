@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using RAYTracker.Model;
 
 namespace RAYTrackerTests
 {
@@ -15,7 +16,7 @@ namespace RAYTrackerTests
         public void TestOrderTableSessions1()
         {
             // Arrange
-            SessionImporter importer = new SessionImporter();
+            SessionGenerator generator = new SessionGenerator();
             ICollection<TableSession> sessions = new Collection<TableSession>();
 
             TableSession session1 = new TableSession();
@@ -36,7 +37,7 @@ namespace RAYTrackerTests
 
             // Act
 
-            var orderedSessions = importer.OrderTableSessions(sessions);
+            var orderedSessions = generator.OrderTableSessions(sessions);
 
             // Assert
             var expectedStartHour1 = 10;
@@ -59,7 +60,7 @@ namespace RAYTrackerTests
         [TestMethod]
         public void TestSessionOrderingWithRandomTableSessionAndPrintOutput()
         {
-            SessionImporter importer = new SessionImporter();
+            SessionGenerator generator = new SessionGenerator();
             ICollection<TableSession> sessions = new Collection<TableSession>();
 
             Random random = new Random();
@@ -83,7 +84,7 @@ namespace RAYTrackerTests
             }
 
             Debug.WriteLine("----- After ordering: -----");
-            var orderedSessions = importer.OrderTableSessions(sessions);
+            var orderedSessions = generator.OrderTableSessions(sessions);
 
             foreach (var session in orderedSessions)
             {
@@ -95,7 +96,7 @@ namespace RAYTrackerTests
         public void CreateSessionsTest1()
         {
             // Arrange
-            SessionImporter importer = new SessionImporter();
+            SessionGenerator generator = new SessionGenerator();
             IList<TableSession> sessions = new Collection<TableSession>();
 
             TableSession session1 = new TableSession();
@@ -114,7 +115,7 @@ namespace RAYTrackerTests
             sessions.Add(session2);
             sessions.Add(session3);
 
-            var created = importer.CreateSessions(sessions);
+            var created = generator.GroupToSessions(sessions);
 
             foreach (var session in created)
             {
@@ -128,7 +129,7 @@ namespace RAYTrackerTests
         public void CreateSessionsTest2()
         {
             // Arrange
-            SessionImporter importer = new SessionImporter();
+            SessionGenerator generator = new SessionGenerator();
             IList<TableSession> sessions = new Collection<TableSession>();
 
             TableSession session1 = new TableSession();
@@ -157,7 +158,7 @@ namespace RAYTrackerTests
             sessions.Add(session4);
             sessions.Add(session5);
 
-            var created = importer.CreateSessions(sessions);
+            var created = generator.GroupToSessions(sessions);
 
             foreach (var session in created)
             {
@@ -170,7 +171,7 @@ namespace RAYTrackerTests
         [TestMethod]
         public void AnotherRandomTest()
         {
-            SessionImporter importer = new SessionImporter();
+            SessionGenerator generator = new SessionGenerator();
             IList<TableSession> sessions = new List<TableSession>();
 
             Random random = new Random();
@@ -188,11 +189,11 @@ namespace RAYTrackerTests
                 sessions.Add(tableSession);
             }
 
-            var created = importer.CreateSessions(sessions);
+            var created = generator.GroupToSessions(sessions);
 
             Debug.WriteLine("Total sessions: " + created.Count);
 
-            //foreach (var session in importer.OrderTableSessions(sessions))
+            //foreach (var session in generator.OrderTableSessions(sessions))
             //{
             //    Debug.WriteLine(session.ToString());
             //}

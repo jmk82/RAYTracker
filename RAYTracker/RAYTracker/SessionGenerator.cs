@@ -1,24 +1,17 @@
-﻿using System;
+﻿using RAYTracker.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace RAYTracker
 {
-    public class SessionImporter
+    public class SessionGenerator
     {
-        //private ICollection<TableSession> _tableSessions;
-        //private ICollection<Session> _sessions;
-
-        public SessionImporter()
-        {
-            //_sessions = new Collection<Session>();
-        }
-
-        public IList<Session> CreateSessions(IList<TableSession> tableSessions)
+        public IList<Session> GroupToSessions(IList<TableSession> tableSessions)
         {
             if (tableSessions == null)
             {
-                throw new ArgumentNullException("No sessions!");
+                throw new ArgumentNullException("Ei istuntoja!");
             }
 
             var orderedTableSessions = OrderTableSessions(tableSessions);
@@ -60,8 +53,6 @@ namespace RAYTracker
                         .Where(t => t.StartTime <= currentSetEndTime)
                         .Max(t => t.EndTime);
                 }
-
-                
             }
             
             return allSessions;

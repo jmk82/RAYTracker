@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RAYTracker"
         mc:Ignorable="d"
         Title="RAYTracker" Height="600" Width="800" MinHeight="300" MinWidth="400">
     <Window.Resources>
-        <Style x:Key="alignRight" TargetType="{x:Type TextBlock}">
+        <Style x:Key="AlignRight" TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Right" />
         </Style>
     </Window.Resources>
@@ -22,37 +21,38 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="0" Grid.Column="0" x:Name="openFileButton" Content="Open File..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="textBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" Text="No file selected for import" VerticalAlignment="Top" />
-        <Button Grid.Row="0" Grid.Column="2" x:Name="importButton" Content="Import" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click"/>
-        <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="sessionDataGrid" Margin="10" SelectedCellsChanged="sessionDataGrid_SelectedCellsChanged" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
+
+        <Button Grid.Row="0" Grid.Column="0" x:Name="OpenFileButton" Content="Open File..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="FileNameTextBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" Text="No file selected for import" VerticalAlignment="Top" />
+        <Button Grid.Row="0" Grid.Column="2" x:Name="ImportButton" Content="Import" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click"/>
+        <Button Grid.Row="0" x:Name="FetchFromServerbutton" Content="Fetch" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Click="fetchFromServerbutton_Click"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="UserSessionIdTextBox" Height="22" Margin="270,70,0,0" TextWrapping="Wrap" Text="Paste wcusersessionid here" VerticalAlignment="Top" GotFocus="userSessionIdTextBox_GotFocus" />
+        <Label Grid.Row="0" x:Name="UserSessionIdLabel" Content="wcusersessionid:" Grid.Column="1" HorizontalAlignment="Left" Margin="168,68,0,0" VerticalAlignment="Top"/>
+        <DatePicker Grid.Row="0" Grid.Column="0" x:Name="StartDatePicker" HorizontalAlignment="Left" Margin="61,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="103"/>
+        <DatePicker Grid.Row="0" x:Name="EndDatePicker" HorizontalAlignment="Left" Margin="65,70,0,0" VerticalAlignment="Top" Width="103" Grid.Column="1"/>
+        <Label Grid.Row="0" Grid.Column="0" x:Name="FromLabel" Content="From:" HorizontalAlignment="Left" Margin="21,68,0,0" VerticalAlignment="Top"/>
+        <Label Grid.Row="0" x:Name="ToLabel" Content="To:" HorizontalAlignment="Left" Margin="39,69,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+
+        <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" SelectedCellsChanged="sessionDataGrid_SelectedCellsChanged" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Session start" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
                 <DataGridTextColumn Header="Session end" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
-                <DataGridTextColumn Header="Table sessions" Binding="{Binding TableSessions.Count}" ElementStyle="{StaticResource alignRight}"/>
-                <DataGridTextColumn Header="Duration" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource alignRight}"/>
-                <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource alignRight}"/>
+                <DataGridTextColumn Header="Table sessions" Binding="{Binding TableSessions.Count}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="tableSessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" MouseDoubleClick="tableSessionDataGrid_MouseDoubleClick">
+        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="TableSessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Table session start" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
                 <DataGridTextColumn Header="Table session end" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
                 <DataGridTextColumn Header="Table name" Binding="{Binding TableName}"/>
                 <DataGridTextColumn Header="Game type" Binding="{Binding GameType}"/>
-                <DataGridTextColumn Header="Duration" Binding="{Binding SessionDuration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource alignRight}"/>
-                <DataGridTextColumn Header="Hands" Binding="{Binding HandsPlayed}" ElementStyle="{StaticResource alignRight}"/>
-                <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource alignRight}"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding SessionDuration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Hands" Binding="{Binding HandsPlayed}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Result" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="fetchFromServerbutton" Content="Fetch" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Click="fetchFromServerbutton_Click"/>
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="userSessionIdTextBox" Height="22" Margin="270,70,0,0" TextWrapping="Wrap" Text="Paste wcusersessionid here" VerticalAlignment="Top" GotFocus="userSessionIdTextBox_GotFocus" />
-        <Label x:Name="userSessionIdLabel" Content="wcusersessionid:" Grid.Column="1" HorizontalAlignment="Left" Margin="168,68,0,0" VerticalAlignment="Top"/>
-        <DatePicker x:Name="startDatePicker" HorizontalAlignment="Left" Margin="61,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="103"/>
-        <DatePicker x:Name="endDatePicker" HorizontalAlignment="Left" Margin="65,70,0,0" VerticalAlignment="Top" Width="103" Grid.Column="1"/>
-        <Label x:Name="label" Content="From:" HorizontalAlignment="Left" Margin="21,68,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label_Copy" Content="To:" HorizontalAlignment="Left" Margin="39,69,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-
     </Grid>
 </Window>

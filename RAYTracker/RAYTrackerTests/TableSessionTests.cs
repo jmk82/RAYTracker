@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RAYTracker;
 using System;
+using RAYTracker.Model;
 
 namespace RAYTrackerTests
 {

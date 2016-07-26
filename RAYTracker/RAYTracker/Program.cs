@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using RAYTracker.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace RAYTracker
     public class Program
     {
         private string _filename;
-        private MainWindow mw = (MainWindow) Application.Current.MainWindow;
+        private readonly MainWindow mw = (MainWindow) Application.Current.MainWindow;
         public List<TableSession> TableSessions;
         public IList<Session> Sessions { get; set; }
 
@@ -19,45 +20,53 @@ namespace RAYTracker
 
             if (openFileDialog.ShowDialog() == true)
                 _filename = openFileDialog.FileName;
-                mw.textBox.Text = "Opened file(s): " + openFileDialog.FileName;
+                mw.FileNameTextBox.Text = "Avattu tiedosto: " + openFileDialog.FileName;
         }
 
-        public IList<Session> GetSessions()
-        {
-            return Sessions;
-        }
-
-        public void Import()
+        public void ImportFromFile()
         {
             Reader reader = new Reader(_filename);
-            Parser parser = new Parser(reader);
+            FileParser fileParser = new FileParser(reader);
 
             var lines = reader.GetAllLinesAsStrings();
             TableSessions = new List<TableSession>();
 
-            var start = DateTime.Now;
-
             foreach (var line in lines)
             {
-                TableSessions.Add(parser.CreateTableSession(parser.ParseLine(line)));
+                TableSessions.Add(fileParser.CreateTableSession(fileParser.ParseLine(line)));
             }
 
-            SessionImporter importer = new SessionImporter();
-            Sessions = importer.CreateSessions(TableSessions);
+            SessionGenerator generator = new SessionGenerator();
+            Sessions = generator.GroupToSessions(TableSessions);
 
-            var result = TableSessions.Sum(t => t.ChipsCashedOut - t.ChipsBought);
-            var timePlayed = Sessions.Sum(s => s.Duration.TotalMinutes);
+            string message = Reporter.GetSimpleSessionTotalReport(TableSessions, Sessions);
 
-            var stop = DateTime.Now;
+            MessageBox.Show(message);
+        }
 
-            string message = TableSessions.Count + " table sessions imported!\nFound total " + Sessions.Count +
-                             " playing sessions.";
-            message += "\nResult: " + result;
-            message += "\nTime played: " + timePlayed / 60.0 + " hours";
-            message += "\nHourly rate: " + (double)result / (timePlayed / 60.0) + " €/h";
-            message += "\nTime elapsed: " + (stop - start).TotalMilliseconds + " ms";
+        public IList<TableSession> FetchTableSessionsFromServer(string sessionId, string startDate, string endDate)
+        {
+            DataFetcher fetcher = new DataFetcher(sessionId);
 
-            //MessageBox.Show(message);
+            if (startDate != "")
+            {
+                var startDateTokens = startDate.Split('.');
+                startDate = startDateTokens[2] + "-" + startDateTokens[1] + "-" + startDateTokens[0];
+                fetcher.StartDate = startDate;
+            }
+
+            if (endDate != "")
+            {
+                var endDateTokens = endDate.Split('.');
+                endDate = endDateTokens[2] + "-" + endDateTokens[1] + "-" + endDateTokens[0];
+                fetcher.EndDate = endDate;
+            }
+
+            FetchedDataParser fp = new FetchedDataParser(fetcher);
+
+            var tableSessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
+
+            return tableSessions;
         }
     }
 }

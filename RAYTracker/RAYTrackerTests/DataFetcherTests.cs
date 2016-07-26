@@ -8,19 +8,15 @@ namespace RAYTrackerTests
     [TestClass]
     public class DataFetcherTests
     {
+        // Vaihda tämä aina nykyiseen wcusersessionid:hen ennen testejä, jotta serverille tehtävät testit toimivat
+        private string sessionId = "gYFxrJna2bZyJyFMLAlw4EDQIHBgsMCY";
+
         [TestMethod]
         public void GetDataTest()
         {
-            FetchedDataParser fp = new FetchedDataParser(new DataFetcher("FIDdyY0gA7OCt7FM3GmgcPAAIJDgsNB4"));
+            FetchedDataParser fp = new FetchedDataParser(new DataFetcher(sessionId));
 
             Debug.WriteLine(fp.GetFetchedDataLines().Count);
-        }
-
-        [TestMethod]
-        public void PrintSomeLines()
-        {
-            FetchedDataParser fp = new FetchedDataParser();
-            fp.GetFetchedDataLines();
         }
 
         [TestMethod]
@@ -77,7 +73,7 @@ namespace RAYTrackerTests
         [TestMethod]
         public void ParseFetchedDataToTableSessionsTest()
         {
-            FetchedDataParser fp = new FetchedDataParser(new DataFetcher("FIDdyY0gA7OCt7FM3GmgcPAAIJDgsNB4"));
+            FetchedDataParser fp = new FetchedDataParser(new DataFetcher(sessionId));
 
             var rows = fp.GetFetchedDataLines();
 

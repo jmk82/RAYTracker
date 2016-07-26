@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RAYTracker
+namespace RAYTracker.Model
 {
     public class Session
     {

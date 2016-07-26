@@ -14,8 +14,8 @@ namespace RAYTrackerTests
         [TestMethod]
         public void ParseLineToTrimmedTokensTest()
         {
-            Parser parser = new Parser();
-            var tokens = parser.ParseLine(testRow);
+            FileParser fileParser = new FileParser();
+            var tokens = fileParser.ParseLine(testRow);
 
             Assert.AreEqual("(M) Hongkong, 483253799", tokens[0]);
             Assert.AreEqual("21-07-2016 18:53", tokens[1]);
@@ -31,16 +31,16 @@ namespace RAYTrackerTests
         [TestMethod]
         public void CreateSessionFromTokensTest()
         {
-            Parser parser = new Parser();
+            FileParser fileParser = new FileParser();
 
-            var tokens = parser.ParseLine(testRow);
+            var tokens = fileParser.ParseLine(testRow);
 
             for (int i = 0; i < tokens.Length; i++)
             {
                 Debug.WriteLine("token[" + i + "]: [" + tokens[i] + "]");
             }
 
-            var session = parser.CreateTableSession(tokens);
+            var session = fileParser.CreateTableSession(tokens);
 
             Assert.AreEqual("(M) Hongkong, 483253799", session.TableName);
             Assert.AreEqual(new DateTime(2016, 7, 21, 18, 53, 0), session.StartTime);

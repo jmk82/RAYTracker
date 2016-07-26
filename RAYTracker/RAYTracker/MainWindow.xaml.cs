@@ -1,5 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using RAYTracker.Model;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace RAYTracker
@@ -9,103 +10,70 @@ namespace RAYTracker
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Program p;
-        private SessionViewModel _viewModel;
+        private readonly Program _program;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            p = new Program();
+            _program = new Program();
         }
 
         private void openFileButton_Click(object sender, RoutedEventArgs e)
         {
-            p.OpenFile();
+            _program.OpenFile();
         }
 
         private void importButton_Click(object sender, RoutedEventArgs e)
         {
-            p.Import();
-
-            sessionDataGrid.ItemsSource = p.GetSessions();
-            //_viewModel = new SessionViewModel(p);
-            //DataContext = _viewModel;
-            
+            _program.ImportFromFile();
+            SessionDataGrid.ItemsSource = _program.Sessions;
         }
 
         private void sessionDataGrid_SelectedCellsChanged(object sender, System.Windows.Controls.SelectedCellsChangedEventArgs e)
         {
-            var selectedSession = (Session)sessionDataGrid.CurrentItem;
+            var selectedSession = (Session)SessionDataGrid.CurrentItem;
 
             if (selectedSession != null)
             {
-                tableSessionDataGrid.ItemsSource = selectedSession.TableSessions;
+                TableSessionDataGrid.ItemsSource = selectedSession.TableSessions;
             }
-        }
-
-        private void tableSessionDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            // TODO: show session detail view here somehow
-            MessageBox.Show("Clicked: " + (TableSession) tableSessionDataGrid.CurrentItem);
         }
 
         private void userSessionIdTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            userSessionIdTextBox.Clear();
+            UserSessionIdTextBox.Clear();
         }
 
         private void fetchFromServerbutton_Click(object sender, RoutedEventArgs e)
         {
-            var sessionId = userSessionIdTextBox.Text.Trim();
+            var sessionId = UserSessionIdTextBox.Text.Trim();
+
             if (sessionId.Length != 32)
             {
                 MessageBox.Show("Not a valid length for wcusersessionid!");
                 return;
             }
-            DataFetcher fetcher = new DataFetcher(sessionId);
-            if (startDatePicker.Text != "")
+
+            IList<TableSession> tableSessions;
+            IList<Session> sessions;
+
+            try
             {
-                var startDateTokens = startDatePicker.Text.Split('.');
-                var startDate = startDateTokens[2] + "-" + startDateTokens[1] + "-" + startDateTokens[0];
-                fetcher.StartDate = startDate;
+                tableSessions = _program.FetchTableSessionsFromServer(sessionId, StartDatePicker.Text, EndDatePicker.Text);
+                sessions = new SessionGenerator().GroupToSessions(tableSessions);
             }
-
-
-            if (endDatePicker.Text != "")
+            catch (UnauthorizedAccessException ex)
             {
-                var endDateTokens = endDatePicker.Text.Split('.');
-                var endDate = endDateTokens[2] + "-" + endDateTokens[1] + "-" + endDateTokens[0];
-                fetcher.EndDate = endDate; 
-            }
-
-            FetchedDataParser fp = new FetchedDataParser(fetcher);
-
-            var tableSessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
-
-            if (tableSessions == null)
-            {
+                MessageBox.Show(ex.Message);
                 return;
             }
 
-            SessionImporter importer = new SessionImporter();
-            var sessions = importer.CreateSessions(tableSessions);
+            SessionDataGrid.ItemsSource = sessions;
 
-            sessionDataGrid.ItemsSource = sessions;
-
-            var result = tableSessions.Sum(t => t.ChipsCashedOut - t.ChipsBought);
-            var timePlayed = sessions.Sum(s => s.Duration.TotalMinutes);
-
-            string message = tableSessions.Count + " table sessions imported!\nFound total " + sessions.Count +
-                             " playing sessions.";
-            message += "\nTotal result: " + result + " €";
-            message += "\nTime played: " + (timePlayed / 60.0).ToString("N2") + " hours";
-            message += "\nHourly rate: " + ((double)result / (timePlayed / 60.0)).ToString("N2") + " €/h";
-            message += "\nTotal hands played: " + tableSessions.Sum(t => t.HandsPlayed);
+            string message = Reporter.GetSimpleSessionTotalReport(tableSessions, sessions);
 
             MessageBox.Show(message);
-
-            //MessageBox.Show("Created table sessions: " + tableSessions.Count);
         }
     }
 }

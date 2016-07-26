@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace RAYTracker
+namespace RAYTracker.Model
 {
     public class TableSession
     {
@@ -15,10 +15,5 @@ namespace RAYTracker
         public decimal ChipsBought { get; set; }
         public decimal ChipsCashedOut { get; set; }
         public decimal Result { get; set; }
-
-        public override string ToString()
-        {
-            return "Start: " + StartTime + " End: " + EndTime;
-        }
     }
 }
