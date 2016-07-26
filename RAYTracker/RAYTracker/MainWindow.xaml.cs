@@ -83,6 +83,11 @@ namespace RAYTracker
 
             var tableSessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
 
+            if (tableSessions == null)
+            {
+                return;
+            }
+
             SessionImporter importer = new SessionImporter();
             var sessions = importer.CreateSessions(tableSessions);
 

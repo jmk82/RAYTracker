@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace RAYTracker
 {
@@ -34,6 +35,12 @@ namespace RAYTracker
         {
             rows.RemoveAt(0);
             rows.RemoveAt(0);
+
+            if (rows.Count == 1)
+            {
+                MessageBox.Show("Server message: " + rows[0].Split('\'')[3]);
+                return null;
+            }
 
             IList<TableSession> tableSessions = new List<TableSession>();
             var tableSessionRows = new List<string>();
