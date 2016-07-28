@@ -10,7 +10,7 @@ namespace RAYTracker
     public class Program
     {
         public string Filename { get; set; }
-        public List<TableSession> TableSessions;
+        public IList<TableSession> TableSessions;
         public IList<Session> Sessions { get; set; }
 
         public Program()
@@ -44,9 +44,9 @@ namespace RAYTracker
             SessionGenerator generator = new SessionGenerator();
             Sessions = generator.GroupToSessions(TableSessions);
 
-            //string message = Reporter.GetSimpleSessionTotalReport(TableSessions, Sessions);
+            string message = Reporter.GetSimpleSessionTotalReport(TableSessions, Sessions);
 
-            //MessageBox.Show(message);
+            MessageBox.Show(message);
         }
 
         public IList<TableSession> FetchTableSessionsFromServer(string sessionId, string startDate, string endDate)
@@ -70,6 +70,7 @@ namespace RAYTracker
             FetchedDataParser fp = new FetchedDataParser(fetcher);
 
             var tableSessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
+            TableSessions = tableSessions;
 
             return tableSessions;
         }

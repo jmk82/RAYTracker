@@ -39,16 +39,11 @@ namespace RAYTrackerTests
 
             var tableSessions = program.TableSessions;
 
-            var report = tableSessions.GroupBy(t => t.GameType);
+            var report = Reporter.GameTypeReport(tableSessions);
 
-            foreach (var day in report)
+            foreach (var game in report)
             {
-                Debug.WriteLine(day.Key + ":  " + day.Sum(s => s.Result) + " €");
-
-                //foreach (var sess in day)
-                //{
-                //    Debug.WriteLine(" " + sess.Result);
-                //}
+                Debug.WriteLine(game.GameType + ": " + game.Hands + " kättä, tulos: " + game.Result);
             }
         }
 

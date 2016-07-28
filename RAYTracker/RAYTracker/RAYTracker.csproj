@@ -59,11 +59,17 @@
     <Compile Include="DataFetcher.cs" />
     <Compile Include="FetchedDataParser.cs" />
     <Compile Include="FileParser.cs" />
+    <Compile Include="Model\GameType.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\TableSession.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="Reporter.cs" />
+    <Compile Include="Reports\DailyReport.cs" />
+    <Compile Include="Reports\GameTypeReport.cs" />
+    <Compile Include="Reports\MonthlyReport.cs" />
+    <Compile Include="Reports\Report.cs" />
+    <Compile Include="Reports\YearlyReport.cs" />
     <Compile Include="SessionGenerator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

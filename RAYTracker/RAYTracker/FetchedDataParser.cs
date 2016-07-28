@@ -73,7 +73,7 @@ namespace RAYTracker
             tableSession.SessionDuration = _dataConverter.ParseDuration(rowDatas[5]);
             tableSession.EndTime = tableSession.StartTime + tableSession.SessionDuration;
             tableSession.HandsPlayed = int.Parse(rowDatas[6]);
-            tableSession.GameType = rowDatas[13];
+            tableSession.GameType = _dataConverter.AssignGameType(rowDatas[13]);
             tableSession.TotalBetsMade = _dataConverter.ParseCurrency(rowDatas[7]);
             tableSession.TotalWonAmount = _dataConverter.ParseCurrency(rowDatas[8]);
             tableSession.ChipsBought = _dataConverter.ParseCurrency(rowDatas[9]);

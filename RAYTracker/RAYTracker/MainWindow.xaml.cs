@@ -1,7 +1,10 @@
 ﻿using RAYTracker.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace RAYTracker
 {
@@ -62,6 +65,7 @@ namespace RAYTracker
             {
                 tableSessions = _program.FetchTableSessionsFromServer(sessionId, StartDatePicker.Text, EndDatePicker.Text);
                 sessions = new SessionGenerator().GroupToSessions(tableSessions);
+                _program.Sessions = sessions;
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -74,6 +78,54 @@ namespace RAYTracker
             string message = Reporter.GetSimpleSessionTotalReport(tableSessions, sessions);
 
             MessageBox.Show(message);
+        }
+
+        private void TimeReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var column in ReportDataGrid.Columns)
+            {
+                column.Visibility = Visibility.Hidden;
+            }
+
+            ReportDataGrid.Columns[3].Visibility = Visibility.Visible;
+            ReportDataGrid.Columns[4].Visibility = Visibility.Visible;
+
+            if (TimeReportComboBox.SelectedIndex == 0)
+            {
+                var data = Reporter.DailyReport(_program.TableSessions);
+                ReportDataGrid.Columns[0].Visibility = Visibility.Visible;
+                ReportDataGrid.ItemsSource = data;
+            }
+            else if (TimeReportComboBox.SelectedIndex == 1)
+            {
+                var data = Reporter.MonthlyReport(_program.TableSessions);
+                ReportDataGrid.Columns[1].Visibility = Visibility.Visible;
+                ReportDataGrid.ItemsSource = data;
+            }
+
+            else if (TimeReportComboBox.SelectedIndex == 2)
+            {
+                var data = Reporter.YearlyReport(_program.TableSessions);
+                ReportDataGrid.Columns[2].Visibility = Visibility.Visible;
+                ReportDataGrid.ItemsSource = data;
+            }
+        }
+
+        private void ReportByGameTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var column in ReportDataGrid.Columns)
+            {
+                column.Visibility = Visibility.Hidden;
+            }
+
+            ReportDataGrid.Columns[3].Visibility = Visibility.Visible;
+            ReportDataGrid.Columns[4].Visibility = Visibility.Visible;
+
+            var data = Reporter.GameTypeReport(_program.TableSessions);
+            ReportDataGrid.Columns[5].Visibility = Visibility.Visible;
+            ReportDataGrid.Columns[6].Visibility = Visibility.Visible;
+            ReportDataGrid.Columns[5].DisplayIndex = 0;
+            ReportDataGrid.ItemsSource = data;
         }
     }
 }

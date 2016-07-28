@@ -1,5 +1,5 @@
-﻿using System;
-using RAYTracker.Model;
+﻿using RAYTracker.Model;
+using System;
 
 namespace RAYTracker
 {
@@ -27,14 +27,14 @@ namespace RAYTracker
             session.StartTime = Convert.ToDateTime(tokens[1]);
             session.SessionDuration = _dataConverter.ParseDuration(tokens[2]);
             session.EndTime = session.StartTime + session.SessionDuration;
-            session.GameType = tokens[3];
+            session.GameType = _dataConverter.AssignGameType(tokens[3]);
             session.TotalBetsMade = _dataConverter.ParseCurrency(tokens[4]);
             session.TotalWonAmount = _dataConverter.ParseCurrency(tokens[5]);
             session.HandsPlayed = int.Parse(tokens[6]);
             session.ChipsBought = _dataConverter.ParseCurrency(tokens[7]);
             session.ChipsCashedOut = _dataConverter.ParseCurrency(tokens[8]);
             session.Result = session.ChipsCashedOut - session.ChipsBought;
-
+            
             return session;
         }
 

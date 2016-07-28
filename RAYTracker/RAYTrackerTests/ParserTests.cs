@@ -52,5 +52,18 @@ namespace RAYTrackerTests
             Assert.AreEqual(23.14m, session.ChipsBought);
             Assert.AreEqual(30.74m, session.ChipsCashedOut);
         }
+
+        [TestMethod]
+        public void ParseBigBlind()
+        {
+            var gametype = "Holdem NL €0.1/€0.2";
+            var gametype2 = "Sökö PL €0.1";
+
+            var bb = new DataConverter().FindBigBlindValue(gametype);
+            var bb2 = new DataConverter().FindBigBlindValue(gametype2);
+
+            Assert.AreEqual(0.2m, bb);
+            Assert.AreEqual(0.1m, bb2);
+        }
     }
 }

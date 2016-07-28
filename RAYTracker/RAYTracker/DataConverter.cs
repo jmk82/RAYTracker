@@ -1,3 +1,4 @@
+using RAYTracker.Model;
 using System;
 
 namespace RAYTracker
@@ -20,6 +21,20 @@ namespace RAYTracker
             }
             currency = currency.Replace('.', ',');
             return Convert.ToDecimal(currency);
+        }
+
+        public GameType AssignGameType(string s)
+        {
+            return new GameType { Name = s, BigBlind = FindBigBlindValue(s) };
+        }
+
+        public decimal FindBigBlindValue(string s)
+        {
+            var tokens = s.Split(' ');
+            var blinds = tokens[tokens.Length - 1].Split('€');
+            var bb = blinds[blinds.Length - 1].Replace('.', ',');
+
+            return Convert.ToDecimal(bb);
         }
     }
 }
