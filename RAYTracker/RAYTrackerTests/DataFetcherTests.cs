@@ -9,7 +9,7 @@ namespace RAYTrackerTests
     public class DataFetcherTests
     {
         // Vaihda tämä aina nykyiseen wcusersessionid:hen ennen testejä, jotta serverille tehtävät testit toimivat
-        private string sessionId = "gYFxrJna2bZyJyFMLAlw4EDQIHBgsMCY";
+        private string sessionId = "t94Ec8C8Y5ByxyFMTLnwQOAw4MCAcFDo";
 
         [TestMethod]
         public void GetDataTest()

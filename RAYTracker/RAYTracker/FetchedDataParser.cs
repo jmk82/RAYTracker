@@ -7,16 +7,13 @@ namespace RAYTracker
     public class FetchedDataParser
     {
         private readonly Reader _reader;
-        private readonly DataConverter _dataConverter;
 
         public FetchedDataParser()
         {
-            _dataConverter = new DataConverter();
         }
 
         public FetchedDataParser(DataFetcher fetcher)
         {
-            _dataConverter = new DataConverter();
             _reader = new Reader(fetcher.GetFetchedStreamReader());
         }
 
@@ -70,14 +67,14 @@ namespace RAYTracker
 
             tableSession.TableName = rowDatas[3];
             tableSession.StartTime = Convert.ToDateTime(rowDatas[4]);
-            tableSession.SessionDuration = _dataConverter.ParseDuration(rowDatas[5]);
+            tableSession.SessionDuration = DataConverter.ParseDuration(rowDatas[5]);
             tableSession.EndTime = tableSession.StartTime + tableSession.SessionDuration;
             tableSession.HandsPlayed = int.Parse(rowDatas[6]);
-            tableSession.GameType = _dataConverter.AssignGameType(rowDatas[13]);
-            tableSession.TotalBetsMade = _dataConverter.ParseCurrency(rowDatas[7]);
-            tableSession.TotalWonAmount = _dataConverter.ParseCurrency(rowDatas[8]);
-            tableSession.ChipsBought = _dataConverter.ParseCurrency(rowDatas[9]);
-            tableSession.ChipsCashedOut = _dataConverter.ParseCurrency(rowDatas[10]);
+            tableSession.GameType = DataConverter.AssignGameType(rowDatas[13]);
+            tableSession.TotalBetsMade = DataConverter.ParseCurrency(rowDatas[7]);
+            tableSession.TotalWonAmount = DataConverter.ParseCurrency(rowDatas[8]);
+            tableSession.ChipsBought = DataConverter.ParseCurrency(rowDatas[9]);
+            tableSession.ChipsCashedOut = DataConverter.ParseCurrency(rowDatas[10]);
             tableSession.Result = tableSession.ChipsCashedOut - tableSession.ChipsBought;
 
             return tableSession;

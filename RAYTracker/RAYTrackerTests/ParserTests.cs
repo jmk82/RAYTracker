@@ -45,7 +45,7 @@ namespace RAYTrackerTests
             Assert.AreEqual("(M) Hongkong, 483253799", session.TableName);
             Assert.AreEqual(new DateTime(2016, 7, 21, 18, 53, 0), session.StartTime);
             Assert.AreEqual(new TimeSpan(0, 188, 0), session.SessionDuration);
-            Assert.AreEqual("Holdem NL €0.1/€0.2", session.GameType);
+            Assert.AreEqual("Holdem NL €0.1/€0.2", session.GameType.Name);
             Assert.AreEqual(119.36m, session.TotalBetsMade);
             Assert.AreEqual(126.96m, session.TotalWonAmount);
             Assert.AreEqual(293, session.HandsPlayed);
@@ -59,8 +59,8 @@ namespace RAYTrackerTests
             var gametype = "Holdem NL €0.1/€0.2";
             var gametype2 = "Sökö PL €0.1";
 
-            var bb = new DataConverter().FindBigBlindValue(gametype);
-            var bb2 = new DataConverter().FindBigBlindValue(gametype2);
+            var bb = DataConverter.FindBigBlindValue(gametype);
+            var bb2 = DataConverter.FindBigBlindValue(gametype2);
 
             Assert.AreEqual(0.2m, bb);
             Assert.AreEqual(0.1m, bb2);

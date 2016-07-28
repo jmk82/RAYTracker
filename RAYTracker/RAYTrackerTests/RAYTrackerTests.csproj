@@ -53,6 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ParserTests.cs" />
+    <Compile Include="ProgramTests.cs" />
     <Compile Include="SessionImporterTests.cs" />
     <Compile Include="TableSessionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

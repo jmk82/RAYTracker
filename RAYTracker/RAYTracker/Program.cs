@@ -2,7 +2,6 @@
 using RAYTracker.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace RAYTracker
@@ -13,19 +12,17 @@ namespace RAYTracker
         public IList<TableSession> TableSessions;
         public IList<Session> Sessions { get; set; }
 
-        public Program()
-        {
-            
-        }
-
         public void OpenFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             MainWindow mw = (MainWindow)Application.Current.MainWindow;
 
             if (openFileDialog.ShowDialog() == true)
+            {
                 Filename = openFileDialog.FileName;
                 mw.FileNameTextBox.Text = "Avattu tiedosto: " + openFileDialog.FileName;
+                mw.ImportButton.IsEnabled = true;
+            }
         }
 
         public void ImportFromFile()
@@ -36,15 +33,27 @@ namespace RAYTracker
             var lines = reader.GetAllLinesAsStrings();
             TableSessions = new List<TableSession>();
 
-            foreach (var line in lines)
+            string errors = "";
+            int errorCount = 0;
+
+            for (int i = 0; i < lines.Count; i++)
             {
-                TableSessions.Add(fileParser.CreateTableSession(fileParser.ParseLine(line)));
+                try
+                {
+                    TableSessions.Add(fileParser.CreateTableSession(fileParser.ParseLine(lines[i])));
+                }
+                catch (SystemException e) when (e is FormatException || e is IndexOutOfRangeException)
+                {
+                    errors += ("Virhe rivillä " + i + " (" + lines[i] + "). Rivi ohitettu.\n");
+                    errorCount++;
+                }
             }
 
             SessionGenerator generator = new SessionGenerator();
             Sessions = generator.GroupToSessions(TableSessions);
 
             string message = Reporter.GetSimpleSessionTotalReport(TableSessions, Sessions);
+            message += "\n\nVirheitä: " + errorCount + "!:\n" + errors;
 
             MessageBox.Show(message);
         }

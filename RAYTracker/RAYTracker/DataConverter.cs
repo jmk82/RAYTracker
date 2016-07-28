@@ -3,15 +3,15 @@ using System;
 
 namespace RAYTracker
 {
-    public class DataConverter
+    public static class DataConverter
     {
-        public TimeSpan ParseDuration(string duration)
+        public static TimeSpan ParseDuration(string duration)
         {
             string[] temp = duration.Split(':');
             return new TimeSpan(int.Parse(temp[0]), int.Parse(temp[1]), 0);
         }
 
-        public decimal ParseCurrency(string currency)
+        public static decimal ParseCurrency(string currency)
         {
             currency = currency.Remove(0, 1);
 
@@ -23,12 +23,12 @@ namespace RAYTracker
             return Convert.ToDecimal(currency);
         }
 
-        public GameType AssignGameType(string s)
+        public static GameType AssignGameType(string s)
         {
             return new GameType { Name = s, BigBlind = FindBigBlindValue(s) };
         }
 
-        public decimal FindBigBlindValue(string s)
+        public static decimal FindBigBlindValue(string s)
         {
             var tokens = s.Split(' ');
             var blinds = tokens[tokens.Length - 1].Split('€');

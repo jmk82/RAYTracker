@@ -26,13 +26,13 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Row="0" Grid.Column="0" x:Name="OpenFileButton" Content="Avaa..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="FileNameTextBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" />
-                <Button Grid.Row="0" Grid.Column="2" x:Name="ImportButton" Content="Tuo" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click"/>
-                <Button Grid.Row="0" x:Name="FetchFromServerbutton" Content="Hae" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Click="fetchFromServerbutton_Click"/>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="FileNameTextBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" />
+                <Button Grid.Row="0" Grid.Column="2" x:Name="ImportButton" Content="Tuo" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click" IsEnabled="False"/>
+                <Button Grid.Row="0" x:Name="FetchFromServerbutton" Content="Hae" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Click="fetchFromServerbutton_Click" IsEnabled="False"/>
                 <TextBox Grid.Row="0" Grid.Column="1" x:Name="UserSessionIdTextBox" Height="22" Margin="295,70,120,0" TextWrapping="Wrap" Text="Kopioi wcusersessionid tähän" VerticalAlignment="Top" GotFocus="userSessionIdTextBox_GotFocus" Grid.ColumnSpan="2" />
                 <Label Grid.Row="0" x:Name="UserSessionIdLabel" Content="wcusersessionid:" Grid.Column="1" HorizontalAlignment="Left" Margin="195,68,0,0" VerticalAlignment="Top"/>
-                <DatePicker Grid.Row="0" Grid.Column="0" x:Name="StartDatePicker" HorizontalAlignment="Left" Margin="55,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="103"/>
-                <DatePicker Grid.Row="0" x:Name="EndDatePicker" HorizontalAlignment="Left" Margin="85,70,0,0" VerticalAlignment="Top" Width="103" Grid.Column="1"/>
+                <DatePicker Grid.Row="0" Grid.Column="0" x:Name="StartDatePicker" HorizontalAlignment="Left" Margin="55,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="103" FirstDayOfWeek="Monday"/>
+                <DatePicker Grid.Row="0" x:Name="EndDatePicker" HorizontalAlignment="Left" Margin="85,70,0,0" VerticalAlignment="Top" Width="103" Grid.Column="1" FirstDayOfWeek="Monday"/>
                 <Label Grid.Row="0" Grid.Column="0" x:Name="FromLabel" Content="Mistä:" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top"/>
                 <Label Grid.Row="0" x:Name="ToLabel" Content="Mihin:" HorizontalAlignment="Left" Margin="37,69,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.163,0.577"/>
 

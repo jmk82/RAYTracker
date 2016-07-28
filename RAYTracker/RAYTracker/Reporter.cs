@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace RAYTracker
 {
-    public class Reporter
+    public static class Reporter
     {
         public static string GetSimpleSessionTotalReport(IList<TableSession> tableSessions, IList<Session> sessions)
         {
