@@ -1,6 +1,6 @@
 using System;
 
-namespace RAYTracker.Reports
+namespace RAYTracker.Domain.Report
 {
     public class DailyReport : Report
     {

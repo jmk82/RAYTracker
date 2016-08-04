@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using RAYTracker.Model;
+using RAYTracker.Domain;
+using RAYTracker.Domain.Model;
 
 namespace RAYTrackerTests
 {
@@ -16,18 +17,17 @@ namespace RAYTrackerTests
         public void TestOrderTableSessions1()
         {
             // Arrange
-            SessionGenerator generator = new SessionGenerator();
-            ICollection<TableSession> sessions = new Collection<TableSession>();
+            IList<Session> sessions = new Collection<Session>();
 
-            TableSession session1 = new TableSession();
+            Session session1 = new Session();
             session1.StartTime = new DateTime(2016, 7, 1, 10, 0, 0);
             session1.EndTime = new DateTime(2016, 7, 1, 11, 0, 0);
 
-            TableSession session2 = new TableSession();
+            Session session2 = new Session();
             session2.StartTime = new DateTime(2016, 7, 1, 11, 0, 0);
             session2.EndTime = new DateTime(2016, 7, 1, 12, 0, 0);
 
-            TableSession session3 = new TableSession();
+            Session session3 = new Session();
             session3.StartTime = new DateTime(2016, 7, 1, 10, 0, 0);
             session3.EndTime = new DateTime(2016, 7, 1, 12, 0, 0);
 
@@ -37,7 +37,7 @@ namespace RAYTrackerTests
 
             // Act
 
-            var orderedSessions = generator.OrderTableSessions(sessions);
+            var orderedSessions = PlayingSession.GroupToPlayingSessions(sessions);
 
             // Assert
             var expectedStartHour1 = 10;
@@ -60,8 +60,7 @@ namespace RAYTrackerTests
         [TestMethod]
         public void TestSessionOrderingWithRandomTableSessionAndPrintOutput()
         {
-            SessionGenerator generator = new SessionGenerator();
-            ICollection<TableSession> sessions = new Collection<TableSession>();
+            IList<Session> sessions = new Collection<Session>();
 
             Random random = new Random();
 
@@ -71,7 +70,7 @@ namespace RAYTrackerTests
                 var randomMinute = random.Next(0, 60);
                 var randomDuration = new TimeSpan(0, random.Next(180), 0);
 
-                var tableSession = new TableSession();
+                var tableSession = new Session();
                 tableSession.StartTime = new DateTime(2016, 7, 1, randomHour, randomMinute, 0);
                 tableSession.EndTime = tableSession.StartTime + randomDuration;
 
@@ -84,7 +83,7 @@ namespace RAYTrackerTests
             }
 
             Debug.WriteLine("----- After ordering: -----");
-            var orderedSessions = generator.OrderTableSessions(sessions);
+            var orderedSessions = PlayingSession.GroupToPlayingSessions(sessions);
 
             foreach (var session in orderedSessions)
             {
@@ -96,18 +95,17 @@ namespace RAYTrackerTests
         public void CreateSessionsTest1()
         {
             // Arrange
-            SessionGenerator generator = new SessionGenerator();
-            IList<TableSession> sessions = new Collection<TableSession>();
+            IList<Session> sessions = new Collection<Session>();
 
-            TableSession session1 = new TableSession();
+            Session session1 = new Session();
             session1.StartTime = new DateTime(2016, 7, 1, 10, 0, 0);
             session1.EndTime = new DateTime(2016, 7, 1, 11, 0, 0);
 
-            TableSession session2 = new TableSession();
+            Session session2 = new Session();
             session2.StartTime = new DateTime(2016, 7, 1, 10, 30, 0);
             session2.EndTime = new DateTime(2016, 7, 1, 12, 0, 0);
 
-            TableSession session3 = new TableSession();
+            Session session3 = new Session();
             session3.StartTime = new DateTime(2016, 7, 1, 11, 0, 0);
             session3.EndTime = new DateTime(2016, 7, 1, 12, 30, 0);
 
@@ -115,7 +113,7 @@ namespace RAYTrackerTests
             sessions.Add(session2);
             sessions.Add(session3);
 
-            var created = generator.GroupToSessions(sessions);
+            var created = PlayingSession.GroupToPlayingSessions(sessions);
 
             foreach (var session in created)
             {
@@ -129,26 +127,25 @@ namespace RAYTrackerTests
         public void CreateSessionsTest2()
         {
             // Arrange
-            SessionGenerator generator = new SessionGenerator();
-            IList<TableSession> sessions = new Collection<TableSession>();
+            IList<Session> sessions = new Collection<Session>();
 
-            TableSession session1 = new TableSession();
+            Session session1 = new Session();
             session1.StartTime = new DateTime(2016, 7, 1, 10, 0, 0);
             session1.EndTime = new DateTime(2016, 7, 1, 11, 0, 0);
 
-            TableSession session2 = new TableSession();
+            Session session2 = new Session();
             session2.StartTime = new DateTime(2016, 7, 1, 10, 30, 0);
             session2.EndTime = new DateTime(2016, 7, 1, 12, 0, 0);
 
-            TableSession session3 = new TableSession();
+            Session session3 = new Session();
             session3.StartTime = new DateTime(2016, 7, 1, 11, 0, 0);
             session3.EndTime = new DateTime(2016, 7, 1, 12, 30, 0);
 
-            TableSession session4 = new TableSession();
+            Session session4 = new Session();
             session4.StartTime = new DateTime(2016, 7, 1, 13, 0, 0);
             session4.EndTime = new DateTime(2016, 7, 1, 14, 0, 0);
 
-            TableSession session5 = new TableSession();
+            Session session5 = new Session();
             session5.StartTime = new DateTime(2016, 7, 1, 13, 30, 0);
             session5.EndTime = new DateTime(2016, 7, 1, 14, 30, 0);
 
@@ -158,7 +155,7 @@ namespace RAYTrackerTests
             sessions.Add(session4);
             sessions.Add(session5);
 
-            var created = generator.GroupToSessions(sessions);
+            var created = PlayingSession.GroupToPlayingSessions(sessions);
 
             foreach (var session in created)
             {
@@ -171,8 +168,7 @@ namespace RAYTrackerTests
         [TestMethod]
         public void AnotherRandomTest()
         {
-            SessionGenerator generator = new SessionGenerator();
-            IList<TableSession> sessions = new List<TableSession>();
+            IList<Session> sessions = new List<Session>();
 
             Random random = new Random();
 
@@ -182,14 +178,14 @@ namespace RAYTrackerTests
                 var randomMinute = random.Next(0, 60);
                 var randomDuration = new TimeSpan(0, random.Next(120), 0);
 
-                var tableSession = new TableSession();
+                var tableSession = new Session();
                 tableSession.StartTime = new DateTime(2016, 1, 1, randomHour, randomMinute, 0);
                 tableSession.EndTime = tableSession.StartTime + randomDuration;
 
                 sessions.Add(tableSession);
             }
 
-            var created = generator.GroupToSessions(sessions);
+            var created = PlayingSession.GroupToPlayingSessions(sessions);
 
             Debug.WriteLine("Total sessions: " + created.Count);
 

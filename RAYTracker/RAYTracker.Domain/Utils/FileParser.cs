@@ -1,7 +1,7 @@
-﻿using RAYTracker.Model;
+﻿using RAYTracker.Domain.Model;
 using System;
 
-namespace RAYTracker
+namespace RAYTracker.Domain.Utils
 {
     public class FileParser
     {
@@ -16,15 +16,15 @@ namespace RAYTracker
             _reader = reader;
         }
 
-        public TableSession CreateTableSession(string[] tokens)
+        public Session CreateTableSession(string[] tokens)
         {
-            TableSession session = new TableSession();
+            Session session = new Session();
 
             session.TableName = tokens[0];
             session.StartTime = Convert.ToDateTime(tokens[1]);
             session.SessionDuration = DataConverter.ParseDuration(tokens[2]);
             session.EndTime = session.StartTime + session.SessionDuration;
-            session.GameType = DataConverter.AssignGameType(tokens[3]);
+            session.GameType = DataConverter.AssignGameType(tokens[3], tokens[0]);
             session.TotalBetsMade = DataConverter.ParseCurrency(tokens[4]);
             session.TotalWonAmount = DataConverter.ParseCurrency(tokens[5]);
             session.HandsPlayed = int.Parse(tokens[6]);

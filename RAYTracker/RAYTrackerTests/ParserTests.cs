@@ -1,7 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RAYTracker;
+using System;
 using System.Diagnostics;
+using RAYTracker.Domain;
+using RAYTracker.Domain.Utils;
 
 namespace RAYTrackerTests
 {

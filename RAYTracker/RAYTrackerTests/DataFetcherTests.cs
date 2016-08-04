@@ -2,6 +2,8 @@
 using RAYTracker;
 using System.Diagnostics;
 using System.Linq;
+using RAYTracker.Domain;
+using RAYTracker.Domain.Utils;
 
 namespace RAYTrackerTests
 {
@@ -9,7 +11,7 @@ namespace RAYTrackerTests
     public class DataFetcherTests
     {
         // Vaihda tämä aina nykyiseen wcusersessionid:hen ennen testejä, jotta serverille tehtävät testit toimivat
-        private string sessionId = "t94Ec8C8Y5ByxyFMTLnwQOAw4MCAcFDo";
+        private string sessionId = "ov6XoGyLyoVCp5FMfHnQACDQQACAoNBI";
 
         [TestMethod]
         public void GetDataTest()
@@ -86,6 +88,19 @@ namespace RAYTrackerTests
             {
                 Debug.WriteLine(session.TableName);
             }
+        }
+
+        [TestMethod]
+        public void FetchTournamentsTest()
+        {
+            FetchedDataParser fp = new FetchedDataParser(new DataFetcher(sessionId), true);
+
+            foreach (var line in fp.GetFetchedDataLines())
+            {
+                Debug.WriteLine(line);
+            }
+
+            Debug.WriteLine(fp.GetFetchedDataLines().Count);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RAYTracker.Domain;
 
 namespace RAYTrackerTests
 {
@@ -32,10 +33,10 @@ namespace RAYTrackerTests
             program.Filename = _filename;
             program.ImportFromFile();
 
-            Debug.WriteLine("Imported " + program.TableSessions.Count + " sessions");
+            Debug.WriteLine("Imported " + program.Sessions.Count + " sessions");
 
-            //Assert.AreEqual(new DateTime(2016, 7, 22, 23, 18, 0), program.TableSessions[0].StartTime);
-            Assert.AreEqual(72.33m, program.TableSessions[0].ChipsCashedOut);
+            //Assert.AreEqual(new DateTime(2016, 7, 22, 23, 18, 0), program.PlayingSessions[0].StartTime);
+            Assert.AreEqual(72.33m, program.Sessions[0].ChipsCashedOut);
         }
     }
 }

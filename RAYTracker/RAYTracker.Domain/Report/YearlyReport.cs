@@ -1,4 +1,4 @@
-﻿namespace RAYTracker.Reports
+﻿namespace RAYTracker.Domain.Report
 {
     public class YearlyReport : Report
     {

@@ -1,29 +1,17 @@
-﻿using Microsoft.Win32;
-using RAYTracker.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using RAYTracker.Domain.Model;
+using RAYTracker.Domain.Report;
+using RAYTracker.Domain.Utils;
 
-namespace RAYTracker
+namespace RAYTracker.Domain
 {
     public class Program
     {
         public string Filename { get; set; }
-        public IList<TableSession> TableSessions;
-        public IList<Session> Sessions { get; set; }
-
-        public void OpenFile()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            MainWindow mw = (MainWindow)Application.Current.MainWindow;
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                Filename = openFileDialog.FileName;
-                mw.FileNameTextBox.Text = "Avattu tiedosto: " + openFileDialog.FileName;
-                mw.ImportButton.IsEnabled = true;
-            }
-        }
+        public IList<Session> Sessions;
+        public IList<PlayingSession> PlayingSessions { get; set; }
 
         public void ImportFromFile()
         {
@@ -31,7 +19,7 @@ namespace RAYTracker
             FileParser fileParser = new FileParser(reader);
 
             var lines = reader.GetAllLinesAsStrings();
-            TableSessions = new List<TableSession>();
+            Sessions = new List<Session>();
 
             string errors = "";
             int errorCount = 0;
@@ -40,7 +28,7 @@ namespace RAYTracker
             {
                 try
                 {
-                    TableSessions.Add(fileParser.CreateTableSession(fileParser.ParseLine(lines[i])));
+                    Sessions.Add(fileParser.CreateTableSession(fileParser.ParseLine(lines[i])));
                 }
                 catch (SystemException e) when (e is FormatException || e is IndexOutOfRangeException)
                 {
@@ -49,16 +37,19 @@ namespace RAYTracker
                 }
             }
 
-            SessionGenerator generator = new SessionGenerator();
-            Sessions = generator.GroupToSessions(TableSessions);
+            PlayingSessions = PlayingSession.GroupToPlayingSessions(Sessions);
 
-            string message = Reporter.GetSimpleSessionTotalReport(TableSessions, Sessions);
-            message += "\n\nVirheitä: " + errorCount + "!:\n" + errors;
+            string message = Reporter.GetSimpleSessionTotalReport(Sessions, PlayingSessions);
+
+            if (errorCount != 0)
+            {
+                message += "\n\nVirheitä: " + errorCount + "!:\n" + errors; 
+            }
 
             MessageBox.Show(message);
         }
 
-        public IList<TableSession> FetchTableSessionsFromServer(string sessionId, string startDate, string endDate)
+        public IList<Session> FetchSessionsFromServer(string sessionId, string startDate, string endDate)
         {
             DataFetcher fetcher = new DataFetcher(sessionId);
 
@@ -78,10 +69,10 @@ namespace RAYTracker
 
             FetchedDataParser fp = new FetchedDataParser(fetcher);
 
-            var tableSessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
-            TableSessions = tableSessions;
+            var sessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
+            Sessions = sessions;
 
-            return tableSessions;
+            return sessions;
         }
     }
 }

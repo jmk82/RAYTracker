@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace RAYTracker.Model
+namespace RAYTracker.Domain.Model
 {
-    public class TableSession
+    public class Session
     {
         public string TableName { get; set; }
         public DateTime StartTime { get; set; }
@@ -15,5 +17,12 @@ namespace RAYTracker.Model
         public decimal ChipsBought { get; set; }
         public decimal ChipsCashedOut { get; set; }
         public decimal Result { get; set; }
+
+        public static IList<Session> OrderSessions(ICollection<Session> sessions)
+        {
+            var orderedSessions = sessions.OrderBy(t => t.StartTime).ThenBy(t => t.EndTime).ToList();
+
+            return orderedSessions;
+        }
     }
 }

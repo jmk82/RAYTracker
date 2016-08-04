@@ -1,7 +1,7 @@
-using RAYTracker.Model;
+using RAYTracker.Domain.Model;
 using System;
 
-namespace RAYTracker
+namespace RAYTracker.Domain.Utils
 {
     public static class DataConverter
     {
@@ -23,9 +23,12 @@ namespace RAYTracker
             return Convert.ToDecimal(currency);
         }
 
-        public static GameType AssignGameType(string s)
+        public static GameType AssignGameType(string gameType, string tableName)
         {
-            return new GameType { Name = s, BigBlind = FindBigBlindValue(s) };
+            var hasAnte = tableName.Contains("ANTE");
+            var isTurbo = tableName.Contains("TURBO");
+
+            return new GameType { Name = gameType, BigBlind = FindBigBlindValue(gameType), HasAnte = hasAnte, IsTurbo = isTurbo };
         }
 
         public static decimal FindBigBlindValue(string s)

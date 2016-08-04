@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RAYTracker;
+using RAYTracker.Domain;
+using RAYTracker.Domain.Report;
 
 namespace RAYTrackerTests
 {
@@ -19,7 +21,7 @@ namespace RAYTrackerTests
             program.Filename = fileName;
             program.ImportFromFile();
 
-            var tableSessions = program.TableSessions;
+            var tableSessions = program.Sessions;
 
             var report = tableSessions.GroupBy(t => t.StartTime.Date);
 
@@ -37,7 +39,7 @@ namespace RAYTrackerTests
             program.Filename = fileName;
             program.ImportFromFile();
 
-            var tableSessions = program.TableSessions;
+            var tableSessions = program.Sessions;
 
             var report = Reporter.GameTypeReport(tableSessions);
 

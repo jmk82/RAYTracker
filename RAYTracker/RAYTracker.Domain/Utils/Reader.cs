@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 
-namespace RAYTracker
+namespace RAYTracker.Domain.Utils
 {
     public class Reader
     {
