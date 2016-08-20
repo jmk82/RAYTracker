@@ -17,6 +17,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="110" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -48,7 +49,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
+                <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
                         <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
@@ -59,6 +60,16 @@
                         <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
                     </DataGrid.Columns>
                 </DataGrid>
+                <GridSplitter Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="GridSplitter" HorizontalAlignment="Stretch" Height="5" Margin="10,0,10,0" VerticalAlignment="Center">
+                    <GridSplitter.Template>
+                        <ControlTemplate TargetType="{x:Type GridSplitter}">
+                            <Grid>
+                                <Button Content="⁞" />
+                                <Rectangle Fill="#00FFFFFF" />
+                            </Grid>
+                        </ControlTemplate>
+                    </GridSplitter.Template>
+                </GridSplitter>
 
             </Grid>
         </TabItem>

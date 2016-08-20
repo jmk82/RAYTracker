@@ -1,36 +1,29 @@
+using RAYTracker.Domain.Model;
 using System;
 using System.Collections.Generic;
-using RAYTracker.Domain.Model;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+using System.Windows.Controls;
 
 namespace RAYTracker.Domain.Utils
 {
-    public class FetchedDataParser
+    public class DataParser
     {
-        private readonly Reader _reader;
+        private string _data;
 
-        public FetchedDataParser()
+        public DataParser(string data)
         {
+            _data = data;
         }
 
-        public FetchedDataParser(DataFetcher fetcher)
+        public IList<Session> ParseSessions()
         {
-            _reader = new Reader(fetcher.GetFetchedStreamReader());
-        }
+            IList<string> rows = _data.Split('\n').ToList();
 
-        public FetchedDataParser(DataFetcher fetcher, bool tournamentParser)
-        {
-            _reader = new Reader(fetcher.GetFetchedTournamentStreamReader());
-        }
+            // Poistetaan mahdolliset tyhjät rivit
+            rows = RemoveEmptyRows(rows);
 
-        public IList<string> GetFetchedDataLines()
-        {
-            var lines = _reader.GetAllLinesAsStrings();
-
-            return lines;
-        }
-
-        public IList<Session> ParseTableSessions(IList<string> rows)
-        {
             // Poistetaan kaksi ensimmäistä riviä, joiden jälkeen alkaa istuntodata 16 riviä per istunto
             rows.RemoveAt(0);
             rows.RemoveAt(0);
@@ -41,28 +34,42 @@ namespace RAYTracker.Domain.Utils
                 throw new UnauthorizedAccessException("Ongelma haettaessa tietoja palvelimelta. Palvelimen viesti:\n\"" + rows[0].Split('\'')[3] +"\"");
             }
 
-            IList<Session> tableSessions = new List<Session>();
-            var tableSessionRows = new List<string>();
+            IList<Session> sessions = new List<Session>();
+            var sessionRows = new List<string>();
 
             for (int i = 0; i < rows.Count; i++)
             {
                 if (i > 0 && i%16 == 0)
                 {
-                    tableSessions.Add(ParseTableSession(tableSessionRows));
-                    tableSessionRows.Clear();
+                    sessions.Add(ParseSession(sessionRows));
+                    sessionRows.Clear();
                 }
 
-                tableSessionRows.Add(rows[i]);
+                sessionRows.Add(rows[i]);
             }
 
-            tableSessions.Add(ParseTableSession(tableSessionRows));
+            sessions.Add(ParseSession(sessionRows));
 
-            return tableSessions;
+            return sessions;
         }
 
-        public Session ParseTableSession(IList<string> rows)
+        private static IList<string> RemoveEmptyRows(IList<string> rows)
         {
-            var tableSession = new Session();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                if (rows[i] == "")
+                {
+                    rows.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            return rows;
+        }
+
+        public Session ParseSession(IList<string> rows)
+        {
+            var session = new Session();
             string[] rowDatas = new string[rows.Count];
 
             for (int i = 0; i < rows.Count; i++)
@@ -70,19 +77,19 @@ namespace RAYTracker.Domain.Utils
                 rowDatas[i] = GetDataFromRow(rows[i]);
             }
 
-            tableSession.TableName = rowDatas[3];
-            tableSession.StartTime = Convert.ToDateTime(rowDatas[4]);
-            tableSession.SessionDuration = DataConverter.ParseDuration(rowDatas[5]);
-            tableSession.EndTime = tableSession.StartTime + tableSession.SessionDuration;
-            tableSession.HandsPlayed = int.Parse(rowDatas[6]);
-            tableSession.GameType = DataConverter.AssignGameType(rowDatas[13], rowDatas[3]);
-            tableSession.TotalBetsMade = DataConverter.ParseCurrency(rowDatas[7]);
-            tableSession.TotalWonAmount = DataConverter.ParseCurrency(rowDatas[8]);
-            tableSession.ChipsBought = DataConverter.ParseCurrency(rowDatas[9]);
-            tableSession.ChipsCashedOut = DataConverter.ParseCurrency(rowDatas[10]);
-            tableSession.Result = tableSession.ChipsCashedOut - tableSession.ChipsBought;
+            session.TableName = rowDatas[3];
+            session.StartTime = Convert.ToDateTime(rowDatas[4]);
+            session.SessionDuration = DataConverter.ParseDuration(rowDatas[5]);
+            session.EndTime = session.StartTime + session.SessionDuration;
+            session.HandsPlayed = int.Parse(rowDatas[6]);
+            session.GameType = DataConverter.AssignGameType(rowDatas[13], rowDatas[3]);
+            session.TotalBetsMade = DataConverter.ParseCurrency(rowDatas[7]);
+            session.TotalWonAmount = DataConverter.ParseCurrency(rowDatas[8]);
+            session.ChipsBought = DataConverter.ParseCurrency(rowDatas[9]);
+            session.ChipsCashedOut = DataConverter.ParseCurrency(rowDatas[10]);
+            session.Result = session.ChipsCashedOut - session.ChipsBought;
 
-            return tableSession;
+            return session;
         }
 
         public string GetDataFromRow(string row)

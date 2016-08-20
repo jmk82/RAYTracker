@@ -20,9 +20,7 @@ namespace RAYTracker.Domain.Model
 
         public static IList<Session> OrderSessions(ICollection<Session> sessions)
         {
-            var orderedSessions = sessions.OrderBy(t => t.StartTime).ThenBy(t => t.EndTime).ToList();
-
-            return orderedSessions;
+            return sessions.OrderBy(t => t.StartTime).ThenBy(t => t.EndTime).ToList();
         }
     }
 }

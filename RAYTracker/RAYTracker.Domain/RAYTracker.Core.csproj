@@ -55,7 +55,7 @@
     <Compile Include="Report\YearlyReport.cs" />
     <Compile Include="Utils\DataConverter.cs" />
     <Compile Include="Utils\DataFetcher.cs" />
-    <Compile Include="Utils\FetchedDataParser.cs" />
+    <Compile Include="Utils\DataParser.cs" />
     <Compile Include="Utils\FileParser.cs" />
     <Compile Include="Utils\Reader.cs" />
   </ItemGroup>

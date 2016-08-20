@@ -56,7 +56,7 @@ namespace RAYTracker
             UserSessionIdTextBox.Clear();
         }
 
-        private void fetchFromServerbutton_Click(object sender, RoutedEventArgs e)
+        private async void fetchFromServerbutton_Click(object sender, RoutedEventArgs e)
         {
             var sessionId = UserSessionIdTextBox.Text.Trim();
 
@@ -71,7 +71,7 @@ namespace RAYTracker
 
             try
             {
-                tableSessions = _program.FetchSessionsFromServer(sessionId, StartDatePicker.Text, EndDatePicker.Text);
+                tableSessions = await _program.FetchSessionsFromServer(sessionId, StartDatePicker.Text, EndDatePicker.Text);
                 sessions = PlayingSession.GroupToPlayingSessions(tableSessions);
                 _program.PlayingSessions = sessions;
             }

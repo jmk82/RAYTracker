@@ -1,14 +1,17 @@
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace RAYTracker.Domain.Utils
 {
     public class DataFetcher
     {
-        private const string BaseUrl = "https://cashier.pt.ray.fi/payments/CashierProxy.php?language=fi&clienttype=poker&casino=ray&servicename=hcash_ray&failaction=1&webcashier=1&skin=ray-ray&realmode=1&preview=0&currency=eur&UseHTMLLayout=1&htmlstyle=2&localtime=20160725041924&script=%2Fpoker_sessions.php";
+        private const string BaseUrl = "https://cashier.pt.ray.fi/payments/CashierProxy.php?clienttype=poker&casino=ray&realmode=1&UseHTMLLayout=1&htmlstyle=2&script=%2Fpoker_sessions.php";
         private const string TournamentUrl = "https://cashier.pt.ray.fi/payments/CashierProxy.php?clienttype=poker&casino=ray&realmode=1&UseHTMLLayout=1&htmlstyle=2&script=%2Fpoker_tournaments.php";
+
         public string Wcusersessionid { get; set; }
-        public string StartDate { get; set; } = "2010-07-24";
+        public string StartDate { get; set; } = "2016-08-15";
         public string EndDate { get; set; }
 
         public DataFetcher() {}
@@ -18,7 +21,7 @@ namespace RAYTracker.Domain.Utils
             Wcusersessionid = sessionId;
         }
 
-        public string GenerateUrl()
+        private string GenerateCashUrl()
         {
             var url = BaseUrl + "&wcusersessionid=" + Wcusersessionid + "&startdate=" + StartDate;
 
@@ -30,8 +33,9 @@ namespace RAYTracker.Domain.Utils
             return url;
         }
 
-        public string GenerateTournamentUrl()
+        private string GenerateTournamentUrl()
         {
+            StartDate = "2010-01-01";
             var url = TournamentUrl + "&wcusersessionid=" + Wcusersessionid + "&startdate=" + StartDate;
 
             if (EndDate != null)
@@ -42,9 +46,45 @@ namespace RAYTracker.Domain.Utils
             return url;
         }
 
+        public async Task<string> GetCashSessionsAsync(string url = null)
+        {
+            var client = new HttpClient();
+
+            url = string.IsNullOrEmpty(url) ? GenerateCashUrl() : url;
+
+            var data = await client.GetStringAsync(url);
+
+            return data;
+        }
+
+        public async Task<string> GetTournamentsAsync(string url = null)
+        {
+            var client = new HttpClient();
+
+            url = string.IsNullOrEmpty(url) ? GenerateTournamentUrl() : url;
+
+            var data = await client.GetStringAsync(url);
+
+            return data;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public StreamReader GetFetchedStreamReader()
         {
-            var request = WebRequest.Create(GenerateUrl());
+            var request = WebRequest.Create(GenerateCashUrl());
             var response = request.GetResponse();
 
             var dataStream = response.GetResponseStream();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using RAYTracker.Domain.Model;
 using RAYTracker.Domain.Report;
@@ -49,7 +50,7 @@ namespace RAYTracker.Domain
             MessageBox.Show(message);
         }
 
-        public IList<Session> FetchSessionsFromServer(string sessionId, string startDate, string endDate)
+        public async Task<IList<Session>> FetchSessionsFromServer(string sessionId, string startDate, string endDate)
         {
             DataFetcher fetcher = new DataFetcher(sessionId);
 
@@ -66,10 +67,10 @@ namespace RAYTracker.Domain
                 endDate = endDateTokens[2] + "-" + endDateTokens[1] + "-" + endDateTokens[0];
                 fetcher.EndDate = endDate;
             }
+            var data = await fetcher.GetCashSessionsAsync();
+            DataParser fp = new DataParser(data);
 
-            FetchedDataParser fp = new FetchedDataParser(fetcher);
-
-            var sessions = fp.ParseTableSessions(fp.GetFetchedDataLines());
+            var sessions = fp.ParseSessions();
             Sessions = sessions;
 
             return sessions;
