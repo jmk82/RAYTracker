@@ -53,11 +53,11 @@
                 <DataGridTextColumn Header="MT ratio" Binding="{Binding MtRatio, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="€/h" Binding="{Binding HourlyRate, StringFormat={}{0:0.00 €}}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
-            <i:Interaction.Triggers>
+            <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding UpdateSelectedPlayingSessionCommand}"/>
                 </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </i:Interaction.Triggers>-->
         </DataGrid>
 
         <DataGrid ItemsSource="{Binding SelectedPlayingSession.Sessions}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
@@ -81,5 +81,6 @@
                 </ControlTemplate>
             </GridSplitter.Template>
         </GridSplitter>
+        <Button x:Name="SerializeButton" Content="Tallenna" Grid.Column="1" HorizontalAlignment="Left" Margin="85,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding SaveSessionsCommand}" />
     </Grid>
 </UserControl>

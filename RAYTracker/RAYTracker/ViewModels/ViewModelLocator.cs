@@ -7,6 +7,7 @@ using System.Windows;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using RAYTracker.Dialogs;
+using RAYTracker.Domain.Repository;
 using RAYTracker.Domain.Utils;
 
 namespace RAYTracker.ViewModels
@@ -20,6 +21,7 @@ namespace RAYTracker.ViewModels
             SimpleIoc.Default.Register<ICashGameService, CashGameService>();
             SimpleIoc.Default.Register<IOpenFileDialogService, OpenFileDialogService>();
             SimpleIoc.Default.Register<IWaitDialogService, WaitDialogService>();
+            SimpleIoc.Default.Register<ISessionRepository, SessionRepository>();
             
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
         }

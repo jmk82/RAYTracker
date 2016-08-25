@@ -53,6 +53,8 @@
     <Compile Include="Report\Report.cs" />
     <Compile Include="Report\Reporter.cs" />
     <Compile Include="Report\YearlyReport.cs" />
+    <Compile Include="Repository\ISessionRepository.cs" />
+    <Compile Include="Repository\SessionRepository.cs" />
     <Compile Include="Utils\CashGameService.cs" />
     <Compile Include="Utils\DataConverter.cs" />
     <Compile Include="Utils\DataFetcher.cs" />

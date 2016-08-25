@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using RAYTracker.Dialogs;
 using RAYTracker.Domain.Model;
+using RAYTracker.Domain.Repository;
 using RAYTracker.Domain.Utils;
 using System;
 using System.Collections.Generic;
@@ -56,10 +57,12 @@ namespace RAYTracker.ViewModels
 
         public IList<Session> Sessions;
         private ICashGameService _cashGameService;
+        private ISessionRepository _sessionRepository;
         private IOpenFileDialogService _openFileDialogService;
         private IWaitDialogService _waitDialogService;
 
         private PlayingSession _selectedPlayingSession;
+        
 
         public PlayingSession SelectedPlayingSession
         {
@@ -74,12 +77,15 @@ namespace RAYTracker.ViewModels
         public RelayCommand OpenFileCommand { get; set; }
         public RelayCommand FetchFromServerCommand { get; set; }
         public RelayCommand ClearCommand { get; set; }
+        public RelayCommand SaveSessionsCommand { get; set; }
 
         public CashGameViewModel(ICashGameService cashGameService,
+            ISessionRepository sessionRepository,
             IOpenFileDialogService openFileDialogService,
             IWaitDialogService waitDialogService)
         {
             _cashGameService = cashGameService;
+            _sessionRepository = sessionRepository;
             _openFileDialogService = openFileDialogService;
             _waitDialogService = waitDialogService;
 
@@ -90,18 +96,35 @@ namespace RAYTracker.ViewModels
                 UserSessionId = "";
                 RaisePropertyChanged(nameof(UserSessionId));
             });
+            SaveSessionsCommand = new RelayCommand(SaveSessions);
 
             var thisDay = DateTime.Now;
             StartDate = new DateTime(thisDay.Year, thisDay.Month, 1);
             EndDate = thisDay;
             UserSessionId = "Liitä wcusersessionid tähän";
+
+            LoadSessions();
+        }
+
+        private void LoadSessions()
+        {
+            _sessionRepository.ReadXml();
+            PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
+        }
+
+        private void SaveSessions()
+        {
+            _sessionRepository.SaveAsXml();
         }
 
         private async void FetchFromServer()
         {
             _waitDialogService.ShowWaitDialog();
-            PlayingSessions = await _cashGameService.FetchFromServer(_userSessionId, StartDate, EndDate);
+             var sessions = await _cashGameService.FetchSessionsFromServer(_userSessionId, StartDate, EndDate);
+            _sessionRepository.Add(sessions);
             _waitDialogService.CloseWaitDialog();
+
+            PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }
 
         public DateTime StartDate { get; set; }
@@ -110,11 +133,14 @@ namespace RAYTracker.ViewModels
         private void OpenFile()
         {
             var fileName = _openFileDialogService.ShowOpenFileDialog();
-
+            
             if (!string.IsNullOrEmpty(fileName))
             {
-                PlayingSessions = _cashGameService.GetPlayingSessionsFromFile(fileName);
+                var sessions = _cashGameService.GetSessionsFromFile(fileName);
+                _sessionRepository.Add(sessions);
             }
+
+            PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }
     }
 }
