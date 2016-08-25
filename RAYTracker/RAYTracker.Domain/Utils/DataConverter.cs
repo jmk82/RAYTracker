@@ -1,5 +1,6 @@
 using RAYTracker.Domain.Model;
 using System;
+using System.Diagnostics;
 
 namespace RAYTracker.Domain.Utils
 {
@@ -20,7 +21,12 @@ namespace RAYTracker.Domain.Utils
                 currency = currency.Remove(currency.IndexOf(','));
             }
             currency = currency.Replace('.', ',');
-            return Convert.ToDecimal(currency);
+
+            decimal convertedCurrency;
+
+            convertedCurrency = Convert.ToDecimal(currency);
+            
+            return convertedCurrency;
         }
 
         public static GameType AssignGameType(string gameType, string tableName)

@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:RAYTracker.Views"
         xmlns:viewModels="clr-namespace:RAYTracker.ViewModels"
         mc:Ignorable="d"
-        Title="RAYTracker" Height="600" Width="800" MinHeight="300" MinWidth="400"
+        Title="RAYTracker" Height="640" Width="900" MinHeight="300" MinWidth="400"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     
     <TabControl x:Name="MainTabControl">
@@ -15,7 +15,7 @@
             <views:CashGameView/>
         </TabItem>
         <TabItem Header="Turnaukset">
-
+            <views:TournamentView/>
         </TabItem>
         <TabItem Header="Raportit">
             <views:ReportsView/>

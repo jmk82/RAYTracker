@@ -61,5 +61,10 @@ namespace RAYTracker.Domain.Repository
             writer.Serialize(file, _sessions.ToList());
             file.Close();
         }
+
+        public void RemoveAll()
+        {
+            _sessions.Clear();
+        }
     }
 }

@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:RAYTracker.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:views="clr-namespace:RAYTracker.Views"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800" 
-             DataContext="{Binding CashGameViewModel}">
+             DataContext="{Binding CashGame, Source={StaticResource Locator}}">
     <UserControl.Resources>
         <Style x:Key="AlignRight" TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -28,22 +29,11 @@
             <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
         
-        <Button Grid.Row="0" Grid.Column="0" x:Name="OpenFileButton" Content="Tuo tiedosto..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="133" Command="{Binding OpenFileCommand}" Grid.ColumnSpan="2"/>
-        <Button Grid.Row="0" x:Name="FetchFromServerbutton" Content="Hae" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Command="{Binding FetchFromServerCommand}" CommandParameter="{Binding Text, ElementName=UserSessionIdTextBox}"/>
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="UserSessionIdTextBox" Height="22" Margin="295,70,120,0" TextWrapping="Wrap" Text="{Binding UserSessionId}" VerticalAlignment="Top" Grid.ColumnSpan="2">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="GotFocus">
-                <i:InvokeCommandAction Command="{Binding ClearCommand}"/>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-        </TextBox>
-        <Label Grid.Row="0" x:Name="UserSessionIdLabel" Content="wcusersessionid:" Grid.Column="1" HorizontalAlignment="Left" Margin="195,68,0,0" VerticalAlignment="Top"/>
-        <DatePicker Grid.Row="0" SelectedDate="{Binding StartDate}" Grid.Column="0" x:Name="StartDatePicker" HorizontalAlignment="Left" Margin="55,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="103" FirstDayOfWeek="Monday"/>
-        <DatePicker Grid.Row="0" SelectedDate="{Binding EndDate}" x:Name="EndDatePicker" HorizontalAlignment="Left" Margin="85,70,0,0" VerticalAlignment="Top" Width="103" Grid.Column="1" FirstDayOfWeek="Monday"/>
-        <Label Grid.Row="0" Grid.Column="0" x:Name="FromLabel" Content="Mistä:" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top"/>
-        <Label Grid.Row="0" x:Name="ToLabel" Content="Mihin:" HorizontalAlignment="Left" Margin="37,69,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.163,0.577"/>
-
-        <DataGrid ItemsSource="{Binding PlayingSessions}" SelectedItem="{Binding SelectedPlayingSession}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="PlayingSessionDataGrid" Margin="10" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
+        <views:ImportControl Grid.ColumnSpan="3">
+            
+        </views:ImportControl>
+        
+        <DataGrid ItemsSource="{Binding PlayingSessions, IsAsync=True}" SelectedItem="{Binding SelectedPlayingSession}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="PlayingSessionDataGrid" Margin="10" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
                 <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
@@ -82,5 +72,6 @@
             </GridSplitter.Template>
         </GridSplitter>
         <Button x:Name="SerializeButton" Content="Tallenna" Grid.Column="1" HorizontalAlignment="Left" Margin="85,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding SaveSessionsCommand}" />
+        <Button x:Name="ClearSessionsButton" Content="Nollaa" Grid.Column="1" HorizontalAlignment="Left" Margin="215,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ClearSessionsCommand}"/>
     </Grid>
 </UserControl>

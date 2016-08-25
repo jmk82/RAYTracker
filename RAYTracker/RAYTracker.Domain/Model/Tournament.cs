@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RAYTracker.Domain.Model
 {
     public class Tournament
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public int FinalPosition { get; set; }
         public string Type { get; set; }
@@ -11,5 +14,10 @@ namespace RAYTracker.Domain.Model
         public decimal TotalBuyIn { get; set; }
         public string BuyIn { get; set; }
         public decimal Win { get; set; }
+
+        public static IList<Tournament> OrderTournaments(ICollection<Tournament> tournaments)
+        {
+            return tournaments.OrderBy(t => t.StartTime).ToList();
+        }
     }
 }

@@ -38,11 +38,6 @@ namespace RAYTracker.ViewModels
             }
         }
 
-        private void LoadPlayingSessions()
-        {
-            PlayingSessions = _cashGameService.GetPlayingSessionsFromFile(_fileName);
-        }
-
         private IList<PlayingSession> _playingSessions;
 
         public IList<PlayingSession> PlayingSessions
@@ -51,9 +46,12 @@ namespace RAYTracker.ViewModels
             set
             {
                 _playingSessions = value;
-                RaisePropertyChanged(nameof(PlayingSessions));
+                RaisePropertyChanged();
             }
         }
+
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public IList<Session> Sessions;
         private ICashGameService _cashGameService;
@@ -78,6 +76,7 @@ namespace RAYTracker.ViewModels
         public RelayCommand FetchFromServerCommand { get; set; }
         public RelayCommand ClearCommand { get; set; }
         public RelayCommand SaveSessionsCommand { get; set; }
+        public RelayCommand ClearSessionsCommand { get; set; }
 
         public CashGameViewModel(ICashGameService cashGameService,
             ISessionRepository sessionRepository,
@@ -97,16 +96,21 @@ namespace RAYTracker.ViewModels
                 RaisePropertyChanged(nameof(UserSessionId));
             });
             SaveSessionsCommand = new RelayCommand(SaveSessions);
+            ClearSessionsCommand = new RelayCommand(() =>
+            {
+                _sessionRepository.RemoveAll();
+                PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
+            });
 
             var thisDay = DateTime.Now;
             StartDate = new DateTime(thisDay.Year, thisDay.Month, 1);
             EndDate = thisDay;
             UserSessionId = "Liitä wcusersessionid tähän";
 
-            LoadSessions();
+            LoadStoredSessions();
         }
 
-        private void LoadSessions()
+        private void LoadStoredSessions()
         {
             _sessionRepository.ReadXml();
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
@@ -127,8 +131,10 @@ namespace RAYTracker.ViewModels
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }
 
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        private void LoadPlayingSessions()
+        {
+            PlayingSessions = _cashGameService.GetPlayingSessionsFromFile(_fileName);
+        }
 
         private void OpenFile()
         {

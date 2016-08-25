@@ -35,7 +35,6 @@ namespace RAYTracker.Domain.Utils
 
         private string GenerateTournamentUrl()
         {
-            StartDate = "2010-01-01";
             var url = TournamentUrl + "&wcusersessionid=" + Wcusersessionid + "&startdate=" + StartDate;
 
             if (EndDate != null)

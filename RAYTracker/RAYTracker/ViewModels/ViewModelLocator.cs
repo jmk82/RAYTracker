@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using GalaSoft.MvvmLight.Ioc;
+﻿using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using RAYTracker.Dialogs;
 using RAYTracker.Domain.Repository;
 using RAYTracker.Domain.Utils;
+using System.Windows;
 
 namespace RAYTracker.ViewModels
 {
@@ -18,17 +13,30 @@ namespace RAYTracker.ViewModels
         {
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<CashGameViewModel>();
+            SimpleIoc.Default.Register<TournamentViewModel>();
             SimpleIoc.Default.Register<ICashGameService, CashGameService>();
+            SimpleIoc.Default.Register<ITournamentService, TournamentService>();
             SimpleIoc.Default.Register<IOpenFileDialogService, OpenFileDialogService>();
             SimpleIoc.Default.Register<IWaitDialogService, WaitDialogService>();
             SimpleIoc.Default.Register<ISessionRepository, SessionRepository>();
-            
+            SimpleIoc.Default.Register<ITournamentRepository, TournamentRepository>();
+
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
         }
 
         public MainViewModel Main
         {
             get { return ServiceLocator.Current.GetInstance<MainViewModel>(); }
+        }
+
+        public TournamentViewModel Tournament
+        {
+            get { return ServiceLocator.Current.GetInstance<TournamentViewModel>(); }
+        }
+
+        public CashGameViewModel CashGame
+        {
+            get { return ServiceLocator.Current.GetInstance<CashGameViewModel>(); }
         }
 
         public static ViewModelLocator Instance

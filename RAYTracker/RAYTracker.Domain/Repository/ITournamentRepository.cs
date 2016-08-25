@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace RAYTracker.Domain.Repository
 {
-    public interface ISessionRepository
+    public interface ITournamentRepository
     {
-        IList<Session> GetAll();
-        void Add(IList<Session> sessions);
+        IList<Tournament> GetAll();
+        void Add(IList<Tournament> tournaments);
         void ReadXml();
         void SaveAsXml();
         void RemoveAll();

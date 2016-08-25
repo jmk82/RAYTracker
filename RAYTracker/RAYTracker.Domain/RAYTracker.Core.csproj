@@ -54,14 +54,18 @@
     <Compile Include="Report\Reporter.cs" />
     <Compile Include="Report\YearlyReport.cs" />
     <Compile Include="Repository\ISessionRepository.cs" />
+    <Compile Include="Repository\ITournamentRepository.cs" />
     <Compile Include="Repository\SessionRepository.cs" />
+    <Compile Include="Repository\TournamentRepository.cs" />
     <Compile Include="Utils\CashGameService.cs" />
     <Compile Include="Utils\DataConverter.cs" />
     <Compile Include="Utils\DataFetcher.cs" />
     <Compile Include="Utils\DataParser.cs" />
     <Compile Include="Utils\FileParser.cs" />
     <Compile Include="Utils\ICashGameService.cs" />
+    <Compile Include="Utils\ITournamentService.cs" />
     <Compile Include="Utils\Reader.cs" />
+    <Compile Include="Utils\TournamentService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

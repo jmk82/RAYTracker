@@ -40,7 +40,7 @@ namespace RAYTracker.Domain.Model
             if (other == null) return false;
 
             return this.TableName == other.TableName && this.StartTime == other.StartTime
-                && this.SessionDuration == other.SessionDuration;
+                && this.EndTime == other.EndTime;
         }
 
         public override bool Equals(object obj)
