@@ -11,7 +11,7 @@ namespace RAYTracker.Tests
         [TestMethod]
         public async Task TestMethod1()
         {
-            var dataFetcher = new DataFetcher("MtRnmHbmZYri17FMLFlAcCCgEKCAgDBI");
+            var dataFetcher = new DataFetcher("9GkG__l3Ta-y96FMbMnQsBCAsPCgQDC4");
 
             var data = await dataFetcher.GetCashSessionsAsync();
 
@@ -21,7 +21,7 @@ namespace RAYTracker.Tests
         [TestMethod]
         public async Task TestMethod2()
         {
-            var dataFetcher = new DataFetcher("MtRnmHbmZYri17FMLFlAcCCgEKCAgDBI");
+            var dataFetcher = new DataFetcher("9GkG__l3Ta-y96FMbMnQsBCAsPCgQDC4");
 
             var data = await dataFetcher.GetTournamentsAsync();
             var rows = data.Split('\n');

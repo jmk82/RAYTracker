@@ -1,10 +1,7 @@
 using RAYTracker.Domain.Model;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Windows.Controls;
 
 namespace RAYTracker.Domain.Utils
 {
@@ -24,15 +21,15 @@ namespace RAYTracker.Domain.Utils
             // Poistetaan mahdolliset tyhjät rivit
             rows = RemoveEmptyRows(rows);
 
+            // Serveriltä tuleva virheilmoitus on alunperin kolmen rivin mittainen
+            if (rows.Count == 2 || rows.Count == 3)
+            {
+                throw new UnauthorizedAccessException("Ongelma haettaessa tietoja palvelimelta. Palvelimen viesti:\n\"" + _data);
+            }//rows[0].Split('\'')[3] + "\""
+
             // Poistetaan kaksi ensimmäistä riviä, joiden jälkeen alkaa istuntodata 16 riviä per istunto
             rows.RemoveAt(0);
             rows.RemoveAt(0);
-
-            // Serveriltä tuleva virheilmoitus on alunperin kolmen rivin mittainen
-            if (rows.Count == 1)
-            {
-                throw new UnauthorizedAccessException("Ongelma haettaessa tietoja palvelimelta. Palvelimen viesti:\n\"" + rows[0].Split('\'')[3] +"\"");
-            }
 
             IList<Session> sessions = new List<Session>();
             var sessionRows = new List<string>();

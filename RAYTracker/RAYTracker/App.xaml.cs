@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Practices.ServiceLocation;
+using RAYTracker.ViewModels;
 
 namespace RAYTracker
 {
@@ -13,5 +15,6 @@ namespace RAYTracker
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }

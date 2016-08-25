@@ -3,97 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:views="clr-namespace:RAYTracker.Views"
+        xmlns:viewModels="clr-namespace:RAYTracker.ViewModels"
         mc:Ignorable="d"
-        Title="RAYTracker" Height="600" Width="800" MinHeight="300" MinWidth="400">
-    <Window.Resources>
-        <Style x:Key="AlignRight" TargetType="{x:Type TextBlock}">
-            <Setter Property="HorizontalAlignment" Value="Right" />
-        </Style>
-    </Window.Resources>
+        Title="RAYTracker" Height="600" Width="800" MinHeight="300" MinWidth="400"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
     
-    <TabControl x:Name="TabControl">
-        <TabItem Header="Sessiot">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="110" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="125"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="125"/>
-                </Grid.ColumnDefinitions>
+    <TabControl x:Name="MainTabControl">
+        <TabItem Header="Käteispelit">
+            <views:CashGameView/>
+        </TabItem>
+        <TabItem Header="Turnaukset">
 
-                <Button Grid.Row="0" Grid.Column="0" x:Name="OpenFileButton" Content="Avaa..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="openFileButton_Click"/>
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="FileNameTextBox" Height="22" Margin="0,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnly="True" />
-                <Button Grid.Row="0" Grid.Column="2" x:Name="ImportButton" Content="Tuo" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Click="importButton_Click" IsEnabled="False"/>
-                <Button Grid.Row="0" x:Name="FetchFromServerbutton" Content="Hae" Grid.Column="2" HorizontalAlignment="Left" Margin="25,70,0,0" VerticalAlignment="Top" Width="75" Click="fetchFromServerbutton_Click" IsEnabled="False"/>
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="UserSessionIdTextBox" Height="22" Margin="295,70,120,0" TextWrapping="Wrap" Text="Kopioi wcusersessionid tähän" VerticalAlignment="Top" GotFocus="userSessionIdTextBox_GotFocus" Grid.ColumnSpan="2" TextChanged="UserSessionIdTextBox_TextChanged" />
-                <Label Grid.Row="0" x:Name="UserSessionIdLabel" Content="wcusersessionid:" Grid.Column="1" HorizontalAlignment="Left" Margin="195,68,0,0" VerticalAlignment="Top"/>
-                <DatePicker Grid.Row="0" Grid.Column="0" x:Name="StartDatePicker" HorizontalAlignment="Left" Margin="55,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="103" FirstDayOfWeek="Monday"/>
-                <DatePicker Grid.Row="0" x:Name="EndDatePicker" HorizontalAlignment="Left" Margin="85,70,0,0" VerticalAlignment="Top" Width="103" Grid.Column="1" FirstDayOfWeek="Monday"/>
-                <Label Grid.Row="0" Grid.Column="0" x:Name="FromLabel" Content="Mistä:" HorizontalAlignment="Left" Margin="10,69,0,0" VerticalAlignment="Top"/>
-                <Label Grid.Row="0" x:Name="ToLabel" Content="Mihin:" HorizontalAlignment="Left" Margin="37,69,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.163,0.577"/>
-
-                <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="PlayingSessionDataGrid" Margin="10" SelectedCellsChanged="sessionDataGrid_SelectedCellsChanged" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
-                        <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
-                        <DataGridTextColumn Header="Istuntoja" Binding="{Binding Sessions.Count}" ElementStyle="{StaticResource AlignRight}"/>
-                        <DataGridTextColumn Header="Kesto" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
-                        <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
-                        <DataGridTextColumn Header="MT ratio" Binding="{Binding MtRatio, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
-                        <DataGridTextColumn Header="€/h" Binding="{Binding HourlyRate, StringFormat={}{0:0.00 €}}" ElementStyle="{StaticResource AlignRight}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-
-                <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
-                        <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
-                        <DataGridTextColumn Header="Pöydän nimi" Binding="{Binding TableName}"/>
-                        <DataGridTextColumn Header="Peli" Binding="{Binding GameType.Name}"/>
-                        <DataGridTextColumn Header="Kesto" Binding="{Binding SessionDuration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
-                        <DataGridTextColumn Header="Käsiä" Binding="{Binding HandsPlayed}" ElementStyle="{StaticResource AlignRight}"/>
-                        <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <GridSplitter Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" x:Name="GridSplitter" HorizontalAlignment="Stretch" Height="5" Margin="10,0,10,0" VerticalAlignment="Center">
-                    <GridSplitter.Template>
-                        <ControlTemplate TargetType="{x:Type GridSplitter}">
-                            <Grid>
-                                <Button Content="⁞" />
-                                <Rectangle Fill="#00FFFFFF" />
-                            </Grid>
-                        </ControlTemplate>
-                    </GridSplitter.Template>
-                </GridSplitter>
-
-            </Grid>
         </TabItem>
         <TabItem Header="Raportit">
-            <Grid>
-                <ComboBox x:Name="TimeReportComboBox" HorizontalAlignment="Left" Margin="20,40,0,0" VerticalAlignment="Top" Width="140">
-                    <ComboBoxItem>Päivittäin</ComboBoxItem>
-                    <ComboBoxItem>Kuukausittain</ComboBoxItem>
-                    <ComboBoxItem>Vuosittain</ComboBoxItem>
-                </ComboBox>
-                <Button x:Name="TimeReportButton" Content="Luo" HorizontalAlignment="Left" Margin="200,40,0,0" VerticalAlignment="Top" Width="75" Click="TimeReportButton_Click"/>
-                <DataGrid x:Name="ReportDataGrid" Margin="20,100,20,20" AutoGenerateColumns="False" IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Päivä" Binding="{Binding Time,  StringFormat={}{0:D}, ConverterCulture='fi-FI'}"/>
-                        <DataGridTextColumn Header="Kuukausi" Binding="{Binding Month, ConverterCulture='fi-FI'}" Visibility="Hidden"/>
-                        <DataGridTextColumn Header="Vuosi" Binding="{Binding Year, ConverterCulture='fi-FI'}" Visibility="Hidden"/>
-                        <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
-                        <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
-                        <DataGridTextColumn Header="Pelityyppi" Binding="{Binding GameType}"/>
-                        <DataGridTextColumn Header="bb/100" Binding="{Binding BbPerHundred, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Button x:Name="ReportByGameTypeButton" Content="Pelityyppiraportti" HorizontalAlignment="Left" Margin="643,40,0,0" VerticalAlignment="Top" Width="119" Click="ReportByGameTypeButton_Click"/>
-            </Grid>
+            <views:ReportsView/>
         </TabItem>
     </TabControl>
 </Window>

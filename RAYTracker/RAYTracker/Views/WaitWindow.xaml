@@ -1,0 +1,13 @@
+﻿<Window x:Class="RAYTracker.Views.WaitWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RAYTracker.Views"
+        mc:Ignorable="d"
+        Title="Noudetaan palvelimelta..." Height="120" Width="250" WindowStartupLocation="CenterOwner" WindowStyle="ThreeDBorderWindow" IsTabStop="False" Topmost="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="NoResize">
+    <Grid>
+        <ProgressBar x:Name="FetchProgressBar" Height="20" Margin="10,25,10,-1" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
+        <TextBlock x:Name="WaitTextBlock" HorizontalAlignment="Left" Margin="102,50,0,0" TextWrapping="Wrap" Text="Odota..." VerticalAlignment="Top"/>
+    </Grid>
+</Window>

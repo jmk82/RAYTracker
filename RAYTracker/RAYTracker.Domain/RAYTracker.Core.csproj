@@ -53,10 +53,12 @@
     <Compile Include="Report\Report.cs" />
     <Compile Include="Report\Reporter.cs" />
     <Compile Include="Report\YearlyReport.cs" />
+    <Compile Include="Utils\CashGameService.cs" />
     <Compile Include="Utils\DataConverter.cs" />
     <Compile Include="Utils\DataFetcher.cs" />
     <Compile Include="Utils\DataParser.cs" />
     <Compile Include="Utils\FileParser.cs" />
+    <Compile Include="Utils\ICashGameService.cs" />
     <Compile Include="Utils\Reader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
