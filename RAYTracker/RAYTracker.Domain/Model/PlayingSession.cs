@@ -14,6 +14,17 @@ namespace RAYTracker.Domain.Model
         public double MtRatio { get; set; }
         public decimal HourlyRate { get; set; }
 
+        public int Hands
+        {
+            get { return Sessions.Sum(s => s.HandsPlayed); }
+        }
+
+        public double HandsPerHour => Hands / Duration.TotalHours;
+
+        public PlayingSession()
+        {
+        }
+
         public PlayingSession(DateTime start, DateTime end, IList<Session> sessions)
         {
             StartTime = start;
@@ -27,13 +38,14 @@ namespace RAYTracker.Domain.Model
 
         public static IList<PlayingSession> GroupToPlayingSessions(IList<Session> sessions)
         {
+            IList<PlayingSession> allPlayingSessions = new List<PlayingSession>();
+
             if (sessions == null || sessions.Count == 0)
             {
-                return null;
+                return allPlayingSessions;
             }
 
             var orderedSessions = Session.OrderSessions(sessions);
-            IList<PlayingSession> allPlayingSessions = new List<PlayingSession>();
             IList<Session> sessionsToBeAdded = new List<Session>();
             sessionsToBeAdded.Add(orderedSessions.First());
 

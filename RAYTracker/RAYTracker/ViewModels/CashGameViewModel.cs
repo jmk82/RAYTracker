@@ -87,19 +87,23 @@ namespace RAYTracker.ViewModels
         public RelayCommand SaveSessionsCommand { get; set; }
         public RelayCommand ClearSessionsCommand { get; set; }
         public RelayCommand FilterCommand { get; set; }
+        public RelayCommand<bool> ShowSessionsOnlyCommand { get; set; }
 
         public FilterViewModel FilterViewModel { get; set; }
-        private FilterWindowService _filterWindowService;
+        private IFilterWindowService _filterWindowService;
 
         public CashGameViewModel(ICashGameService cashGameService,
             ISessionRepository sessionRepository,
             IOpenFileDialogService openFileDialogService,
-            IWaitDialogService waitDialogService)
+            IWaitDialogService waitDialogService,
+            IFilterWindowService filterWindowService,
+            FilterViewModel filterViewModel)
         {
             _cashGameService = cashGameService;
             _sessionRepository = sessionRepository;
             _openFileDialogService = openFileDialogService;
             _waitDialogService = waitDialogService;
+            _filterWindowService = filterWindowService;
 
             OpenFileCommand = new RelayCommand(OpenFile);
             FetchFromServerCommand = new RelayCommand(FetchFromServer);
@@ -110,9 +114,10 @@ namespace RAYTracker.ViewModels
                 _sessionRepository.RemoveAll();
                 PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
             });
+            ShowSessionsOnlyCommand = new RelayCommand<bool>(ShowSessionsOnly);
 
             FilterCommand = new RelayCommand(FilterSessions);
-            _filterWindowService = new FilterWindowService();
+            FilterViewModel = filterViewModel;
 
             var thisDay = DateTime.Now;
             StartDate = new DateTime(thisDay.Year, thisDay.Month, 1);
@@ -129,6 +134,23 @@ namespace RAYTracker.ViewModels
                 });
 
             LoadStoredSessions();
+        }
+
+        private void ShowSessionsOnly(bool isChecked)
+        {
+            if (isChecked)
+            { 
+                Console.WriteLine("session only, playing sessions: " + PlayingSessions.Count);
+
+                List<Session> sessions = new List<Session>();
+
+                foreach (var playingSession in PlayingSessions)
+                {
+                    sessions.AddRange(playingSession.Sessions);
+                }
+
+                SelectedPlayingSession = new PlayingSession { Sessions = sessions };
+            }
         }
 
         private void LoadStoredSessions()
@@ -160,13 +182,15 @@ namespace RAYTracker.ViewModels
         private void FilterSessions()
         {
             var gameTypes = _sessionRepository.GetAllGameTypes().OrderByDescending(gt => gt.Name).ToList();
-            FilterViewModel = new FilterViewModel(gameTypes);
+            
+            FilterViewModel.SetWrappedGameTypes(gameTypes);
 
             _filterWindowService.ShowWindow(FilterViewModel);
 
             var selectedGameTypes = FilterViewModel.GameTypes
                 .Where(gt => gt.IsSelected)
                 .Select(gt => gt.GameType);
+            
             var filter = new CashGameFilter { GameTypes = selectedGameTypes };
 
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetFiltered(filter));

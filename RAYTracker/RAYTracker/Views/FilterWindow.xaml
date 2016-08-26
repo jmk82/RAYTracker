@@ -12,8 +12,7 @@
                 <DataGridTemplateColumn Header="Valitse">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" /></DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Peli" Binding="{Binding GameType.Name}" IsReadOnly="True" />
@@ -21,7 +20,10 @@
                 <DataGridCheckBoxColumn Header="Turbo" Binding="{Binding GameType.IsTurbo}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button Command="{Binding CloseCommand}" x:Name="OkButton" Content="OK" HorizontalAlignment="Left" Margin="397,277,0,0" VerticalAlignment="Top" Width="75"/>
+        
+        <Button Command="{Binding CloseWindowCommand}" x:Name="OkButton" Content="OK" HorizontalAlignment="Right" Margin="0,385,20,0" VerticalAlignment="Top" Width="100"/>
+        <Button Command="{Binding SelectAllGamesCommand}" x:Name="SelectAllButton" Content="Valitse kaikki" HorizontalAlignment="Left" Margin="20,385,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button Command="{Binding ClearGameSelectionsCommand}" x:Name="SelecteNoneButton" Content="Poista valinnat" HorizontalAlignment="Left" Margin="140,385,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Window>

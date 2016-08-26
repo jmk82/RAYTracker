@@ -1,14 +1,14 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using RAYTracker.Dialogs;
 using RAYTracker.Domain.Model;
 using RAYTracker.Domain.Repository;
 using RAYTracker.Domain.Utils;
+using RAYTracker.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GalaSoft.MvvmLight.Messaging;
-using RAYTracker.Helpers;
 
 namespace RAYTracker.ViewModels
 {
@@ -74,7 +74,7 @@ namespace RAYTracker.ViewModels
             var thisDay = DateTime.Now;
             StartDate = new DateTime(thisDay.Year, 7, 1);
             EndDate = thisDay;
-            UserSessionId = "Liitä wcusersessionid tähän T";
+            UserSessionId = "Liitä wcusersessionid tähän";
 
             Messenger.Default.Register<UserSessionIdChangedMessage>(this,
                 message =>

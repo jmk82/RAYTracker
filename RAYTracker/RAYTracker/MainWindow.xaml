@@ -13,8 +13,7 @@
     <DockPanel>
 
         <Menu x:Name="Menu" DockPanel.Dock="Top">
-            <MenuItem Header="Suodata">
-                <MenuItem Header="Suodata" Command="{Binding CashGameViewModel.FilterCommand}"/>
+            <MenuItem Header="Suodata" Command="{Binding CashGameViewModel.FilterCommand}">
             </MenuItem>
         </Menu>
 

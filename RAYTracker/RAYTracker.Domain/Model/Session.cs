@@ -29,6 +29,7 @@ namespace RAYTracker.Domain.Model
         public decimal ChipsBought { get; set; }
         public decimal ChipsCashedOut { get; set; }
         public decimal Result { get; set; }
+        public double HandsPerHour => HandsPlayed / SessionDuration.TotalHours;
 
         public static IList<Session> OrderSessions(ICollection<Session> sessions)
         {

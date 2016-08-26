@@ -1,9 +1,11 @@
-﻿using RAYTracker.Domain.Model;
-using RAYTracker.Domain.Report;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Shell;
+using System.Xml.Serialization;
+using RAYTracker.Domain.Model;
+using RAYTracker.Domain.Report;
 
 namespace RAYTracker.Domain.Repository
 {
@@ -34,7 +36,7 @@ namespace RAYTracker.Domain.Repository
         {
             var sessions = _sessions;
 
-            if (filter.GameTypes != null && filter.GameTypes.Any())
+            if (filter.GameTypes != null)
             {
                 sessions = sessions.Where(s => filter.GameTypes.Contains(s.GameType)).ToList();
             }
@@ -76,25 +78,24 @@ namespace RAYTracker.Domain.Repository
 
         public void ReadXml()
         {
-            System.Xml.Serialization.XmlSerializer reader =
-                new System.Xml.Serialization.XmlSerializer(typeof(List<Session>));
+            XmlSerializer reader =
+                new XmlSerializer(typeof(List<Session>));
             try
             {
-                System.IO.StreamReader file = new System.IO.StreamReader(_xmlFile);
-                _sessions = (IList<Session>)reader.Deserialize(file);
+                StreamReader file = new StreamReader(_xmlFile);
+                Add((IList<Session>)reader.Deserialize(file));
             }
             catch (FileNotFoundException)
             {
                 
             }
-            
         }
 
         public void SaveAsXml()
         {
-            System.Xml.Serialization.XmlSerializer writer =
-                new System.Xml.Serialization.XmlSerializer(typeof(List<Session>));
-            System.IO.FileStream file = System.IO.File.Create(_xmlFile);
+            XmlSerializer writer =
+                new XmlSerializer(typeof(List<Session>));
+            FileStream file = File.Create(_xmlFile);
 
             writer.Serialize(file, _sessions.ToList());
             file.Close();

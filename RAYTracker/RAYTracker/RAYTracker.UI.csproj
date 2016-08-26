@@ -77,10 +77,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Dialogs\FilterWindowService.cs" />
+    <Compile Include="Dialogs\IFilterWindowService.cs" />
     <Compile Include="Dialogs\IOpenFileDialogService.cs" />
     <Compile Include="Dialogs\IWaitDialogService.cs" />
     <Compile Include="Dialogs\OpenFileDialogService.cs" />
     <Compile Include="Dialogs\WaitDialogService.cs" />
+    <Compile Include="Helpers\BooleanToHeightConverter.cs" />
     <Compile Include="Helpers\GameTypeWrapper.cs" />
     <Compile Include="Helpers\UserSessionIdChangedMessage.cs" />
     <Compile Include="ViewModels\CashGameViewModel.cs" />

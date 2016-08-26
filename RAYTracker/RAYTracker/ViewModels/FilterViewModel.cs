@@ -22,26 +22,66 @@ namespace RAYTracker.ViewModels
             {
                 _gameTypes = value;
                 RaisePropertyChanged();
+                Console.WriteLine("changed");
             }
         }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public RelayCommand CloseCommand { get; set; }
+        public RelayCommand CloseWindowCommand { get; set; }
+        public RelayCommand SelectAllGamesCommand { get; set; }
+        public RelayCommand ClearGameSelectionsCommand { get; set; }
 
-        public FilterViewModel(IList<GameType> gameTypes)
+        public FilterViewModel()
         {
             GameTypes = new List<GameTypeWrapper>();
+            
+            CloseWindowCommand = new RelayCommand(() =>
+            {
+                Messenger.Default.Send(new NotificationMessage("CloseFilterWindow"));
+            });
+
+            SelectAllGamesCommand = new RelayCommand(() =>
+            {
+                List<GameTypeWrapper> newGameTypes = new List<GameTypeWrapper>();
+
+                foreach (var gameTypeWrapper in GameTypes)
+                {
+                    newGameTypes.Add(new GameTypeWrapper { GameType = gameTypeWrapper.GameType, IsSelected = true });
+                }
+
+                GameTypes = newGameTypes;
+            });
+
+            ClearGameSelectionsCommand = new RelayCommand(() =>
+            {
+                List<GameTypeWrapper> newGameTypes = new List<GameTypeWrapper>();
+
+                foreach (var gameTypeWrapper in GameTypes)
+                {
+                    newGameTypes.Add(new GameTypeWrapper { GameType = gameTypeWrapper.GameType, IsSelected = false });
+                }
+
+                GameTypes = newGameTypes;
+
+                //foreach (var gameTypeWrapper in GameTypes)
+                //{
+                //    gameTypeWrapper.IsSelected = false;
+                //    RaisePropertyChanged(nameof(gameTypeWrapper.IsSelected));
+                //    Console.WriteLine("remove");
+                //}
+            });
+        }
+
+        public void SetWrappedGameTypes(IList<GameType> gameTypes)
+        {
+            GameTypes.Clear();
 
             foreach (var gameType in gameTypes)
             {
                 GameTypes.Add(new GameTypeWrapper { GameType = gameType, IsSelected = true });
             }
-            CloseCommand = new RelayCommand(() =>
-            {
-                Messenger.Default.Send(new NotificationMessage("CloseFilterWindow"));
-            });
         }
     }
 }

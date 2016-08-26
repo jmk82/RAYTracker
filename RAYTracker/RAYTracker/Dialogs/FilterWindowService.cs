@@ -5,7 +5,7 @@ using RAYTracker.Views;
 
 namespace RAYTracker.Dialogs
 {
-    public class FilterWindowService
+    public class FilterWindowService : IFilterWindowService
     {
         private FilterWindow _filterWindow;
 
@@ -16,7 +16,12 @@ namespace RAYTracker.Dialogs
                 Owner = Application.Current.MainWindow,
                 DataContext = viewModel
             };
-            Messenger.Default.Register<NotificationMessage>(this, message => CloseWindow());
+
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification == "CloseFilterWindow") CloseWindow();
+            });
+
             _filterWindow.ShowDialog();
         }
 
