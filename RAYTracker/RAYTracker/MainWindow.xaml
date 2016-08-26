@@ -9,10 +9,18 @@
         mc:Ignorable="d"
         Title="RAYTracker" Height="640" Width="900" MinHeight="300" MinWidth="400"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+
+    <DockPanel>
+
+        <Menu x:Name="Menu" DockPanel.Dock="Top">
+            <MenuItem Header="Suodata">
+                <MenuItem Header="Suodata" Command="{Binding CashGameViewModel.FilterCommand}"/>
+            </MenuItem>
+        </Menu>
+
     <TabControl x:Name="MainTabControl">
         <TabItem Header="Käteispelit">
-            <views:CashGameView/>
+            <views:CashGameView DataContext="{Binding CashGameViewModel}"/>
         </TabItem>
         <TabItem Header="Turnaukset">
             <views:TournamentView/>
@@ -21,4 +29,5 @@
             <views:ReportsView/>
         </TabItem>
     </TabControl>
+    </DockPanel>
 </Window>

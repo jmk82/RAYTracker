@@ -42,15 +42,5 @@ namespace RAYTracker.Domain.Model
             return this.TableName == other.TableName && this.StartTime == other.StartTime
                 && this.EndTime == other.EndTime;
         }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null) return false;
-
-            Session sessionObj = obj as Session;
-
-            if (sessionObj == null) return false;
-            else return Equals(sessionObj);
-        }
     }
 }

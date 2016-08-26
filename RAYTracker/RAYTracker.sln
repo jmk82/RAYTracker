@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAYTracker.UI", "RAYTracker\RAYTracker.UI.csproj", "{BF0FC918-F5C9-4EB8-AED0-8E46604BAC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAYTracker.Core", "RAYTracker.Domain\RAYTracker.Core.csproj", "{A2D63904-A337-4DF9-A9B9-047C944F0523}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAYTracker.Domain", "RAYTracker.Domain\RAYTracker.Domain.csproj", "{A2D63904-A337-4DF9-A9B9-047C944F0523}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAYTracker.Tests", "RAYTracker.Tests\RAYTracker.Tests.csproj", "{78AEC310-294F-4763-A66D-B2603E2C50CB}"
 EndProject

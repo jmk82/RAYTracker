@@ -50,13 +50,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RAYTracker.Domain\RAYTracker.Core.csproj">
+    <ProjectReference Include="..\RAYTracker.Domain\RAYTracker.Domain.csproj">
       <Project>{A2D63904-A337-4DF9-A9B9-047C944F0523}</Project>
-      <Name>RAYTracker.Core</Name>
+      <Name>RAYTracker.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RAYTracker\RAYTracker.UI.csproj">
+      <Project>{BF0FC918-F5C9-4EB8-AED0-8E46604BAC92}</Project>
+      <Name>RAYTracker.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

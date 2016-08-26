@@ -8,12 +8,12 @@ namespace RAYTracker.ViewModels
 {
     public class MainViewModel
     {
-        //public CashGameViewModel CashGameViewModel { get; set; }
+        public CashGameViewModel CashGameViewModel { get; set; }
         //public TournamentViewModel TournamentViewModel { get; set; }
 
-        public MainViewModel()
+        public MainViewModel(CashGameViewModel cashGameVM)
         {
-            //CashGameViewModel = cashGameViewModel;
+            CashGameViewModel = cashGameVM;
             //TournamentViewModel = tournamentViewModel;
         }
     }

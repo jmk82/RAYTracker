@@ -76,16 +76,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\FilterWindowService.cs" />
     <Compile Include="Dialogs\IOpenFileDialogService.cs" />
     <Compile Include="Dialogs\IWaitDialogService.cs" />
     <Compile Include="Dialogs\OpenFileDialogService.cs" />
     <Compile Include="Dialogs\WaitDialogService.cs" />
+    <Compile Include="Helpers\GameTypeWrapper.cs" />
+    <Compile Include="Helpers\UserSessionIdChangedMessage.cs" />
     <Compile Include="ViewModels\CashGameViewModel.cs" />
+    <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\TournamentViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\CashGameView.xaml.cs">
       <DependentUpon>CashGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FilterWindow.xaml.cs">
+      <DependentUpon>FilterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ImportControl.xaml.cs">
       <DependentUpon>ImportControl.xaml</DependentUpon>
@@ -112,6 +119,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\CashGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FilterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,9 +173,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\RAYTracker.Domain\RAYTracker.Core.csproj">
+    <ProjectReference Include="..\RAYTracker.Domain\RAYTracker.Domain.csproj">
       <Project>{a2d63904-a337-4df9-a9b9-047c944f0523}</Project>
-      <Name>RAYTracker.Core</Name>
+      <Name>RAYTracker.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

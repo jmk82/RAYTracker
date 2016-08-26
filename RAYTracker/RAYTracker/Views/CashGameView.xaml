@@ -8,8 +8,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:views="clr-namespace:RAYTracker.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800" 
-             DataContext="{Binding CashGame, Source={StaticResource Locator}}">
+             d:DesignHeight="500" d:DesignWidth="800">
+    
     <UserControl.Resources>
         <Style x:Key="AlignRight" TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -28,7 +28,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
-        
+
         <views:ImportControl Grid.ColumnSpan="3">
             
         </views:ImportControl>

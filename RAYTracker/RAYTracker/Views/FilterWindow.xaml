@@ -1,0 +1,27 @@
+﻿<Window x:Class="RAYTracker.Views.FilterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RAYTracker.Views"
+        mc:Ignorable="d"
+        Title="Valitse suodattimet" Height="450" Width="500" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <DataGrid ItemsSource="{Binding GameTypes}" x:Name="GameTypeDataGrid" Margin="20" VerticalAlignment="Top" Height="350" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" Width="300" HorizontalAlignment="Left">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Valitse">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Peli" Binding="{Binding GameType.Name}" IsReadOnly="True" />
+                <DataGridCheckBoxColumn Header="Ante" Binding="{Binding GameType.HasAnte}" IsReadOnly="True" />
+                <DataGridCheckBoxColumn Header="Turbo" Binding="{Binding GameType.IsTurbo}" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Command="{Binding CloseCommand}" x:Name="OkButton" Content="OK" HorizontalAlignment="Left" Margin="397,277,0,0" VerticalAlignment="Top" Width="75"/>
+
+    </Grid>
+</Window>

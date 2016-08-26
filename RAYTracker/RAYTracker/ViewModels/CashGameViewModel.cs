@@ -6,6 +6,12 @@ using RAYTracker.Domain.Repository;
 using RAYTracker.Domain.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using GalaSoft.MvvmLight.Messaging;
+using RAYTracker.Domain.Report;
+using RAYTracker.Helpers;
+using RAYTracker.Views;
 
 namespace RAYTracker.ViewModels
 {
@@ -34,7 +40,11 @@ namespace RAYTracker.ViewModels
             set
             {
                 _userSessionId = value;
-                RaisePropertyChanged(nameof(UserSessionId));
+                if (_userSessionId != "")
+                {
+                    Messenger.Default.Send(new UserSessionIdChangedMessage(value, this));
+                }
+                RaisePropertyChanged();
             }
         }
 
@@ -60,7 +70,6 @@ namespace RAYTracker.ViewModels
         private IWaitDialogService _waitDialogService;
 
         private PlayingSession _selectedPlayingSession;
-        
 
         public PlayingSession SelectedPlayingSession
         {
@@ -68,7 +77,7 @@ namespace RAYTracker.ViewModels
             set
             {
                 _selectedPlayingSession = value;
-                RaisePropertyChanged(nameof(SelectedPlayingSession));
+                RaisePropertyChanged();
             }
         }
 
@@ -77,6 +86,10 @@ namespace RAYTracker.ViewModels
         public RelayCommand ClearCommand { get; set; }
         public RelayCommand SaveSessionsCommand { get; set; }
         public RelayCommand ClearSessionsCommand { get; set; }
+        public RelayCommand FilterCommand { get; set; }
+
+        public FilterViewModel FilterViewModel { get; set; }
+        private FilterWindowService _filterWindowService;
 
         public CashGameViewModel(ICashGameService cashGameService,
             ISessionRepository sessionRepository,
@@ -90,11 +103,7 @@ namespace RAYTracker.ViewModels
 
             OpenFileCommand = new RelayCommand(OpenFile);
             FetchFromServerCommand = new RelayCommand(FetchFromServer);
-            ClearCommand = new RelayCommand(() =>
-            {
-                UserSessionId = "";
-                RaisePropertyChanged(nameof(UserSessionId));
-            });
+            ClearCommand = new RelayCommand(() => UserSessionId = "");
             SaveSessionsCommand = new RelayCommand(SaveSessions);
             ClearSessionsCommand = new RelayCommand(() =>
             {
@@ -102,10 +111,22 @@ namespace RAYTracker.ViewModels
                 PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
             });
 
+            FilterCommand = new RelayCommand(FilterSessions);
+            _filterWindowService = new FilterWindowService();
+
             var thisDay = DateTime.Now;
             StartDate = new DateTime(thisDay.Year, thisDay.Month, 1);
             EndDate = thisDay;
             UserSessionId = "Liitä wcusersessionid tähän";
+
+            Messenger.Default.Register<UserSessionIdChangedMessage>(this,
+                message =>
+                {
+                    if (message.Sender != this && message.NewUserSessionId != _userSessionId)
+                    {
+                        UserSessionId = message.NewUserSessionId;
+                    }
+                });
 
             LoadStoredSessions();
         }
@@ -124,7 +145,7 @@ namespace RAYTracker.ViewModels
         private async void FetchFromServer()
         {
             _waitDialogService.ShowWaitDialog();
-             var sessions = await _cashGameService.FetchSessionsFromServer(_userSessionId, StartDate, EndDate);
+            var sessions = await _cashGameService.FetchSessionsFromServer(_userSessionId, StartDate, EndDate);
             _sessionRepository.Add(sessions);
             _waitDialogService.CloseWaitDialog();
 
@@ -133,13 +154,28 @@ namespace RAYTracker.ViewModels
 
         private void LoadPlayingSessions()
         {
-            PlayingSessions = _cashGameService.GetPlayingSessionsFromFile(_fileName);
+            PlayingSessions = PlayingSession.GroupToPlayingSessions(_cashGameService.GetSessionsFromFile(_fileName));
+        }
+
+        private void FilterSessions()
+        {
+            var gameTypes = _sessionRepository.GetAllGameTypes().OrderByDescending(gt => gt.Name).ToList();
+            FilterViewModel = new FilterViewModel(gameTypes);
+
+            _filterWindowService.ShowWindow(FilterViewModel);
+
+            var selectedGameTypes = FilterViewModel.GameTypes
+                .Where(gt => gt.IsSelected)
+                .Select(gt => gt.GameType);
+            var filter = new CashGameFilter { GameTypes = selectedGameTypes };
+
+            PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetFiltered(filter));
         }
 
         private void OpenFile()
         {
             var fileName = _openFileDialogService.ShowOpenFileDialog();
-            
+
             if (!string.IsNullOrEmpty(fileName))
             {
                 var sessions = _cashGameService.GetSessionsFromFile(fileName);

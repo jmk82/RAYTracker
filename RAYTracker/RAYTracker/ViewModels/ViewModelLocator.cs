@@ -14,6 +14,7 @@ namespace RAYTracker.ViewModels
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<CashGameViewModel>();
             SimpleIoc.Default.Register<TournamentViewModel>();
+            SimpleIoc.Default.Register<FilterViewModel>();
             SimpleIoc.Default.Register<ICashGameService, CashGameService>();
             SimpleIoc.Default.Register<ITournamentService, TournamentService>();
             SimpleIoc.Default.Register<IOpenFileDialogService, OpenFileDialogService>();
@@ -37,6 +38,11 @@ namespace RAYTracker.ViewModels
         public CashGameViewModel CashGame
         {
             get { return ServiceLocator.Current.GetInstance<CashGameViewModel>(); }
+        }
+
+        public FilterViewModel FilterVM
+        {
+            get { return ServiceLocator.Current.GetInstance<FilterViewModel>(); }
         }
 
         public static ViewModelLocator Instance

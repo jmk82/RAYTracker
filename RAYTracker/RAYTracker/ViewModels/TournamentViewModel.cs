@@ -7,6 +7,8 @@ using RAYTracker.Domain.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GalaSoft.MvvmLight.Messaging;
+using RAYTracker.Helpers;
 
 namespace RAYTracker.ViewModels
 {
@@ -28,12 +30,17 @@ namespace RAYTracker.ViewModels
             set
             {
                 _userSessionId = value;
+                if (_userSessionId != "")
+                {
+                    Messenger.Default.Send(new UserSessionIdChangedMessage(value, this));
+                }
                 RaisePropertyChanged();
             }
         }
 
         public RelayCommand FetchFromServerCommand { get; set; }
         public RelayCommand ClearTournamentsCommand { get; set; }
+        public RelayCommand ClearCommand { get; set; }
 
         private IList<Tournament> _tournaments;
 
@@ -62,11 +69,21 @@ namespace RAYTracker.ViewModels
 
             FetchFromServerCommand = new RelayCommand(FetchFromServer);
             ClearTournamentsCommand = new RelayCommand(ClearTournaments);
+            ClearCommand = new RelayCommand(() => UserSessionId = "");
 
             var thisDay = DateTime.Now;
             StartDate = new DateTime(thisDay.Year, 7, 1);
             EndDate = thisDay;
             UserSessionId = "Liitä wcusersessionid tähän T";
+
+            Messenger.Default.Register<UserSessionIdChangedMessage>(this,
+                message =>
+                {
+                    if (message.Sender != this && message.NewUserSessionId != _userSessionId)
+                    {
+                        UserSessionId = message.NewUserSessionId;
+                    }
+                });
         }
 
         private void ClearTournaments()

@@ -1,6 +1,8 @@
-﻿namespace RAYTracker.Domain.Model
+﻿using System;
+
+namespace RAYTracker.Domain.Model
 {
-    public class GameType
+    public class GameType : IEquatable<GameType>
     {
         public string Name { get; set; }
         public decimal BigBlind { get; set; }
@@ -22,6 +24,13 @@
             }
 
             return fullName;
+        }
+
+        public bool Equals(GameType other)
+        {
+            if (other == null) return false;
+
+            return this.FullName() == other.FullName();
         }
     }
 }
