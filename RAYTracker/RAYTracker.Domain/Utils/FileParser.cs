@@ -22,8 +22,8 @@ namespace RAYTracker.Domain.Utils
 
             session.TableName = tokens[0];
             session.StartTime = Convert.ToDateTime(tokens[1]);
-            session.SessionDuration = DataConverter.ParseDuration(tokens[2]);
-            session.EndTime = session.StartTime + session.SessionDuration;
+            session.Duration = DataConverter.ParseDuration(tokens[2]);
+            session.EndTime = session.StartTime + session.Duration;
             session.GameType = DataConverter.AssignGameType(tokens[3], tokens[0]);
             session.TotalBetsMade = DataConverter.ParseCurrency(tokens[4]);
             session.TotalWonAmount = DataConverter.ParseCurrency(tokens[5]);

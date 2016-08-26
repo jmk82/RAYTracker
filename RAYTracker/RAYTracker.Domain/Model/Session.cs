@@ -13,14 +13,15 @@ namespace RAYTracker.Domain.Model
         public DateTime StartTime { get; set; }
 
         [XmlIgnore]
-        public TimeSpan SessionDuration
+        public TimeSpan Duration
         {
-            get { return XmlConvert.ToTimeSpan(SessionDurationString); }
-            set { SessionDurationString = XmlConvert.ToString(value); }
+            get { return XmlConvert.ToTimeSpan(DurationString); }
+            set { DurationString = XmlConvert.ToString(value); }
         }
         [Browsable(false)]
-        [XmlElement("SessionDuration")]
-        public string SessionDurationString { get; set; }
+        [XmlElement("Duration")]
+        public string DurationString { get; set; }
+
         public DateTime EndTime { get; set; }
         public GameType GameType { get; set; }
         public decimal TotalBetsMade { get; set; }
@@ -29,7 +30,7 @@ namespace RAYTracker.Domain.Model
         public decimal ChipsBought { get; set; }
         public decimal ChipsCashedOut { get; set; }
         public decimal Result { get; set; }
-        public double HandsPerHour => HandsPlayed / SessionDuration.TotalHours;
+        public double HandsPerHour => HandsPlayed / Duration.TotalHours;
 
         public static IList<Session> OrderSessions(ICollection<Session> sessions)
         {

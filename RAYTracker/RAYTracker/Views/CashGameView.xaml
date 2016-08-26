@@ -60,13 +60,13 @@
             </i:Interaction.Triggers>-->
         </DataGrid>
 
-        <DataGrid ItemsSource="{Binding SelectedPlayingSession.Sessions}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding SelectedPlayingSession.Sessions, IsAsync=True}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
                 <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
                 <DataGridTextColumn Header="Pöydän nimi" Binding="{Binding TableName}"/>
                 <DataGridTextColumn Header="Peli" Binding="{Binding GameType.Name}"/>
-                <DataGridTextColumn Header="Kesto" Binding="{Binding SessionDuration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Kesto" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding HandsPlayed}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Käsiä/h" Binding="{Binding HandsPerHour, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>

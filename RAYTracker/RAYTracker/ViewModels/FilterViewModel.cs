@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using RAYTracker.Domain.Model;
 using RAYTracker.Helpers;
+using System;
+using System.Collections.Generic;
 
 namespace RAYTracker.ViewModels
 {
@@ -22,7 +19,6 @@ namespace RAYTracker.ViewModels
             {
                 _gameTypes = value;
                 RaisePropertyChanged();
-                Console.WriteLine("changed");
             }
         }
 
@@ -64,13 +60,6 @@ namespace RAYTracker.ViewModels
                 }
 
                 GameTypes = newGameTypes;
-
-                //foreach (var gameTypeWrapper in GameTypes)
-                //{
-                //    gameTypeWrapper.IsSelected = false;
-                //    RaisePropertyChanged(nameof(gameTypeWrapper.IsSelected));
-                //    Console.WriteLine("remove");
-                //}
             });
         }
 

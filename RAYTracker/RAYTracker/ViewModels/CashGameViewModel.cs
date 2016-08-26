@@ -1,17 +1,15 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using RAYTracker.Dialogs;
 using RAYTracker.Domain.Model;
+using RAYTracker.Domain.Report;
 using RAYTracker.Domain.Repository;
 using RAYTracker.Domain.Utils;
+using RAYTracker.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using GalaSoft.MvvmLight.Messaging;
-using RAYTracker.Domain.Report;
-using RAYTracker.Helpers;
-using RAYTracker.Views;
 
 namespace RAYTracker.ViewModels
 {
@@ -63,7 +61,18 @@ namespace RAYTracker.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public IList<Session> Sessions;
+        private IList<Session> _sessions;
+
+        public IList<Session> Sessions
+        {
+            get { return _sessions; }
+            set
+            {
+                _sessions = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private ICashGameService _cashGameService;
         private ISessionRepository _sessionRepository;
         private IOpenFileDialogService _openFileDialogService;
@@ -78,6 +87,7 @@ namespace RAYTracker.ViewModels
             {
                 _selectedPlayingSession = value;
                 RaisePropertyChanged();
+                Console.WriteLine("ssssss");
             }
         }
 
@@ -109,11 +119,7 @@ namespace RAYTracker.ViewModels
             FetchFromServerCommand = new RelayCommand(FetchFromServer);
             ClearCommand = new RelayCommand(() => UserSessionId = "");
             SaveSessionsCommand = new RelayCommand(SaveSessions);
-            ClearSessionsCommand = new RelayCommand(() =>
-            {
-                _sessionRepository.RemoveAll();
-                PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
-            });
+            ClearSessionsCommand = new RelayCommand(ClearSessions);
             ShowSessionsOnlyCommand = new RelayCommand<bool>(ShowSessionsOnly);
 
             FilterCommand = new RelayCommand(FilterSessions);
@@ -134,6 +140,13 @@ namespace RAYTracker.ViewModels
                 });
 
             LoadStoredSessions();
+        }
+
+        private void ClearSessions()
+        {
+            _sessionRepository.RemoveAll();
+            PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
+            SelectedPlayingSession = null;
         }
 
         private void ShowSessionsOnly(bool isChecked)

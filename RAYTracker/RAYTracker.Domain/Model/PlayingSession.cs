@@ -32,7 +32,7 @@ namespace RAYTracker.Domain.Model
             Duration = end - start;
             Sessions = sessions;
             Result = Sessions.Sum(s => s.ChipsCashedOut - s.ChipsBought);
-            MtRatio = Sessions.Sum(s => s.SessionDuration.TotalMinutes) / Duration.TotalMinutes;
+            MtRatio = Sessions.Sum(s => s.Duration.TotalMinutes) / Duration.TotalMinutes;
             HourlyRate = (decimal)((double)Result / Duration.TotalHours);
         }
 
