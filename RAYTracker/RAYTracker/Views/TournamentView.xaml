@@ -7,8 +7,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:views="clr-namespace:RAYTracker.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800"
-             DataContext="{Binding Tournament, Source={StaticResource Locator}}">
+             d:DesignHeight="500" d:DesignWidth="800">
+    
     <UserControl.Resources>
         <Style x:Key="AlignRight" TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -32,9 +32,21 @@
 
         </views:ImportControl>
 
-        <DataGrid ItemsSource="{Binding Tournaments, IsAsync=True}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="TournamentDataGrid" Margin="10" SelectionMode="Single" IsReadOnly="True"/>
+        <DataGrid ItemsSource="{Binding Tournaments, IsAsync=True}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="TournamentDataGrid" Margin="10" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Alkuaika" Binding="{Binding StartTime, StringFormat={}{0:d.M.yyyy H:mm}}" />
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Nimi" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Tyyppi" Binding="{Binding Type}" ElementStyle="{StaticResource AlignRight}" />
+                <DataGridTextColumn Header="Sijoitus" Binding="{Binding FinalPosition}" ElementStyle="{StaticResource AlignRight}" />
+                <DataGridTextColumn Header="Sisäänostot" Binding="{Binding TotalBuyIn, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}" />
+                <DataGridTextColumn Header="Alkup. sis. osto" Binding="{Binding BuyIn}" ElementStyle="{StaticResource AlignRight}" />
+                <DataGridTextColumn Header="Voitto" Binding="{Binding Win, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Button x:Name="ClearTournamentsButton" Content="Nollaa" Grid.Column="1" HorizontalAlignment="Left" Margin="215,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ClearTournamentsCommand}"/>
+        <Button x:Name="SerializeButton" Content="Tallenna" Grid.Column="1" HorizontalAlignment="Left" Margin="85,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding SaveTournamentsCommand}" />
         <TextBox x:Name="ReportTextBox" Margin="10" Grid.Row="3" TextWrapping="Wrap" Text="{Binding Stats}" Grid.ColumnSpan="3" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsReadOnly="True"/>
     </Grid>
 </UserControl>

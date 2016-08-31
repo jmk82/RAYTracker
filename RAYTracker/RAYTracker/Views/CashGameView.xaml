@@ -43,8 +43,8 @@
 
         <DataGrid ItemsSource="{Binding PlayingSessions, IsAsync=True}" SelectedItem="{Binding SelectedPlayingSession}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="PlayingSessionDataGrid" Margin="10" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
-                <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, StringFormat={}{0:d.M.yyyy H:mm}}"/>
+                <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, StringFormat={}{0:d.M.yyyy H:mm}}"/>
                 <DataGridTextColumn Header="Istuntoja" Binding="{Binding Sessions.Count}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Kesto" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
@@ -53,17 +53,12 @@
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Käsiä/h" Binding="{Binding HandsPerHour, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding UpdateSelectedPlayingSessionCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
         </DataGrid>
 
         <DataGrid ItemsSource="{Binding SelectedPlayingSession.Sessions, IsAsync=True}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, ConverterCulture='fi-FI'}"/>
-                <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, ConverterCulture='fi-FI'}"/>
+                <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, StringFormat={}{0:d.M.yyyy H:mm}}"/>
+                <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, StringFormat={}{0:d.M.yyyy H:mm}}"/>
                 <DataGridTextColumn Header="Pöydän nimi" Binding="{Binding TableName}"/>
                 <DataGridTextColumn Header="Peli" Binding="{Binding GameType.Name}"/>
                 <DataGridTextColumn Header="Kesto" Binding="{Binding Duration, StringFormat={}{0:hh}:{0:mm}}" ElementStyle="{StaticResource AlignRight}"/>

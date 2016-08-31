@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace RAYTracker.Views
 {
     /// <summary>
-    /// Interaction logic for ReportsView.xaml
+    /// Interaction logic for StatsView.xaml
     /// </summary>
-    public partial class ReportsView : UserControl
+    public partial class StatsView : UserControl
     {
-        public ReportsView()
+        public StatsView()
         {
             InitializeComponent();
         }

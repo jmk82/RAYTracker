@@ -8,9 +8,11 @@ using System.Collections.Generic;
 
 namespace RAYTracker.ViewModels
 {
-    public class FilterViewModel : ViewModelBase
+    public sealed class FilterViewModel : ViewModelBase
     {
         private IList<GameTypeWrapper> _gameTypes;
+        private DateTime _currentSessionsStart;
+        private DateTime _currentSessionsEnd;
 
         public IList<GameTypeWrapper> GameTypes
         {
@@ -38,29 +40,26 @@ namespace RAYTracker.ViewModels
                 Messenger.Default.Send(new NotificationMessage("CloseFilterWindow"));
             });
 
-            SelectAllGamesCommand = new RelayCommand(() =>
+            SelectAllGamesCommand = new RelayCommand(() => ChangeGameSelection(true));
+            ClearGameSelectionsCommand = new RelayCommand(() => ChangeGameSelection(false));
+
+            Messenger.Default.Register<SessionsDatesMessage>(this, message =>
             {
-                List<GameTypeWrapper> newGameTypes = new List<GameTypeWrapper>();
-
-                foreach (var gameTypeWrapper in GameTypes)
-                {
-                    newGameTypes.Add(new GameTypeWrapper { GameType = gameTypeWrapper.GameType, IsSelected = true });
-                }
-
-                GameTypes = newGameTypes;
+                StartDate = message.From;
+                EndDate = message.To;
             });
+        }
 
-            ClearGameSelectionsCommand = new RelayCommand(() =>
+        public void ChangeGameSelection(bool select)
+        {
+            List<GameTypeWrapper> newGameTypes = new List<GameTypeWrapper>();
+
+            foreach (var gameTypeWrapper in GameTypes)
             {
-                List<GameTypeWrapper> newGameTypes = new List<GameTypeWrapper>();
+                newGameTypes.Add(new GameTypeWrapper { GameType = gameTypeWrapper.GameType, IsSelected = select });
+            }
 
-                foreach (var gameTypeWrapper in GameTypes)
-                {
-                    newGameTypes.Add(new GameTypeWrapper { GameType = gameTypeWrapper.GameType, IsSelected = false });
-                }
-
-                GameTypes = newGameTypes;
-            });
+            GameTypes = newGameTypes;
         }
 
         public void SetWrappedGameTypes(IList<GameType> gameTypes)

@@ -12,6 +12,7 @@ namespace RAYTracker.Domain.Model
         public string TableName { get; set; }
         public DateTime StartTime { get; set; }
 
+        // Tällainen ratkaisu koska TimeSpanin serialisointi ei XmlSerialiserilla onnistu
         [XmlIgnore]
         public TimeSpan Duration
         {
@@ -41,8 +42,9 @@ namespace RAYTracker.Domain.Model
         {
             if (other == null) return false;
 
-            return this.TableName == other.TableName && this.StartTime == other.StartTime
-                && this.EndTime == other.EndTime;
+            return this.TableName == other.TableName &&
+                   this.StartTime == other.StartTime &&
+                   this.EndTime == other.EndTime;
         }
     }
 }

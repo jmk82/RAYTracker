@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAYTracker.UI", "RAYTracker
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAYTracker.Domain", "RAYTracker.Domain\RAYTracker.Domain.csproj", "{A2D63904-A337-4DF9-A9B9-047C944F0523}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RAYTracker.Tests", "RAYTracker.Tests\RAYTracker.Tests.csproj", "{78AEC310-294F-4763-A66D-B2603E2C50CB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{A2D63904-A337-4DF9-A9B9-047C944F0523}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2D63904-A337-4DF9-A9B9-047C944F0523}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2D63904-A337-4DF9-A9B9-047C944F0523}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78AEC310-294F-4763-A66D-B2603E2C50CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78AEC310-294F-4763-A66D-B2603E2C50CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78AEC310-294F-4763-A66D-B2603E2C50CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78AEC310-294F-4763-A66D-B2603E2C50CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -37,7 +37,7 @@ namespace RAYTracker.Domain.Utils
 
             for (int i = 0; i < rows.Count; i++)
             {
-                if (i > 0 && i%16 == 0)
+                if (i > 0 && i % 16 == 0)
                 {
                     sessions.Add(ParseSession(sessionRows));
                     sessionRows.Clear();
@@ -76,7 +76,11 @@ namespace RAYTracker.Domain.Utils
             }
 
             session.TableName = rowDatas[3];
-            session.StartTime = Convert.ToDateTime(rowDatas[4]);
+
+            // Asetetaan sekunnit nollaksi
+            var tempStartTime = Convert.ToDateTime(rowDatas[4]);
+            session.StartTime = new DateTime(tempStartTime.Year, tempStartTime.Month, tempStartTime.Day, tempStartTime.Hour, tempStartTime.Minute, 0);
+
             session.Duration = DataConverter.ParseDuration(rowDatas[5]);
             session.EndTime = session.StartTime + session.Duration;
             session.HandsPlayed = int.Parse(rowDatas[6]);
@@ -139,7 +143,7 @@ namespace RAYTracker.Domain.Utils
             var tournament = new Tournament();
             string[] rowDatas = new string[rows.Count];
 
-            
+
 
             for (int i = 0; i < rows.Count; i++)
             {

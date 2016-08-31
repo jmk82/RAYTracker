@@ -15,6 +15,7 @@ namespace RAYTracker.ViewModels
             SimpleIoc.Default.Register<CashGameViewModel>();
             SimpleIoc.Default.Register<TournamentViewModel>();
             SimpleIoc.Default.Register<FilterViewModel>();
+            SimpleIoc.Default.Register<ReportViewModel>();
 
             SimpleIoc.Default.Register<ICashGameService, CashGameService>();
             SimpleIoc.Default.Register<ITournamentService, TournamentService>();

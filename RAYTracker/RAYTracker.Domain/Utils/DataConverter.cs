@@ -1,6 +1,5 @@
 using RAYTracker.Domain.Model;
 using System;
-using System.Diagnostics;
 
 namespace RAYTracker.Domain.Utils
 {

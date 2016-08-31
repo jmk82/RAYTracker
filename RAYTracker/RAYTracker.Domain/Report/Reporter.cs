@@ -10,12 +10,20 @@ namespace RAYTracker.Domain.Report
         {
             var result = sessions.Sum(t => t.ChipsCashedOut - t.ChipsBought);
             var timePlayed = playingSessions.Sum(s => s.Duration.TotalMinutes);
+            var tableTimePlayed = sessions.Sum(s => s.Duration.TotalHours);
+            var winningSessions = sessions.Count(s => s.Result > 0);
+            var winningPlayingSessions = playingSessions.Count(s => s.Result > 0);
 
-            var message = sessions.Count + " istuntoa tuotu!\nYhteensä " + playingSessions.Count + " sessiota.";
+            var message = sessions.Count + " sessiota tuotu!\nYhteensä " + playingSessions.Count + " pelikertaa.";
                 message += "\nTulos: " + result + " €";
                 message += "\nPelattu " + (timePlayed / 60.0).ToString("N2") + " tuntia";
                 message += "\nTulos tuntia kohti: " + ((double)result / (timePlayed / 60.0)).ToString("N2") + " €/h";
-                message += "\nKäsiä pelattu yhteensä: " + sessions.Sum(t => t.HandsPlayed);
+                message += "\nTulos pöytätuntia kohti: " + ((double)result / (tableTimePlayed)).ToString("N2") + " €/h";
+                message += "\nKäsiä yhteensä: " + sessions.Sum(t => t.HandsPlayed);
+                message += "\nVoitollisia sessioita: " + winningSessions + " (" + 
+                    ((double) winningSessions/sessions.Count*100.0).ToString("N2") + " %)";
+                message += "\nVoitollisia pelikertoja: " + winningPlayingSessions + " (" +
+                    ((double) winningPlayingSessions / playingSessions.Count * 100.0).ToString("N2") + " %)";
 
             return message;
         }

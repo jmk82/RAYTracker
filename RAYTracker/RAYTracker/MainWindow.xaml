@@ -13,8 +13,8 @@
     <DockPanel>
 
         <Menu x:Name="Menu" DockPanel.Dock="Top">
-            <MenuItem Header="Suodata" Command="{Binding CashGameViewModel.FilterCommand}">
-            </MenuItem>
+            <MenuItem Header="Suodata" Command="{Binding CashGameViewModel.FilterCommand}"/>
+            <MenuItem Header="Luo raportti" Command="{Binding CreateReportCommand}"/>
         </Menu>
 
     <TabControl x:Name="MainTabControl">
@@ -22,10 +22,13 @@
             <views:CashGameView DataContext="{Binding CashGameViewModel}"/>
         </TabItem>
         <TabItem Header="Turnaukset">
-            <views:TournamentView/>
+            <views:TournamentView DataContext="{Binding TournamentViewModel}"/>
+        </TabItem>
+        <TabItem Header="Tilastot">
+            <views:StatsView DataContext="{Binding StatsViewModel}"/>
         </TabItem>
         <TabItem Header="Raportit">
-            <views:ReportsView/>
+            <views:ReportView DataContext="{Binding ReportViewModel}"/>
         </TabItem>
     </TabControl>
     </DockPanel>

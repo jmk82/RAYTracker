@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RAYTracker.Domain.Model
 {
-    public class Tournament
+    public class Tournament : IEquatable<Tournament>
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -18,6 +18,11 @@ namespace RAYTracker.Domain.Model
         public static IList<Tournament> OrderTournaments(ICollection<Tournament> tournaments)
         {
             return tournaments.OrderBy(t => t.StartTime).ToList();
+        }
+
+        public bool Equals(Tournament other)
+        {
+            return this.Id == other.Id;
         }
     }
 }

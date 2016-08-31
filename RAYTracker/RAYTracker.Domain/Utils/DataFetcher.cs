@@ -1,5 +1,3 @@
-using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -65,40 +63,6 @@ namespace RAYTracker.Domain.Utils
             var data = await client.GetStringAsync(url);
 
             return data;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public StreamReader GetFetchedStreamReader()
-        {
-            var request = WebRequest.Create(GenerateCashUrl());
-            var response = request.GetResponse();
-
-            var dataStream = response.GetResponseStream();
-
-            return new StreamReader(dataStream);
-        }
-
-        public StreamReader GetFetchedTournamentStreamReader()
-        {
-            var request = WebRequest.Create(GenerateTournamentUrl());
-            var response = request.GetResponse();
-
-            var dataStream = response.GetResponseStream();
-
-            return new StreamReader(dataStream);
         }
     }
 }

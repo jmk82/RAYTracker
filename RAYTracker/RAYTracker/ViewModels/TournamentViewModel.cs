@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace RAYTracker.ViewModels
 {
-    public class TournamentViewModel : ViewModelBase
+    public sealed class TournamentViewModel : ViewModelBase
     {
         private ITournamentService _tournamentService;
         private ITournamentRepository _tournamentRepository;
@@ -39,6 +39,7 @@ namespace RAYTracker.ViewModels
         }
 
         public RelayCommand FetchFromServerCommand { get; set; }
+        public RelayCommand SaveTournamentsCommand { get; set; }
         public RelayCommand ClearTournamentsCommand { get; set; }
         public RelayCommand ClearCommand { get; set; }
 
@@ -55,7 +56,17 @@ namespace RAYTracker.ViewModels
             }
         }
 
-        public string Stats { get; set; }
+        private string _stats;
+
+        public string Stats
+        {
+            get { return _stats; }
+            set
+            {
+                _stats = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public TournamentViewModel(ITournamentService tournamentService,
             ITournamentRepository tournamentRepository,
@@ -70,10 +81,8 @@ namespace RAYTracker.ViewModels
             FetchFromServerCommand = new RelayCommand(FetchFromServer);
             ClearTournamentsCommand = new RelayCommand(ClearTournaments);
             ClearCommand = new RelayCommand(() => UserSessionId = "");
+            SaveTournamentsCommand = new RelayCommand(SaveTournaments);
 
-            var thisDay = DateTime.Now;
-            StartDate = new DateTime(thisDay.Year, 7, 1);
-            EndDate = thisDay;
             UserSessionId = "Liitä wcusersessionid tähän";
 
             Messenger.Default.Register<UserSessionIdChangedMessage>(this,
@@ -84,6 +93,22 @@ namespace RAYTracker.ViewModels
                         UserSessionId = message.NewUserSessionId;
                     }
                 });
+
+            LoadStoredTournaments();
+
+            StartDate = Tournaments.Max(t => t.StartTime);
+            EndDate = DateTime.Now;
+        }
+
+        private void LoadStoredTournaments()
+        {
+            _tournamentRepository.ReadXml();
+            Tournaments = _tournamentRepository.GetAll();
+        }
+
+        private void SaveTournaments()
+        {
+            _tournamentRepository.SaveAsXml();
         }
 
         private void ClearTournaments()

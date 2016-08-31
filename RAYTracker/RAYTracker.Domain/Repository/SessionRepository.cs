@@ -1,11 +1,10 @@
-﻿using System;
+﻿using RAYTracker.Domain.Model;
+using RAYTracker.Domain.Report;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Shell;
 using System.Xml.Serialization;
-using RAYTracker.Domain.Model;
-using RAYTracker.Domain.Report;
 
 namespace RAYTracker.Domain.Repository
 {
@@ -19,7 +18,10 @@ namespace RAYTracker.Domain.Repository
         {
             _sessions = new List<Session>();
             _gameTypes = new List<GameType>();
-            _xmlFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SessionData.xml";
+            var path = Environment.GetFolderPath((Environment.SpecialFolder.ApplicationData));
+            var dirName = @"\RAYTracker";
+            Directory.CreateDirectory(path + dirName);
+            _xmlFile = path + dirName + "//SessionData.xml";
         }
 
         public IList<Session> GetAll()
@@ -56,47 +58,37 @@ namespace RAYTracker.Domain.Repository
 
         public void Add(IList<Session> sessions)
         {
-            var counter = 0;
-            var gameTypeCounter = 0;
-
             foreach (var session in sessions)
             {
                 if (!_sessions.Contains(session))
                 {
                     _sessions.Add(session);
-                    counter++;
                     if (!_gameTypes.Contains(session.GameType))
                     {
                         _gameTypes.Add(session.GameType);
-                        Console.WriteLine(session.GameType.FullName());
-                        gameTypeCounter++;
                     }
                 }
             }
-            Console.WriteLine("Added " + counter + " sessions and " + gameTypeCounter + " game types");
         }
 
         public void ReadXml()
         {
-            XmlSerializer reader =
-                new XmlSerializer(typeof(List<Session>));
+            XmlSerializer reader = new XmlSerializer(typeof(List<Session>));
+
             try
             {
                 StreamReader file = new StreamReader(_xmlFile);
                 Add((IList<Session>)reader.Deserialize(file));
             }
             catch (FileNotFoundException)
-            {
-                
+            { 
             }
         }
 
         public void SaveAsXml()
         {
-            XmlSerializer writer =
-                new XmlSerializer(typeof(List<Session>));
+            XmlSerializer writer = new XmlSerializer(typeof(List<Session>));
             FileStream file = File.Create(_xmlFile);
-
             writer.Serialize(file, _sessions.ToList());
             file.Close();
         }

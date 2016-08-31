@@ -54,9 +54,10 @@ namespace RAYTracker.Domain.Model
 
             while (true)
             {
-                sessionsToBeAdded = orderedSessions.Where(t => t.StartTime <= currentSessionSetEndTime).ToList();
+                sessionsToBeAdded = orderedSessions.Where(s => s.StartTime <= currentSessionSetEndTime).ToList();
 
-                if (sessionsToBeAdded.Max(t => t.EndTime) == currentSessionSetEndTime)
+                // Onko pelisession lopetusaika löydetty vai jatkuuko joku sessio vielä pidempään kuin aiemmin löydetty lopetusaika
+                if (sessionsToBeAdded.Max(s => s.EndTime) == currentSessionSetEndTime)
                 {
                     allPlayingSessions.Add(new PlayingSession(currentSessionSetStartTime, currentSessionSetEndTime,
                         new List<Session>(sessionsToBeAdded)));
@@ -78,8 +79,8 @@ namespace RAYTracker.Domain.Model
                 else
                 {
                     currentSessionSetEndTime = orderedSessions
-                        .Where(t => t.StartTime <= currentSessionSetEndTime)
-                        .Max(t => t.EndTime);
+                        .Where(s => s.StartTime <= currentSessionSetEndTime)
+                        .Max(s => s.EndTime);
                 }
             }
 

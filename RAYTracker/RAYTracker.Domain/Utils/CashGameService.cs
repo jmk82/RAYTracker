@@ -1,6 +1,7 @@
 ﻿using RAYTracker.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace RAYTracker.Domain.Utils
@@ -9,17 +10,15 @@ namespace RAYTracker.Domain.Utils
     {
         public IList<Session> GetSessionsFromFile(string fileName)
         {
-            Reader reader = new Reader(fileName);
-            FileParser fileParser = new FileParser(reader);
+            FileParser fileParser = new FileParser(fileName);
 
-            var lines = reader.GetAllLinesAsStrings();
+            var lines = fileParser.GetAllLinesAsStrings();
             var sessions = new List<Session>();
 
             foreach (string line in lines)
             {
                 sessions.Add(fileParser.CreateTableSession(fileParser.ParseLine(line)));
             }
-            Console.WriteLine(sessions.Count);
             return sessions;
         }
 

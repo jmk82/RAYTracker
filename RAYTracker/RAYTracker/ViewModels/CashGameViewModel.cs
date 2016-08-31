@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace RAYTracker.ViewModels
 {
-    public class CashGameViewModel : ViewModelBase
+    public sealed class CashGameViewModel : ViewModelBase
     {
         private string _fileName;
 
@@ -55,6 +55,12 @@ namespace RAYTracker.ViewModels
             {
                 _playingSessions = value;
                 RaisePropertyChanged();
+                Messenger.Default.Send(new NotificationMessage("CreateCashReport"));
+
+                if (PlayingSessions.Count > 0)
+                {
+                    Messenger.Default.Send(new SessionsDatesMessage(PlayingSessions.Min(s => s.StartTime), PlayingSessions.Max(s => s.EndTime)));
+                }
             }
         }
 
@@ -87,7 +93,6 @@ namespace RAYTracker.ViewModels
             {
                 _selectedPlayingSession = value;
                 RaisePropertyChanged();
-                Console.WriteLine("ssssss");
             }
         }
 
@@ -125,9 +130,6 @@ namespace RAYTracker.ViewModels
             FilterCommand = new RelayCommand(FilterSessions);
             FilterViewModel = filterViewModel;
 
-            var thisDay = DateTime.Now;
-            StartDate = new DateTime(thisDay.Year, thisDay.Month, 1);
-            EndDate = thisDay;
             UserSessionId = "Liitä wcusersessionid tähän";
 
             Messenger.Default.Register<UserSessionIdChangedMessage>(this,
@@ -140,6 +142,9 @@ namespace RAYTracker.ViewModels
                 });
 
             LoadStoredSessions();
+
+            StartDate = PlayingSessions.Max(s => s.StartTime);
+            EndDate = DateTime.Now;
         }
 
         private void ClearSessions()
@@ -152,9 +157,7 @@ namespace RAYTracker.ViewModels
         private void ShowSessionsOnly(bool isChecked)
         {
             if (isChecked)
-            { 
-                Console.WriteLine("session only, playing sessions: " + PlayingSessions.Count);
-
+            {
                 List<Session> sessions = new List<Session>();
 
                 foreach (var playingSession in PlayingSessions)
@@ -195,7 +198,7 @@ namespace RAYTracker.ViewModels
         private void FilterSessions()
         {
             var gameTypes = _sessionRepository.GetAllGameTypes().OrderByDescending(gt => gt.Name).ToList();
-            
+
             FilterViewModel.SetWrappedGameTypes(gameTypes);
 
             _filterWindowService.ShowWindow(FilterViewModel);
@@ -203,8 +206,13 @@ namespace RAYTracker.ViewModels
             var selectedGameTypes = FilterViewModel.GameTypes
                 .Where(gt => gt.IsSelected)
                 .Select(gt => gt.GameType);
-            
-            var filter = new CashGameFilter { GameTypes = selectedGameTypes };
+
+            var filter = new CashGameFilter
+            {
+                GameTypes = selectedGameTypes,
+                StartDate = FilterViewModel.StartDate,
+                EndDate = FilterViewModel.EndDate
+            };
 
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetFiltered(filter));
         }

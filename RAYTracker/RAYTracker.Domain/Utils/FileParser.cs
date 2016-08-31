@@ -1,19 +1,17 @@
 ﻿using RAYTracker.Domain.Model;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RAYTracker.Domain.Utils
 {
     public class FileParser
     {
-        private Reader _reader;
+        private readonly string _fileName;
 
-        public FileParser()
+        public FileParser(string fileName)
         {
-        }
-
-        public FileParser(Reader reader)
-        {
-            _reader = reader;
+            _fileName = fileName;
         }
 
         public Session CreateTableSession(string[] tokens)
@@ -31,7 +29,7 @@ namespace RAYTracker.Domain.Utils
             session.ChipsBought = DataConverter.ParseCurrency(tokens[7]);
             session.ChipsCashedOut = DataConverter.ParseCurrency(tokens[8]);
             session.Result = session.ChipsCashedOut - session.ChipsBought;
-            
+
             return session;
         }
 
@@ -45,6 +43,22 @@ namespace RAYTracker.Domain.Utils
             }
 
             return tokens;
+        }
+
+        public IList<string> GetAllLinesAsStrings()
+        {
+            var lines = new List<string>();
+            string line;
+
+            using (var reader = new StreamReader(_fileName))
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    lines.Add(line);
+                }
+            }
+
+            return lines;
         }
     }
 }
