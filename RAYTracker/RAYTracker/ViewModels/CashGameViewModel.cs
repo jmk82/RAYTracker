@@ -55,7 +55,7 @@ namespace RAYTracker.ViewModels
             {
                 _playingSessions = value;
                 RaisePropertyChanged();
-                Messenger.Default.Send(new NotificationMessage("CreateCashReport"));
+                Messenger.Default.Send(new NotificationMessage("PlayingSessionsUpdated"));
 
                 if (PlayingSessions.Count > 0)
                 {

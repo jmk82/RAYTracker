@@ -11,8 +11,6 @@ namespace RAYTracker.ViewModels
     public sealed class FilterViewModel : ViewModelBase
     {
         private IList<GameTypeWrapper> _gameTypes;
-        private DateTime _currentSessionsStart;
-        private DateTime _currentSessionsEnd;
 
         public IList<GameTypeWrapper> GameTypes
         {

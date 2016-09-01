@@ -1,6 +1,8 @@
+using System;
 using RAYTracker.Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace RAYTracker.Domain.Report
 {
@@ -14,7 +16,7 @@ namespace RAYTracker.Domain.Report
             var winningSessions = sessions.Count(s => s.Result > 0);
             var winningPlayingSessions = playingSessions.Count(s => s.Result > 0);
 
-            var message = sessions.Count + " sessiota tuotu!\nYhteensä " + playingSessions.Count + " pelikertaa.";
+            var message = sessions.Count + " sessiota.\nYhteensä " + playingSessions.Count + " pelikertaa.";
                 message += "\nTulos: " + result + " €";
                 message += "\nPelattu " + (timePlayed / 60.0).ToString("N2") + " tuntia";
                 message += "\nTulos tuntia kohti: " + ((double)result / (timePlayed / 60.0)).ToString("N2") + " €/h";
@@ -67,9 +69,19 @@ namespace RAYTracker.Domain.Report
             return data;
         }
 
-        public static IEnumerable<GameTypeReport> GameTypeReport(IList<Session> sessions)
+        public static IEnumerable<GameTypeReport> GameTypeReport(IList<Session> sessions, bool separateTurboAndAnteGames)
         {
-            var data = sessions.GroupBy(t => t.GameType.FullName()).OrderByDescending(t => t.Key)
+            Func<Session, string> groupByFunc;
+            if (separateTurboAndAnteGames)
+            {
+                groupByFunc = t => t.GameType.FullName();
+            }
+            else
+            {
+                groupByFunc = t => t.GameType.Name;
+            }
+
+            var data = sessions.GroupBy(groupByFunc).OrderByDescending(t => t.Key)
                 .Select(t => new GameTypeReport
                 {
                     Result = t.Sum(s => s.Result),

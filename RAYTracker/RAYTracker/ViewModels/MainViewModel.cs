@@ -16,23 +16,35 @@ namespace RAYTracker.ViewModels
         public CashGameViewModel CashGameViewModel { get; set; }
         public ReportViewModel ReportViewModel { get; set; }
         public TournamentViewModel TournamentViewModel { get; set; }
+        public StatsViewModel StatsViewModel { get; set; }
 
         public RelayCommand CreateReportCommand { get; set; }
 
-        public MainViewModel(CashGameViewModel cashGameVM, ReportViewModel reportVM, TournamentViewModel tournamentViewModel)
+        public MainViewModel(CashGameViewModel cashGameVM, ReportViewModel reportVM, TournamentViewModel tournamentViewModel, StatsViewModel statsViewModel)
         {
             CashGameViewModel = cashGameVM;
             ReportViewModel = reportVM;
             TournamentViewModel = tournamentViewModel;
+            StatsViewModel = statsViewModel;
 
             CreateReportCommand = new RelayCommand(CreateCashReport);
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
-                if (message.Notification == "CreateCashReport") CreateCashReport();
+                if (message.Notification == "PlayingSessionsUpdated")
+                {
+                    CreateCashReport();
+                    CreateStatsReport();
+                }
             });
 
             CreateCashReport();
+            CreateStatsReport();
+        }
+
+        private void CreateStatsReport()
+        {
+            StatsViewModel.GenerateReport(CashGameViewModel.PlayingSessions);
         }
 
         public void CreateCashReport()

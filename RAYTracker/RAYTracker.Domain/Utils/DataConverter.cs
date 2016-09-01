@@ -21,11 +21,7 @@ namespace RAYTracker.Domain.Utils
             }
             currency = currency.Replace('.', ',');
 
-            decimal convertedCurrency;
-
-            convertedCurrency = Convert.ToDecimal(currency);
-            
-            return convertedCurrency;
+            return Convert.ToDecimal(currency);
         }
 
         public static GameType AssignGameType(string gameType, string tableName)

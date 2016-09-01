@@ -5,30 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RAYTracker.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="800">
     <UserControl.Resources>
         <Style x:Key="AlignRight" TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Right" />
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ComboBox x:Name="TimeReportComboBox" HorizontalAlignment="Left" Margin="20,40,0,0" VerticalAlignment="Top" Width="140">
-            <ComboBoxItem>Päivittäin</ComboBoxItem>
-            <ComboBoxItem>Kuukausittain</ComboBoxItem>
-            <ComboBoxItem>Vuosittain</ComboBoxItem>
-        </ComboBox>
-        <Button x:Name="TimeReportButton" Content="Luo" HorizontalAlignment="Left" Margin="200,40,0,0" VerticalAlignment="Top" Width="75"/>
-        <DataGrid x:Name="ReportDataGrid" Margin="20,100,20,20" AutoGenerateColumns="False" IsReadOnly="True">
+        
+        <DataGrid x:Name="StatsDataGrid" ItemsSource="{Binding ReportsByGameType}" Margin="20,80,20,20" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Päivä" Binding="{Binding Time,  StringFormat={}{0:D}, ConverterCulture='fi-FI'}"/>
-                <DataGridTextColumn Header="Kuukausi" Binding="{Binding Month, ConverterCulture='fi-FI'}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="Vuosi" Binding="{Binding Year, ConverterCulture='fi-FI'}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
-                <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Pelityyppi" Binding="{Binding GameType}"/>
+                <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="bb/100" Binding="{Binding BbPerHundred, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="ReportByGameTypeButton" Content="Pelityyppiraportti" HorizontalAlignment="Left" Margin="643,40,0,0" VerticalAlignment="Top" Width="119" />
+        <CheckBox x:Name="SeprateTurbosAndAntesCheckBox" IsChecked="{Binding SeparateTurbosAndAntes}" Content="Erottele Turbo- ja Ante-pelit" HorizontalAlignment="Right" Margin="0,60,20,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>
