@@ -44,7 +44,7 @@ namespace RAYTracker.ViewModels
 
         private void CreateStatsReport()
         {
-            StatsViewModel.GenerateReport(CashGameViewModel.PlayingSessions);
+            StatsViewModel.GenerateReports(CashGameViewModel.PlayingSessions);
         }
 
         public void CreateCashReport()

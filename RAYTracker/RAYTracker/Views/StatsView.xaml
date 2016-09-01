@@ -13,14 +13,86 @@
     </UserControl.Resources>
     <Grid>
         
-        <DataGrid x:Name="StatsDataGrid" ItemsSource="{Binding ReportsByGameType}" Margin="20,80,20,20" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="StatsByGameTypeDataGrid" ItemsSource="{Binding ReportByGameType}" Margin="20,80,20,20" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Pelityyppi" Binding="{Binding GameType}"/>
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="bb/100" Binding="{Binding BbPerHundred, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=GameTypeItem, Path=IsSelected}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
         </DataGrid>
-        <CheckBox x:Name="SeprateTurbosAndAntesCheckBox" IsChecked="{Binding SeparateTurbosAndAntes}" Content="Erottele Turbo- ja Ante-pelit" HorizontalAlignment="Right" Margin="0,60,20,0" VerticalAlignment="Top"/>
+
+        <DataGrid x:Name="DailyStatsDataGrid" ItemsSource="{Binding DailyReport}" Margin="20,80,20,20" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Päivä" Binding="{Binding Time, StringFormat={}{0:d.M.yyyy H:mm}}"/>
+                <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+            </DataGrid.Columns>
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=DailyItem, Path=IsSelected}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
+
+        <DataGrid x:Name="MonthlyStatsDataGrid" ItemsSource="{Binding MonthlyReport}" Margin="20,80,20,20" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Kuukausi" Binding="{Binding Month, StringFormat={}{0:d.M.yyyy}}"/>
+                <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+            </DataGrid.Columns>
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=MonthlyItem, Path=IsSelected}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
+
+        <DataGrid x:Name="YearlyStatsDataGrid" ItemsSource="{Binding YearlyReport}" Margin="20,80,20,20" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Vuosi" Binding="{Binding Year}"/>
+                <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+            </DataGrid.Columns>
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=YearlyItem, Path=IsSelected}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
+
+        <CheckBox x:Name="SeparateTurbosAndAntesCheckBox" IsEnabled="{Binding ElementName=GameTypeItem, Path=IsSelected}" IsChecked="{Binding SeparateTurbosAndAntes}" Content="Erottele Turbo- ja Ante-pelit" HorizontalAlignment="Right" Margin="0,60,20,0" VerticalAlignment="Top"/>
+
+        <ComboBox x:Name="StatsTypeComboBox" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem x:Name="GameTypeItem" >Pelityyppi</ComboBoxItem>
+            <ComboBoxItem x:Name="DailyItem">Päivä</ComboBoxItem>
+            <ComboBoxItem x:Name="MonthlyItem">Kuukausi</ComboBoxItem>
+            <ComboBoxItem x:Name="YearlyItem">Vuosi</ComboBoxItem>
+        </ComboBox>
     </Grid>
 </UserControl>

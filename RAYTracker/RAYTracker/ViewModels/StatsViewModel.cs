@@ -1,18 +1,59 @@
-﻿using System.Collections;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using RAYTracker.Domain.Model;
 using RAYTracker.Domain.Report;
 using System.Collections.Generic;
 using System.Linq;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace RAYTracker.ViewModels
 {
     public sealed class StatsViewModel: ViewModelBase
     {
-        private IEnumerable<GameTypeReport> _reportsByGameType;
-
+        private IEnumerable<GameTypeReport> _reportByGameType;
+        private IEnumerable<DailyReport> _dailyReport;
+        private IEnumerable<MonthlyReport> _monthlyReport;
+        private IEnumerable<YearlyReport> _yearlyReport;
         private bool _separateTurbosAndAntes;
+
+        public IEnumerable<GameTypeReport> ReportByGameType
+        {
+            get { return _reportByGameType; }
+            set
+            {
+                _reportByGameType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<DailyReport> DailyReport
+        {
+            get { return _dailyReport; }
+            set
+            {
+                _dailyReport = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<MonthlyReport> MonthlyReport
+        {
+            get { return _monthlyReport; }
+            set
+            {
+                _monthlyReport = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<YearlyReport> YearlyReport
+        {
+            get { return _yearlyReport; }
+            set
+            {
+                _yearlyReport = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public bool SeparateTurbosAndAntes
         {
@@ -25,26 +66,18 @@ namespace RAYTracker.ViewModels
             }
         }
 
-
-        public IEnumerable<GameTypeReport> ReportsByGameType
-        {
-            get { return _reportsByGameType; }
-            set
-            {
-                _reportsByGameType = value;
-                RaisePropertyChanged();
-            }
-        }
-
         public StatsViewModel()
         {
-            ReportsByGameType = new List<GameTypeReport>();
+            ReportByGameType = new List<GameTypeReport>();
         }
 
-        public void GenerateReport(IList<PlayingSession> playingSessions)
+        public void GenerateReports(IList<PlayingSession> playingSessions)
         {
             var sessions = playingSessions.SelectMany(s => s.Sessions).ToList();
-            ReportsByGameType = Reporter.GameTypeReport(sessions, _separateTurbosAndAntes);
+            ReportByGameType = Reporter.GameTypeReport(sessions, _separateTurbosAndAntes);
+            DailyReport = Reporter.DailyReport(sessions);
+            MonthlyReport = Reporter.MonthlyReport(sessions);
+            YearlyReport = Reporter.YearlyReport(sessions);
         }
     }
 }
