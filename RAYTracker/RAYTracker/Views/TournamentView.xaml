@@ -45,8 +45,6 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="ClearTournamentsButton" Content="Nollaa" Grid.Column="1" HorizontalAlignment="Left" Margin="215,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ClearTournamentsCommand}"/>
-        <Button x:Name="SerializeButton" Content="Tallenna" Grid.Column="1" HorizontalAlignment="Left" Margin="85,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding SaveTournamentsCommand}" />
         <TextBox x:Name="ReportTextBox" Margin="10" Grid.Row="3" TextWrapping="Wrap" Text="{Binding Stats}" Grid.ColumnSpan="3" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsReadOnly="True"/>
     </Grid>
 </UserControl>

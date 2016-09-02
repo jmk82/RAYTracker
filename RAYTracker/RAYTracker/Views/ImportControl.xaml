@@ -14,7 +14,6 @@
             <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="0" Grid.Column="0" x:Name="OpenFileButton" Content="Tuo tiedosto..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="133" Command="{Binding OpenFileCommand}" Grid.ColumnSpan="2"/>
         <Button Grid.Row="0" x:Name="FetchFromServerbutton" Content="Hae" Grid.Column="2" HorizontalAlignment="Right" Margin="0,70,25,0" VerticalAlignment="Top" Width="75" Command="{Binding FetchFromServerCommand}"/>
         <TextBox Grid.Row="0" Grid.Column="1" x:Name="UserSessionIdTextBox" Height="22" Margin="295,70,120,0" TextWrapping="Wrap" Text="{Binding UserSessionId}" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <i:Interaction.Triggers>

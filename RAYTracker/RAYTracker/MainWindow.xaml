@@ -13,8 +13,20 @@
     <DockPanel>
 
         <Menu x:Name="Menu" DockPanel.Dock="Top">
-            <MenuItem Header="Suodata" Command="{Binding CashGameViewModel.FilterCommand}"/>
-            <MenuItem Header="Luo raportti" Command="{Binding CreateReportCommand}"/>
+            <MenuItem Header="Tiedosto">
+                <MenuItem Header="Tuo käteispelejä..." Command="{Binding CashGameViewModel.OpenFileCommand}"></MenuItem>
+                <!--<MenuItem Header="Tuo turnauksia..."></MenuItem>-->
+                <Separator/>
+                <MenuItem Header="Tallenna käteispelit" Command="{Binding CashGameViewModel.SaveSessionsCommand}"></MenuItem>
+                <MenuItem Header="Tallenna turnaukset" Command="{Binding TournamentViewModel.SaveTournamentsCommand}"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Lopeta"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Tiedot">
+                <MenuItem Header="Tyhjennä käteispelit" Command="{Binding CashGameViewModel.ClearSessionsCommand}"></MenuItem>
+                <MenuItem Header="Tyhjennä turnaukset" Command="{Binding TournamentViewModel.ClearTournamentsCommand}"></MenuItem>
+            </MenuItem>
+            <!--<MenuItem Header="Ohje"/>-->
         </Menu>
 
     <TabControl x:Name="MainTabControl">
@@ -27,7 +39,7 @@
         <TabItem Header="Tilastot">
             <views:StatsView DataContext="{Binding StatsViewModel}"/>
         </TabItem>
-        <TabItem Header="Raportit">
+        <TabItem Header="Raportti">
             <views:ReportView DataContext="{Binding ReportViewModel}"/>
         </TabItem>
     </TabControl>

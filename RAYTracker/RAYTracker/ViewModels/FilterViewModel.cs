@@ -5,6 +5,8 @@ using RAYTracker.Domain.Model;
 using RAYTracker.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using RAYTracker.Domain.Report;
 
 namespace RAYTracker.ViewModels
 {
@@ -22,8 +24,8 @@ namespace RAYTracker.ViewModels
             }
         }
 
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public RelayCommand CloseWindowCommand { get; set; }
         public RelayCommand SelectAllGamesCommand { get; set; }
@@ -41,11 +43,11 @@ namespace RAYTracker.ViewModels
             SelectAllGamesCommand = new RelayCommand(() => ChangeGameSelection(true));
             ClearGameSelectionsCommand = new RelayCommand(() => ChangeGameSelection(false));
 
-            Messenger.Default.Register<SessionsDatesMessage>(this, message =>
-            {
-                StartDate = message.From;
-                EndDate = message.To;
-            });
+            //Messenger.Default.Register<SessionsDatesMessage>(this, message =>
+            //{
+            //    StartDate = message.From;
+            //    EndDate = message.To;
+            //});
         }
 
         public void ChangeGameSelection(bool select)
@@ -68,6 +70,26 @@ namespace RAYTracker.ViewModels
             {
                 GameTypes.Add(new GameTypeWrapper { GameType = gameType, IsSelected = true });
             }
+        }
+
+        public void SetFilter(CashGameFilter filter)
+        {
+            if (filter.GameTypes == null) return;
+
+            foreach (var gameType in GameTypes)
+            {
+                if (filter.GameTypes.Contains(gameType.GameType))
+                {
+                    gameType.IsSelected = true;
+                }
+                else
+                {
+                    gameType.IsSelected = false;
+                }
+            }
+
+            if (filter.StartDate != null) StartDate = filter.StartDate.Value;
+            if (filter.EndDate != null) EndDate = filter.EndDate.Value;
         }
     }
 }

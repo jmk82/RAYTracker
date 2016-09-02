@@ -41,6 +41,8 @@
 
         </views:ImportControl>
 
+        <Button Grid.Row="0" Grid.Column="0" x:Name="OpenFileButton" Content="Tuo tiedosto..." HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="133" Command="{Binding OpenFileCommand}" Grid.ColumnSpan="2"/>
+
         <DataGrid ItemsSource="{Binding PlayingSessions, IsAsync=True}" SelectedItem="{Binding SelectedPlayingSession}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="PlayingSessionDataGrid" Margin="10" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, StringFormat={}{0:d.M.yyyy H:mm}}"/>
@@ -77,9 +79,8 @@
                 </ControlTemplate>
             </GridSplitter.Template>
         </GridSplitter>
-        
-        <Button x:Name="SerializeButton" Content="Tallenna" Grid.Column="1" HorizontalAlignment="Left" Margin="85,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding SaveSessionsCommand}" />
-        <Button x:Name="ClearSessionsButton" Content="Nollaa" Grid.Column="1" HorizontalAlignment="Left" Margin="215,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ClearSessionsCommand}"/>
+
+        <Button x:Name="FilterButton" Content="Suodata..." Grid.Column="2" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="75" Command="{Binding FilterCommand}"/>
         <CheckBox Command="{Binding ShowSessionsOnlyCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" x:Name="ShowSessionsOnlyCheckBox" Content="Näytä vain sessiot" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="4" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

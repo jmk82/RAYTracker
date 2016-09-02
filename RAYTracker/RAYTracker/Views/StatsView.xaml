@@ -34,7 +34,7 @@
 
         <DataGrid x:Name="DailyStatsDataGrid" ItemsSource="{Binding DailyReport}" Margin="20,80,20,20" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Päivä" Binding="{Binding Time, StringFormat={}{0:d.M.yyyy H:mm}}"/>
+                <DataGridTextColumn Header="Päivä" Binding="{Binding Time, StringFormat={}{0:d.M.yyyy}}"/>
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
