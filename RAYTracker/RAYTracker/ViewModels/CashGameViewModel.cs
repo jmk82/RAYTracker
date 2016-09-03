@@ -10,7 +10,6 @@ using RAYTracker.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace RAYTracker.ViewModels
 {
@@ -113,8 +112,7 @@ namespace RAYTracker.ViewModels
             ISessionRepository sessionRepository,
             IOpenFileDialogService openFileDialogService,
             IWaitDialogService waitDialogService,
-            IFilterWindowService filterWindowService,
-            FilterViewModel filterViewModel)
+            IFilterWindowService filterWindowService)
         {
             _cashGameService = cashGameService;
             _sessionRepository = sessionRepository;
@@ -130,7 +128,6 @@ namespace RAYTracker.ViewModels
             ShowSessionsOnlyCommand = new RelayCommand<bool>(ShowSessionsOnly);
 
             FilterCommand = new RelayCommand(FilterSessions);
-            FilterViewModel = filterViewModel;
 
             UserSessionId = "Liitä wcusersessionid tähän";
 
@@ -145,7 +142,17 @@ namespace RAYTracker.ViewModels
 
             LoadStoredSessions();
 
-            StartDate = PlayingSessions.Max(s => s.StartTime);
+            if (_sessionRepository.GetAll().Count > 0)
+            {
+                StartDate = PlayingSessions.Max(s => s.StartTime);
+                FilterViewModel = new FilterViewModel(_sessionRepository.GetAll().Min(s => s.StartTime), _sessionRepository.GetAll().Max(s => s.EndTime));
+            }
+            else
+            {
+                StartDate = new DateTime(2010, 11, 1);
+                FilterViewModel = new FilterViewModel();
+            }
+            
             EndDate = DateTime.Now;
             Filter = new CashGameFilter();
         }
@@ -200,6 +207,8 @@ namespace RAYTracker.ViewModels
 
         private void FilterSessions()
         {
+            if (_sessionRepository.GetAll().Count == 0) return;
+
             var gameTypes = _sessionRepository.GetAllGameTypes().OrderByDescending(gt => gt.Name).ToList();
 
             FilterViewModel.SetWrappedGameTypes(gameTypes);

@@ -1,16 +1,17 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using RAYTracker.Domain.Model;
+using RAYTracker.Domain.Report;
 using RAYTracker.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RAYTracker.Domain.Report;
 
 namespace RAYTracker.ViewModels
 {
-    public sealed class FilterViewModel : ViewModelBase
+    public sealed class FilterViewModel : ViewModelBase, IFilterViewModel
     {
         private IList<GameTypeWrapper> _gameTypes;
 
@@ -24,12 +25,36 @@ namespace RAYTracker.ViewModels
             }
         }
 
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        private DateTime _originalStartDate;
+        private DateTime _originalEndDate;
+
+        public DateTime? StartDate
+        {
+            get { return _startDate; }
+            set
+            {
+                _startDate = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public DateTime? EndDate
+        {
+            get { return _endDate; }
+            set
+            {
+                _endDate = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DateTime? _startDate;
+        private DateTime? _endDate;
 
         public RelayCommand CloseWindowCommand { get; set; }
         public RelayCommand SelectAllGamesCommand { get; set; }
         public RelayCommand ClearGameSelectionsCommand { get; set; }
+        public RelayCommand ResetDatesCommand { get; set; }
 
         public FilterViewModel()
         {
@@ -42,12 +67,20 @@ namespace RAYTracker.ViewModels
 
             SelectAllGamesCommand = new RelayCommand(() => ChangeGameSelection(true));
             ClearGameSelectionsCommand = new RelayCommand(() => ChangeGameSelection(false));
+            ResetDatesCommand = new RelayCommand(ResetDates);
+        }
 
-            //Messenger.Default.Register<SessionsDatesMessage>(this, message =>
-            //{
-            //    StartDate = message.From;
-            //    EndDate = message.To;
-            //});
+        [PreferredConstructor]
+        public FilterViewModel(DateTime originalStart, DateTime originalEnd) : this()
+        {
+            _originalStartDate = originalStart;
+            _originalEndDate = originalEnd;
+        }
+
+        private void ResetDates()
+        {
+            StartDate = _originalStartDate;
+            EndDate = _originalEndDate;
         }
 
         public void ChangeGameSelection(bool select)

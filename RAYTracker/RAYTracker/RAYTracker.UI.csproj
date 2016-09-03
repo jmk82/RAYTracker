@@ -119,6 +119,7 @@
     <Compile Include="Helpers\UserSessionIdChangedMessage.cs" />
     <Compile Include="ViewModels\CashGameViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
+    <Compile Include="ViewModels\IFilterViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\StatsViewModel.cs" />

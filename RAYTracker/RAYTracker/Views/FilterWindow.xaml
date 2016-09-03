@@ -25,13 +25,12 @@
         <Button Command="{Binding CloseWindowCommand}" x:Name="OkButton" Content="OK" HorizontalAlignment="Right" Margin="0,385,20,0" VerticalAlignment="Top" Width="100"/>
         <Button Command="{Binding SelectAllGamesCommand}" x:Name="SelectAllButton" Content="Valitse kaikki" HorizontalAlignment="Left" Margin="20,385,0,0" VerticalAlignment="Top" Width="100"/>
         <Button Command="{Binding ClearGameSelectionsCommand}" x:Name="SelecteNoneButton" Content="Poista valinnat" HorizontalAlignment="Left" Margin="140,385,0,0" VerticalAlignment="Top" Width="100"/>
-        
+
         <TextBlock x:Name="StartTextBlock" HorizontalAlignment="Left" Margin="332,20,0,0" TextWrapping="Wrap" Text="Mistä:" VerticalAlignment="Top"/>
         <TextBlock x:Name="EndTextBlock" HorizontalAlignment="Left" Margin="332,83,0,0" TextWrapping="Wrap" Text="Mihin:" VerticalAlignment="Top"/>
 
         <DatePicker x:Name="StartTimePicker" SelectedDate="{Binding StartDate}" HorizontalAlignment="Left" Margin="332,41,0,0" VerticalAlignment="Top" Width="142"/>
         <DatePicker x:Name="EndTimePicker" SelectedDate="{Binding EndDate}" HorizontalAlignment="Left" Margin="332,104,0,0" VerticalAlignment="Top" Width="142"/>
-        <Button x:Name="ResetDatesButton" Command="{Binding ResetDatesCommand}" Content="Nollaa" HorizontalAlignment="Left" Margin="372,156,0,0" VerticalAlignment="Top" Width="102"/>
-
+        <Button x:Name="ResetDatesButton" Command="{Binding ResetDatesCommand}" Content="Palauta" HorizontalAlignment="Left" Margin="372,156,0,0" VerticalAlignment="Top" Width="102"/>
     </Grid>
 </Window>

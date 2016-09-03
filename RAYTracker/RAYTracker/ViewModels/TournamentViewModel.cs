@@ -96,7 +96,15 @@ namespace RAYTracker.ViewModels
 
             LoadStoredTournaments();
 
-            StartDate = Tournaments.Max(t => t.StartTime);
+            if (_tournamentRepository.GetAll().Count > 0)
+            {
+                StartDate = Tournaments.Max(t => t.StartTime);
+            }
+            else
+            {
+                StartDate = new DateTime(2010, 11, 1);
+            }
+            
             EndDate = DateTime.Now;
         }
 
