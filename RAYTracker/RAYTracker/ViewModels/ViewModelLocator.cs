@@ -40,7 +40,6 @@ namespace RAYTracker.ViewModels
         //{
         //    get { return ServiceLocator.Current.GetInstance<TournamentViewModel>(); }
         //}
-
         //public FilterViewModel FilterVM
         //{
         //    get { return ServiceLocator.Current.GetInstance<FilterViewModel>(); }

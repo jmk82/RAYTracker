@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RAYTracker.UI.Properties {
+namespace RAYTracker.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
