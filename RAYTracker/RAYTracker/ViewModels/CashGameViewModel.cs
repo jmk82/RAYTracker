@@ -56,11 +56,18 @@ namespace RAYTracker.ViewModels
                 _playingSessions = value;
                 RaisePropertyChanged();
                 Messenger.Default.Send(new NotificationMessage("PlayingSessionsUpdated"));
+            }
+        }
 
-                //if (PlayingSessions.Count > 0)
-                //{
-                //    Messenger.Default.Send(new SessionsDatesMessage(PlayingSessions.Min(s => s.StartTime), PlayingSessions.Max(s => s.EndTime)));
-                //}
+        private PlayingSession _selectedPlayingSession;
+
+        public PlayingSession SelectedPlayingSession
+        {
+            get { return _selectedPlayingSession; }
+            set
+            {
+                _selectedPlayingSession = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -79,23 +86,6 @@ namespace RAYTracker.ViewModels
             }
         }
 
-        private ICashGameService _cashGameService;
-        private ISessionRepository _sessionRepository;
-        private IOpenFileDialogService _openFileDialogService;
-        private IWaitDialogService _waitDialogService;
-
-        private PlayingSession _selectedPlayingSession;
-
-        public PlayingSession SelectedPlayingSession
-        {
-            get { return _selectedPlayingSession; }
-            set
-            {
-                _selectedPlayingSession = value;
-                RaisePropertyChanged();
-            }
-        }
-
         public RelayCommand OpenFileCommand { get; set; }
         public RelayCommand FetchFromServerCommand { get; set; }
         public RelayCommand ClearCommand { get; set; }
@@ -104,8 +94,12 @@ namespace RAYTracker.ViewModels
         public RelayCommand FilterCommand { get; set; }
         public RelayCommand<bool> ShowSessionsOnlyCommand { get; set; }
 
-        public FilterViewModel FilterViewModel { get; set; }
+        private ICashGameService _cashGameService;
+        private ISessionRepository _sessionRepository;
+        private IOpenFileDialogService _openFileDialogService;
+        private IWaitDialogService _waitDialogService;
         private IFilterWindowService _filterWindowService;
+        public FilterViewModel FilterViewModel { get; set; }
         public CashGameFilter Filter { get; set; }
 
         public CashGameViewModel(ICashGameService cashGameService,

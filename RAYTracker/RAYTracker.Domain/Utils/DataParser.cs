@@ -26,7 +26,7 @@ namespace RAYTracker.Domain.Utils
             if (rows.Count == 2 || rows.Count == 3)
             {
                 throw new UnauthorizedAccessException("Ongelma haettaessa tietoja palvelimelta. Palvelimen viesti:\n\"" + _data);
-            }//rows[0].Split('\'')[3] + "\""
+            }
 
             // Poistetaan kaksi ensimmäistä riviä, joiden jälkeen alkaa istuntodata 16 riviä per istunto
             rows.RemoveAt(0);
@@ -142,8 +142,6 @@ namespace RAYTracker.Domain.Utils
         {
             var tournament = new Tournament();
             string[] rowDatas = new string[rows.Count];
-
-
 
             for (int i = 0; i < rows.Count; i++)
             {

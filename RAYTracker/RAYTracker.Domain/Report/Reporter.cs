@@ -1,8 +1,7 @@
-using System;
 using RAYTracker.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace RAYTracker.Domain.Report
 {
@@ -16,29 +15,42 @@ namespace RAYTracker.Domain.Report
             var winningSessions = sessions.Count(s => s.Result > 0);
             var winningPlayingSessions = playingSessions.Count(s => s.Result > 0);
 
-            var message = sessions.Count + " sessiota.\nYhteensä " + playingSessions.Count + " pelikertaa.";
-                message += "\nTulos: " + result + " €";
-                message += "\nPelattu " + (timePlayed / 60.0).ToString("N2") + " tuntia";
-                message += "\nTulos tuntia kohti: " + ((double)result / (timePlayed / 60.0)).ToString("N2") + " €/h";
-                message += "\nTulos pöytätuntia kohti: " + ((double)result / (tableTimePlayed)).ToString("N2") + " €/h";
-                message += "\nKäsiä yhteensä: " + sessions.Sum(t => t.HandsPlayed);
-                message += "\nVoitollisia sessioita: " + winningSessions + " (" + 
+            var report = sessions.Count + " sessiota.\nYhteensä " + playingSessions.Count + " pelikertaa.";
+                report += "\nTulos: " + result + " €";
+                report += "\nPelattu " + (timePlayed / 60.0).ToString("N2") + " tuntia";
+                report += "\nTulos tuntia kohti: " + ((double)result / (timePlayed / 60.0)).ToString("N2") + " €/h";
+                report += "\nTulos pöytätuntia kohti: " + ((double)result / (tableTimePlayed)).ToString("N2") + " €/h";
+                report += "\nKäsiä yhteensä: " + sessions.Sum(t => t.HandsPlayed);
+                report += "\nVoitollisia sessioita: " + winningSessions + " (" + 
                     ((double) winningSessions/sessions.Count*100.0).ToString("N2") + " %)";
-                message += "\nVoitollisia pelikertoja: " + winningPlayingSessions + " (" +
+                report += "\nVoitollisia pelikertoja: " + winningPlayingSessions + " (" +
                     ((double) winningPlayingSessions / playingSessions.Count * 100.0).ToString("N2") + " %)";
 
-            return message;
+            return report;
         }
 
         public static IEnumerable<DailyReport> DailyReport(IList<Session> sessions)
         {
+            // Vähennetään väliaikaisesti kuusi tuntia aloitusajasta, jotta klo 00-06 välillä aloitetut sessiot kirjataan vielä edeltävän päivän tulokseen
+            var dayStartMargin = new TimeSpan(6,0,0);
+            foreach (var session in sessions)
+            {
+                session.StartTime = session.StartTime - dayStartMargin;
+            }
+
             var data = sessions.GroupBy(t => t.StartTime.Date).OrderBy(t => t.Key)
                 .Select(t => new DailyReport
                 {
                     Time = t.Key.Date,
                     Result = t.Sum(s => s.Result),
                     Hands = t.Sum(s => s.HandsPlayed)
-                });
+                }).ToList();
+
+            // Ja lisätään vähennetty aika takaisin
+            foreach (var session in sessions)
+            {
+                session.StartTime = session.StartTime + dayStartMargin;
+            }
 
             return data;
         }
@@ -100,11 +112,6 @@ namespace RAYTracker.Domain.Report
             var totalHands = t.Sum(s => s.HandsPlayed);
 
             return (decimal)((double)(totalWinnings / bb) / (totalHands * 0.01));
-        }
-
-        public static IEnumerable<Session> Top10Sessions(IList<Session> sessions)
-        {
-            return sessions.OrderByDescending(s => s.Result).Take(10);
         }
     }
 }

@@ -115,7 +115,6 @@
     <Compile Include="Dialogs\WaitDialogService.cs" />
     <Compile Include="Helpers\BooleanToHeightConverter.cs" />
     <Compile Include="Helpers\GameTypeWrapper.cs" />
-    <Compile Include="Helpers\SessionsDatesMessage.cs" />
     <Compile Include="Helpers\UserSessionIdChangedMessage.cs" />
     <Compile Include="ViewModels\CashGameViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />

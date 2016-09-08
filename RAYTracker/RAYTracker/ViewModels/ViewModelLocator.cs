@@ -36,20 +36,15 @@ namespace RAYTracker.ViewModels
             get { return ServiceLocator.Current.GetInstance<MainViewModel>(); }
         }
 
-        public TournamentViewModel Tournament
-        {
-            get { return ServiceLocator.Current.GetInstance<TournamentViewModel>(); }
-        }
-
-        //public CashGameViewModel CashGame
+        //public TournamentViewModel Tournament
         //{
-        //    get { return ServiceLocator.Current.GetInstance<CashGameViewModel>(); }
+        //    get { return ServiceLocator.Current.GetInstance<TournamentViewModel>(); }
         //}
 
-        public FilterViewModel FilterVM
-        {
-            get { return ServiceLocator.Current.GetInstance<FilterViewModel>(); }
-        }
+        //public FilterViewModel FilterVM
+        //{
+        //    get { return ServiceLocator.Current.GetInstance<FilterViewModel>(); }
+        //}
 
         public static ViewModelLocator Instance
         {

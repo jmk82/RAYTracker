@@ -56,7 +56,7 @@ namespace RAYTracker.Domain.Model
             {
                 sessionsToBeAdded = orderedSessions.Where(s => s.StartTime <= currentSessionSetEndTime).ToList();
 
-                // Onko pelisession lopetusaika löydetty vai jatkuuko joku sessio vielä pidempään kuin aiemmin löydetty lopetusaika
+                // Onko pelikerran lopetusaika löydetty vai jatkuuko joku sessio vielä pidempään kuin aiemmin löydetty lopetusaika
                 if (sessionsToBeAdded.Max(s => s.EndTime) == currentSessionSetEndTime)
                 {
                     allPlayingSessions.Add(new PlayingSession(currentSessionSetStartTime, currentSessionSetEndTime,
