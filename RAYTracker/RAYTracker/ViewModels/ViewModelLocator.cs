@@ -17,6 +17,7 @@ namespace RAYTracker.ViewModels
             SimpleIoc.Default.Register<FilterViewModel>();
             SimpleIoc.Default.Register<ReportViewModel>();
             SimpleIoc.Default.Register<StatsViewModel>();
+            SimpleIoc.Default.Register<InfoDialogViewModel>();
 
             SimpleIoc.Default.Register<ICashGameService, CashGameService>();
             SimpleIoc.Default.Register<ITournamentService, TournamentService>();
@@ -24,6 +25,7 @@ namespace RAYTracker.ViewModels
             SimpleIoc.Default.Register<IOpenFileDialogService, OpenFileDialogService>();
             SimpleIoc.Default.Register<IWaitDialogService, WaitDialogService>();
             SimpleIoc.Default.Register<IFilterWindowService, FilterWindowService>();
+            SimpleIoc.Default.Register<IInfoDialogService, InfoDialogService>();
 
             SimpleIoc.Default.Register<ISessionRepository, SessionRepository>();
             SimpleIoc.Default.Register<ITournamentRepository, TournamentRepository>();

@@ -99,20 +99,24 @@ namespace RAYTracker.ViewModels
         private IOpenFileDialogService _openFileDialogService;
         private IWaitDialogService _waitDialogService;
         private IFilterWindowService _filterWindowService;
+        private IInfoDialogService _infoDialogService;
         public FilterViewModel FilterViewModel { get; set; }
         public CashGameFilter Filter { get; set; }
+        public InfoDialogViewModel InfoDialogViewModel { get; set; }
 
         public CashGameViewModel(ICashGameService cashGameService,
             ISessionRepository sessionRepository,
             IOpenFileDialogService openFileDialogService,
             IWaitDialogService waitDialogService,
-            IFilterWindowService filterWindowService)
+            IFilterWindowService filterWindowService,
+            IInfoDialogService infoDialogService)
         {
             _cashGameService = cashGameService;
             _sessionRepository = sessionRepository;
             _openFileDialogService = openFileDialogService;
             _waitDialogService = waitDialogService;
             _filterWindowService = filterWindowService;
+            _infoDialogService = infoDialogService;
 
             OpenFileCommand = new RelayCommand(OpenFile);
             FetchFromServerCommand = new RelayCommand(FetchFromServer);
@@ -187,9 +191,25 @@ namespace RAYTracker.ViewModels
         private async void FetchFromServer()
         {
             _waitDialogService.ShowWaitDialog();
-            var sessions = await _cashGameService.FetchSessionsFromServer(_userSessionId, StartDate, EndDate);
-            _sessionRepository.Add(sessions);
+
+            string message = "";
+
+            try
+            {
+                var sessions = await _cashGameService.FetchSessionsFromServer(_userSessionId, StartDate, EndDate);
+                var newSessions = _sessionRepository.Add(sessions);
+                message += "Palvelimelta haettu " + sessions.Count + " sessiota, joista uusia " + newSessions;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                message += ex.Message;
+            }
+            
             _waitDialogService.CloseWaitDialog();
+
+            var vm = new InfoDialogViewModel(message);
+            var infoDialogService = new InfoDialogService();
+            infoDialogService.ShowInfoDialog(vm);
 
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }

@@ -9,7 +9,7 @@ namespace RAYTracker.Domain.Repository
         IList<Session> GetAll();
         IList<GameType> GetAllGameTypes();
         IList<Session> GetFiltered(CashGameFilter filter);
-        void Add(IList<Session> sessions);
+        int Add(IList<Session> sessions);
         void ReadXml();
         void SaveAsXml();
         void RemoveAll();

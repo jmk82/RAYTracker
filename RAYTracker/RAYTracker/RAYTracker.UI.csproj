@@ -64,7 +64,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -109,6 +109,8 @@
     </ApplicationDefinition>
     <Compile Include="Dialogs\FilterWindowService.cs" />
     <Compile Include="Dialogs\IFilterWindowService.cs" />
+    <Compile Include="Dialogs\IInfoDialogService.cs" />
+    <Compile Include="Dialogs\InfoDialogService.cs" />
     <Compile Include="Dialogs\IOpenFileDialogService.cs" />
     <Compile Include="Dialogs\IWaitDialogService.cs" />
     <Compile Include="Dialogs\OpenFileDialogService.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="ViewModels\CashGameViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="ViewModels\IFilterViewModel.cs" />
+    <Compile Include="ViewModels\InfoDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\StatsViewModel.cs" />
@@ -132,6 +135,9 @@
     </Compile>
     <Compile Include="Views\ImportControl.xaml.cs">
       <DependentUpon>ImportControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatsView.xaml.cs">
       <DependentUpon>StatsView.xaml</DependentUpon>
@@ -166,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ImportControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InfoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

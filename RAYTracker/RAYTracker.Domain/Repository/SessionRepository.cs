@@ -56,19 +56,25 @@ namespace RAYTracker.Domain.Repository
             return sessions;
         }
 
-        public void Add(IList<Session> sessions)
+        public int Add(IList<Session> sessions)
         {
+            var addedSessions = 0;
+
             foreach (var session in sessions)
             {
                 if (!_sessions.Contains(session))
                 {
                     _sessions.Add(session);
+                    addedSessions++;
+
                     if (!_gameTypes.Contains(session.GameType))
                     {
                         _gameTypes.Add(session.GameType);
                     }
                 }
             }
+
+            return addedSessions;
         }
 
         public void ReadXml()
