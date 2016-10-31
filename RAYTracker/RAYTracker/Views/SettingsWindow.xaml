@@ -7,9 +7,10 @@
         mc:Ignorable="d"
         Title="SettingsWindow" Height="300" Width="350.16" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
     <Grid>
-        <TextBox x:Name="sessionFilenameTextBox" Text="{Binding SessionXMLFilename}" HorizontalAlignment="Left" Height="23" Margin="10,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272"/>
+        <TextBox x:Name="sessionFilenameTextBox" Text="{Binding SessionXMLFilename}" HorizontalAlignment="Left" Height="23" Margin="10,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" IsReadOnly="True" IsTabStop="False"/>
         <Label x:Name="sessionFileLabel" Content="Käynnistyksessä avattava XML-tiedosto käteispeleille:" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top"/>
         <Button x:Name="selectSessionfileButton" Command="{Binding ChooseFileCommand}" Content="Valitse tiedosto..." HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="107"/>
-        <Button x:Name="saveSettingsButton" Command="{Binding SaveSettingsCommand}" Content="Tallenna" HorizontalAlignment="Left" Margin="175,219,0,0" VerticalAlignment="Top" Width="107"/>
+        <Button x:Name="saveSettingsButton" Command="{Binding SaveSettingsCommand}" Content="OK" HorizontalAlignment="Left" Margin="126,219,0,0" VerticalAlignment="Top" Width="70"/>
+        <Button x:Name="cancelButton" Command="{Binding CancelCommand}" Content="Peruuta" HorizontalAlignment="Left" Margin="212,219,0,0" VerticalAlignment="Top" Width="70"/>
     </Grid>
 </Window>

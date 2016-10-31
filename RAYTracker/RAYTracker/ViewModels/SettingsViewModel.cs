@@ -29,6 +29,7 @@ namespace RAYTracker.ViewModels
         }
         public RelayCommand ChooseFileCommand { get; set; }
         public RelayCommand SaveSettingsCommand { get; set; }
+        public RelayCommand CancelCommand { get; set; }
 
         public SettingsViewModel(IOpenFileDialogService openFileDialogService)
         {
@@ -37,6 +38,13 @@ namespace RAYTracker.ViewModels
 
             ChooseFileCommand = new RelayCommand(ChooseFile);
             SaveSettingsCommand = new RelayCommand(SaveSettings);
+            CancelCommand = new RelayCommand(Cancel);
+        }
+
+        private void Cancel()
+        {
+            SessionXMLFilename = Properties.Settings.Default.SessionXMLFilename;
+            Messenger.Default.Send(new NotificationMessage("CloseSettingsWindow"));
         }
 
         private void SaveSettings()
