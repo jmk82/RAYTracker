@@ -8,7 +8,7 @@ namespace RAYTracker.Domain.Repository
         IList<Tournament> GetAll();
         void Add(IList<Tournament> tournaments);
         void ReadXml();
-        void SaveAsXml();
+        string SaveAsXml();
         void RemoveAll();
     }
 }

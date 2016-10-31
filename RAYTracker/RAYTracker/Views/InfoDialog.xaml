@@ -8,6 +8,6 @@
         Height="150" Width="400" ResizeMode="NoResize" ScrollViewer.VerticalScrollBarVisibility="Disabled" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
     <Grid>
         <Button x:Name="button" Command="{Binding CloseDialogCommand}" Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" Height="25" Width="75" VerticalContentAlignment="Center" VerticalAlignment="Bottom" />
-        <TextBlock x:Name="textBlock" Text="{Binding InfoText}" Margin="10,10,8,40" />
+        <TextBlock x:Name="textBlock" Text="{Binding InfoText}" Margin="10,10,8,40" TextWrapping="Wrap" />
     </Grid>
 </Window>

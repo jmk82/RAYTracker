@@ -25,8 +25,8 @@ namespace RAYTracker.ViewModels
             }
         }
 
-        private DateTime _originalStartDate;
-        private DateTime _originalEndDate;
+        public DateTime? OriginalStartDate { get; set; }
+        public DateTime? OriginalEndDate { get; set; }
 
         public DateTime? StartDate
         {
@@ -73,23 +73,23 @@ namespace RAYTracker.ViewModels
         [PreferredConstructor]
         public FilterViewModel(DateTime originalStart, DateTime originalEnd) : this()
         {
-            _originalStartDate = originalStart;
-            _originalEndDate = originalEnd;
+            OriginalStartDate = originalStart;
+            OriginalEndDate = originalEnd;
         }
 
         private void ResetDates()
         {
-            StartDate = _originalStartDate;
-            EndDate = _originalEndDate;
+            StartDate = OriginalStartDate;
+            EndDate = OriginalEndDate;
         }
 
-        public void ChangeGameSelection(bool select)
+        public void ChangeGameSelection(bool selectAll)
         {
             List<GameTypeWrapper> newGameTypes = new List<GameTypeWrapper>();
 
             foreach (var gameTypeWrapper in GameTypes)
             {
-                newGameTypes.Add(new GameTypeWrapper { GameType = gameTypeWrapper.GameType, IsSelected = select });
+                newGameTypes.Add(new GameTypeWrapper { GameType = gameTypeWrapper.GameType, IsSelected = selectAll });
             }
 
             GameTypes = newGameTypes;

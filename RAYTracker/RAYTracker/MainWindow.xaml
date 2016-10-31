@@ -20,12 +20,13 @@
                 <MenuItem Header="Tallenna käteispelit" Command="{Binding CashGameViewModel.SaveSessionsCommand}"></MenuItem>
                 <MenuItem Header="Tallenna turnaukset" Command="{Binding TournamentViewModel.SaveTournamentsCommand}"></MenuItem>
                 <Separator/>
-                <MenuItem Header="Lopeta"></MenuItem>
+                <MenuItem Header="Lopeta" Command="{Binding ExitApplicationCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Tiedot">
                 <MenuItem Header="Tyhjennä käteispelit" Command="{Binding CashGameViewModel.ClearSessionsCommand}"></MenuItem>
                 <MenuItem Header="Tyhjennä turnaukset" Command="{Binding TournamentViewModel.ClearTournamentsCommand}"></MenuItem>
             </MenuItem>
+            <MenuItem Header="Asetukset" Command="{Binding ShowSettingsDialog}"></MenuItem>
             <!--<MenuItem Header="Ohje"/>-->
         </Menu>
 

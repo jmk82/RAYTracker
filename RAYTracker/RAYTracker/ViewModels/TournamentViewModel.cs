@@ -18,6 +18,7 @@ namespace RAYTracker.ViewModels
         private ITournamentRepository _tournamentRepository;
         private IOpenFileDialogService _openFileDialogService;
         private IWaitDialogService _waitDialogService;
+        private IInfoDialogService _infoDialogService;
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -71,12 +72,14 @@ namespace RAYTracker.ViewModels
         public TournamentViewModel(ITournamentService tournamentService,
             ITournamentRepository tournamentRepository,
             IOpenFileDialogService openFileDialogService,
-            IWaitDialogService waitDialogService)
+            IWaitDialogService waitDialogService,
+            IInfoDialogService infoDialogService)
         {
             _tournamentService = tournamentService;
             _tournamentRepository = tournamentRepository;
             _openFileDialogService = openFileDialogService;
             _waitDialogService = waitDialogService;
+            _infoDialogService = infoDialogService;
 
             FetchFromServerCommand = new RelayCommand(FetchFromServer);
             ClearTournamentsCommand = new RelayCommand(ClearTournaments);
@@ -116,7 +119,9 @@ namespace RAYTracker.ViewModels
 
         private void SaveTournaments()
         {
-            _tournamentRepository.SaveAsXml();
+            var filename = _tournamentRepository.SaveAsXml();
+
+            _infoDialogService.ShowInfoDialog(new InfoDialogViewModel("Turnaukset tallennettu tiedostoon " + filename));
         }
 
         private void ClearTournaments()

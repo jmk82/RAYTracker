@@ -22,5 +22,29 @@ namespace RAYTracker.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\temp\\sess.xml")]
+        public string SessionXMLFilename {
+            get {
+                return ((string)(this["SessionXMLFilename"]));
+            }
+            set {
+                this["SessionXMLFilename"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TournamentXMLFilename {
+            get {
+                return ((string)(this["TournamentXMLFilename"]));
+            }
+            set {
+                this["TournamentXMLFilename"] = value;
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace RAYTracker.Domain.Repository
@@ -12,16 +13,11 @@ namespace RAYTracker.Domain.Repository
     {
         private IList<Session> _sessions;
         private IList<GameType> _gameTypes;
-        private string _xmlFile;
 
         public SessionRepository()
         {
             _sessions = new List<Session>();
             _gameTypes = new List<GameType>();
-            var path = Environment.GetFolderPath((Environment.SpecialFolder.ApplicationData));
-            var dirName = @"\RAYTracker";
-            Directory.CreateDirectory(path + dirName);
-            _xmlFile = path + dirName + "//SessionData.xml";
         }
 
         public IList<Session> GetAll()
@@ -77,26 +73,40 @@ namespace RAYTracker.Domain.Repository
             return addedSessions;
         }
 
-        public void ReadXml()
+        public void ReadXml(string filename)
         {
             XmlSerializer reader = new XmlSerializer(typeof(List<Session>));
 
             try
             {
-                StreamReader file = new StreamReader(_xmlFile);
+                StreamReader file = new StreamReader(filename);
                 Add((IList<Session>)reader.Deserialize(file));
             }
-            catch (FileNotFoundException)
+            catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
             { 
             }
         }
 
-        public void SaveAsXml()
+        public string SaveAsXml(string filename)
         {
+            if (string.IsNullOrEmpty(filename)) return null;
+
             XmlSerializer writer = new XmlSerializer(typeof(List<Session>));
-            FileStream file = File.Create(_xmlFile);
+            FileStream file;
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filename));
+                file = File.Create(filename);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.StackTrace);
+            }
+           
             writer.Serialize(file, _sessions.ToList());
             file.Close();
+
+            return file.Name;
         }
 
         public void RemoveAll()

@@ -74,16 +74,30 @@ namespace RAYTracker.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        private IList<Session> _sessions;
+        //private IList<Session> _sessions;
 
-        public IList<Session> Sessions
+        //public IList<Session> Sessions
+        //{
+        //    get { return _sessions; }
+        //    set
+        //    {
+        //        _sessions = value;
+        //        UpdateFilterViewModel();
+        //        RaisePropertyChanged();
+        //    }
+        //}
+
+        private void UpdateFilterDates()
         {
-            get { return _sessions; }
-            set
-            {
-                _sessions = value;
-                RaisePropertyChanged();
-            }
+            Filter.StartDate = _sessionRepository.GetAll().Min(s => s.StartTime);
+            Filter.EndDate = _sessionRepository.GetAll().Max(s => s.EndTime);
+            Filter.GameTypes = _sessionRepository.GetAllGameTypes();
+
+            FilterViewModel.StartDate = Filter.StartDate;
+            FilterViewModel.OriginalStartDate = Filter.StartDate;
+
+            FilterViewModel.EndDate = Filter.EndDate;
+            FilterViewModel.OriginalEndDate = Filter.EndDate;
         }
 
         public RelayCommand OpenFileCommand { get; set; }
@@ -97,6 +111,7 @@ namespace RAYTracker.ViewModels
         private ICashGameService _cashGameService;
         private ISessionRepository _sessionRepository;
         private IOpenFileDialogService _openFileDialogService;
+        private ISaveFileDialogService _saveFileDialogService;
         private IWaitDialogService _waitDialogService;
         private IFilterWindowService _filterWindowService;
         private IInfoDialogService _infoDialogService;
@@ -107,6 +122,7 @@ namespace RAYTracker.ViewModels
         public CashGameViewModel(ICashGameService cashGameService,
             ISessionRepository sessionRepository,
             IOpenFileDialogService openFileDialogService,
+            ISaveFileDialogService saveFileDialogService,
             IWaitDialogService waitDialogService,
             IFilterWindowService filterWindowService,
             IInfoDialogService infoDialogService)
@@ -114,6 +130,7 @@ namespace RAYTracker.ViewModels
             _cashGameService = cashGameService;
             _sessionRepository = sessionRepository;
             _openFileDialogService = openFileDialogService;
+            _saveFileDialogService = saveFileDialogService;
             _waitDialogService = waitDialogService;
             _filterWindowService = filterWindowService;
             _infoDialogService = infoDialogService;
@@ -179,13 +196,21 @@ namespace RAYTracker.ViewModels
 
         private void LoadStoredSessions()
         {
-            _sessionRepository.ReadXml();
+            var settings = new UserSettings();
+
+            _sessionRepository.ReadXml(settings.SessionXMLFilename);
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }
 
         private void SaveSessions()
         {
-            _sessionRepository.SaveAsXml();
+            var settings = new UserSettings();
+            var filename = _saveFileDialogService.ShowSaveFileDialog();
+            if (!string.IsNullOrEmpty(filename))
+            {
+                _sessionRepository.SaveAsXml(filename);
+                _infoDialogService.ShowInfoDialog(new InfoDialogViewModel("Käteissessiot tallennettu tiedostoon " + filename));
+            }
         }
 
         private async void FetchFromServer()
@@ -207,9 +232,7 @@ namespace RAYTracker.ViewModels
             
             _waitDialogService.CloseWaitDialog();
 
-            var vm = new InfoDialogViewModel(message);
-            var infoDialogService = new InfoDialogService();
-            infoDialogService.ShowInfoDialog(vm);
+            _infoDialogService.ShowInfoDialog(new InfoDialogViewModel(message));
 
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }
@@ -227,16 +250,20 @@ namespace RAYTracker.ViewModels
 
             FilterViewModel.SetWrappedGameTypes(gameTypes);
             FilterViewModel.SetFilter(Filter);
-
-            if (FilterViewModel.StartDate == null)
+            if (FilterViewModel.StartDate == null && FilterViewModel.EndDate == null)
             {
-                FilterViewModel.StartDate = _sessionRepository.GetAll().Min(s => s.StartTime);
+                UpdateFilterDates();
             }
 
-            if (FilterViewModel.EndDate == null)
-            {
-                FilterViewModel.EndDate = _sessionRepository.GetAll().Max(s => s.EndTime);
-            }
+            //if (FilterViewModel.StartDate == null)
+            //{
+            //    FilterViewModel.StartDate = _sessionRepository.GetAll().Min(s => s.StartTime);
+            //}
+
+            //if (FilterViewModel.EndDate == null)
+            //{
+            //    FilterViewModel.EndDate = _sessionRepository.GetAll().Max(s => s.EndTime);
+            //}
 
             _filterWindowService.ShowWindow(FilterViewModel);
 
@@ -258,14 +285,19 @@ namespace RAYTracker.ViewModels
         private void OpenFile()
         {
             var fileName = _openFileDialogService.ShowOpenFileDialog();
+            var message = "";
 
             if (!string.IsNullOrEmpty(fileName))
             {
                 var sessions = _cashGameService.GetSessionsFromFile(fileName);
-                _sessionRepository.Add(sessions);
-            }
+                var newSessions = _sessionRepository.Add(sessions);
+                message += "Tiedostosta löytyi " + sessions.Count + " sessiota, joista tuotu " + newSessions;
 
-            PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
+                _infoDialogService.ShowInfoDialog(new InfoDialogViewModel(message));
+
+                PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
+                UpdateFilterDates();
+            }
         }
     }
 }

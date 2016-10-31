@@ -4,26 +4,41 @@ using GalaSoft.MvvmLight.Messaging;
 using RAYTracker.Domain.Model;
 using RAYTracker.Domain.Report;
 using System.Collections.Generic;
+using System.Windows;
+using System;
+using RAYTracker.Dialogs;
 
 namespace RAYTracker.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private ISettingsViewModel _settingsViewModel;
+
         public CashGameViewModel CashGameViewModel { get; set; }
         public ReportViewModel ReportViewModel { get; set; }
         public TournamentViewModel TournamentViewModel { get; set; }
         public StatsViewModel StatsViewModel { get; set; }
+        private SettingsWindowService _settingsWindowService { get; set; }
 
         public RelayCommand CreateReportCommand { get; set; }
+        public RelayCommand ExitApplicationCommand { get; set; }
+        public RelayCommand ShowSettingsDialog { get; set; }
 
-        public MainViewModel(CashGameViewModel cashGameVM, ReportViewModel reportVM, TournamentViewModel tournamentViewModel, StatsViewModel statsViewModel)
+        public MainViewModel(CashGameViewModel cashGameVM, ReportViewModel reportVM, TournamentViewModel tournamentViewModel, StatsViewModel statsViewModel,
+            SettingsWindowService settingsWindowService, ISettingsViewModel settingsViewModel)
         {
             CashGameViewModel = cashGameVM;
             ReportViewModel = reportVM;
             TournamentViewModel = tournamentViewModel;
             StatsViewModel = statsViewModel;
+            _settingsWindowService = settingsWindowService;
+            _settingsViewModel = settingsViewModel;
 
             CreateReportCommand = new RelayCommand(CreateCashReport);
+
+            ExitApplicationCommand = new RelayCommand(() => Application.Current.Shutdown());
+
+            ShowSettingsDialog = new RelayCommand(ShowSettings);
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
@@ -36,6 +51,11 @@ namespace RAYTracker.ViewModels
 
             CreateCashReport();
             CreateStatsReport();
+        }
+
+        private void ShowSettings()
+        {
+            _settingsWindowService.showWindow(_settingsViewModel);
         }
 
         private void CreateStatsReport()

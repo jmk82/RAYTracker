@@ -112,18 +112,24 @@
     <Compile Include="Dialogs\IInfoDialogService.cs" />
     <Compile Include="Dialogs\InfoDialogService.cs" />
     <Compile Include="Dialogs\IOpenFileDialogService.cs" />
+    <Compile Include="Dialogs\ISaveFileDialogService.cs" />
     <Compile Include="Dialogs\IWaitDialogService.cs" />
     <Compile Include="Dialogs\OpenFileDialogService.cs" />
+    <Compile Include="Dialogs\SaveFileDialog.cs" />
+    <Compile Include="Dialogs\SettingsWindowService.cs" />
     <Compile Include="Dialogs\WaitDialogService.cs" />
     <Compile Include="Helpers\BooleanToHeightConverter.cs" />
     <Compile Include="Helpers\GameTypeWrapper.cs" />
     <Compile Include="Helpers\UserSessionIdChangedMessage.cs" />
+    <Compile Include="Helpers\UserSettings.cs" />
     <Compile Include="ViewModels\CashGameViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="ViewModels\IFilterViewModel.cs" />
     <Compile Include="ViewModels\InfoDialogViewModel.cs" />
+    <Compile Include="ViewModels\ISettingsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StatsViewModel.cs" />
     <Compile Include="ViewModels\TournamentViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
@@ -138,6 +144,9 @@
     </Compile>
     <Compile Include="Views\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatsView.xaml.cs">
       <DependentUpon>StatsView.xaml</DependentUpon>
@@ -176,6 +185,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

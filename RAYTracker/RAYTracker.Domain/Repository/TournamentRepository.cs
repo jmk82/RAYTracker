@@ -58,12 +58,14 @@ namespace RAYTracker.Domain.Repository
             }
         }
 
-        public void SaveAsXml()
+        public string SaveAsXml()
         {
             XmlSerializer writer = new XmlSerializer(typeof(List<Tournament>));
             FileStream file = File.Create(_xmlFile);
             writer.Serialize(file, _tournaments.ToList());
             file.Close();
+
+            return file.Name;
         }
 
         public void RemoveAll()
