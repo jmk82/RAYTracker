@@ -73,18 +73,21 @@ namespace RAYTracker.Domain.Repository
             return addedSessions;
         }
 
-        public void ReadXml(string filename)
+        public IList<Session> ReadXml(string filename)
         {
             XmlSerializer reader = new XmlSerializer(typeof(List<Session>));
+            IList<Session> sessions = new List<Session>();
 
             try
             {
                 StreamReader file = new StreamReader(filename);
-                Add((IList<Session>)reader.Deserialize(file));
+                sessions = (IList<Session>)reader.Deserialize(file);
             }
             catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
             { 
             }
+
+            return sessions;
         }
 
         public string SaveAsXml(string filename)

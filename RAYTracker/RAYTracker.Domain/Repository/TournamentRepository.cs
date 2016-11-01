@@ -28,20 +28,25 @@ namespace RAYTracker.Domain.Repository
             return _tournaments;
         }
 
-        public void Add(IList<Tournament> tournaments)
+        public int Add(IList<Tournament> tournaments)
         {
+            var addedTournaments = 0;
+
             foreach (var tournament in tournaments)
             {
                 if (!_tournaments.Contains(tournament))
                 {
                     _tournaments.Add(tournament);
+                    addedTournaments++;
+
                     if (!_tournamentNames.Contains(tournament.Name))
                     {
                         _tournamentNames.Add(tournament.Name);
                     }
                 }
-                
             }
+
+            return addedTournaments;
         }
 
         public void ReadXml()

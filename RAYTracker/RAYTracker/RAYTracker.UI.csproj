@@ -115,7 +115,7 @@
     <Compile Include="Dialogs\ISaveFileDialogService.cs" />
     <Compile Include="Dialogs\IWaitDialogService.cs" />
     <Compile Include="Dialogs\OpenFileDialogService.cs" />
-    <Compile Include="Dialogs\SaveFileDialog.cs" />
+    <Compile Include="Dialogs\SaveFileDialogService.cs" />
     <Compile Include="Dialogs\SettingsWindowService.cs" />
     <Compile Include="Dialogs\WaitDialogService.cs" />
     <Compile Include="Helpers\BooleanToHeightConverter.cs" />

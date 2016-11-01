@@ -74,19 +74,6 @@ namespace RAYTracker.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        //private IList<Session> _sessions;
-
-        //public IList<Session> Sessions
-        //{
-        //    get { return _sessions; }
-        //    set
-        //    {
-        //        _sessions = value;
-        //        UpdateFilterViewModel();
-        //        RaisePropertyChanged();
-        //    }
-        //}
-
         private void UpdateFilterDates()
         {
             Filter.StartDate = _sessionRepository.GetAll().Min(s => s.StartTime);
@@ -225,7 +212,7 @@ namespace RAYTracker.ViewModels
                 var newSessions = _sessionRepository.Add(sessions);
                 message += "Palvelimelta haettu " + sessions.Count + " sessiota, joista uusia " + newSessions;
             }
-            catch (UnauthorizedAccessException ex)
+            catch (Exception ex)
             {
                 message += ex.Message;
             }
@@ -255,16 +242,6 @@ namespace RAYTracker.ViewModels
                 UpdateFilterDates();
             }
 
-            //if (FilterViewModel.StartDate == null)
-            //{
-            //    FilterViewModel.StartDate = _sessionRepository.GetAll().Min(s => s.StartTime);
-            //}
-
-            //if (FilterViewModel.EndDate == null)
-            //{
-            //    FilterViewModel.EndDate = _sessionRepository.GetAll().Max(s => s.EndTime);
-            //}
-
             _filterWindowService.ShowWindow(FilterViewModel);
 
             var selectedGameTypes = FilterViewModel.GameTypes
@@ -289,10 +266,28 @@ namespace RAYTracker.ViewModels
 
             if (!string.IsNullOrEmpty(fileName))
             {
-                var sessions = _cashGameService.GetSessionsFromFile(fileName);
-                var newSessions = _sessionRepository.Add(sessions);
-                message += "Tiedostosta löytyi " + sessions.Count + " sessiota, joista tuotu " + newSessions;
+                bool xmlImportSuccess = false;
+                IList<Session> sessions = new List<Session>();
+                int sessionsAdded = 0;
 
+                try
+                {
+                    sessions = _sessionRepository.ReadXml(fileName);
+                    sessionsAdded = _sessionRepository.Add(sessions);
+                    xmlImportSuccess = true;
+                }
+                catch (InvalidOperationException ex)
+                {
+                }
+
+                // ei ollut xml-tiedosto, yritetään lukea tekstitiedostona
+                if (!xmlImportSuccess)
+                {
+                    sessions = _cashGameService.GetSessionsFromFile(fileName);
+                    sessionsAdded = _sessionRepository.Add(sessions);
+                }
+
+                message += "Tiedostosta löytyi " + sessions.Count() + " sessiota, joista tuotu " + sessionsAdded;
                 _infoDialogService.ShowInfoDialog(new InfoDialogViewModel(message));
 
                 PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());

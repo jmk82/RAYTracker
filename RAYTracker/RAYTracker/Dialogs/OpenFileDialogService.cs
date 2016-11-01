@@ -12,6 +12,8 @@ namespace RAYTracker.Dialogs
         public string ShowOpenFileDialog()
         {
             var dialog = new OpenFileDialog();
+            dialog.Filter = "XML- ja tekstitiedostot (*.xml, *.txt)|*.xml;*.txt|Kaikki tiedostot (*.*)|*.*";
+            dialog.FilterIndex = 0;
             dialog.ShowDialog();
 
             return dialog.FileName;

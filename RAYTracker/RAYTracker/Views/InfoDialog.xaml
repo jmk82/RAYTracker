@@ -5,9 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAYTracker.Views"
         mc:Ignorable="d"
-        Height="150" Width="400" ResizeMode="NoResize" ScrollViewer.VerticalScrollBarVisibility="Disabled" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
+        Height="160" Width="400" ResizeMode="NoResize" ScrollViewer.VerticalScrollBarVisibility="Disabled" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
     <Grid>
         <Button x:Name="button" Command="{Binding CloseDialogCommand}" Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" Height="25" Width="75" VerticalContentAlignment="Center" VerticalAlignment="Bottom" />
-        <TextBlock x:Name="textBlock" Text="{Binding InfoText}" Margin="10,10,8,40" TextWrapping="Wrap" />
+
+        <Grid Margin="10,10,10,40">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="textBlock" Text="{Binding InfoText}" Margin="10,10,8,40" TextWrapping="Wrap" />
+            </ScrollViewer>
+        </Grid>
+        
     </Grid>
 </Window>

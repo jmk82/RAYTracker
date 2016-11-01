@@ -6,7 +6,7 @@ namespace RAYTracker.Domain.Repository
     public interface ITournamentRepository
     {
         IList<Tournament> GetAll();
-        void Add(IList<Tournament> tournaments);
+        int Add(IList<Tournament> tournaments);
         void ReadXml();
         string SaveAsXml();
         void RemoveAll();

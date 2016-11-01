@@ -133,9 +133,23 @@ namespace RAYTracker.ViewModels
         private async void FetchFromServer()
         {
             _waitDialogService.ShowWaitDialog();
-            var tournaments = await _tournamentService.FetchTournamentsFromServerAsync(_userSessionId, StartDate, EndDate);
-            _tournamentRepository.Add(tournaments);
+
+            string message = "";
+
+            try
+            {
+                var tournaments = await _tournamentService.FetchTournamentsFromServerAsync(_userSessionId, StartDate, EndDate);
+                var newTournaments = _tournamentRepository.Add(tournaments);
+                message += "Palvelimelta turnausta " + tournaments.Count + " sessiota, joista uusia " + newTournaments;
+            }
+            catch (Exception ex)
+            {
+                message += ex.Message;
+            }
+            
             _waitDialogService.CloseWaitDialog();
+
+            _infoDialogService.ShowInfoDialog(new InfoDialogViewModel(message));
 
             Tournaments = _tournamentRepository.GetAll();
         }
