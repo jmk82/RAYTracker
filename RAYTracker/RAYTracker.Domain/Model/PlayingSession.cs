@@ -14,12 +14,12 @@ namespace RAYTracker.Domain.Model
         public double MtRatio { get; set; }
         public decimal HourlyRate { get; set; }
 
-        public int Hands
+        public int HandsPlayed
         {
             get { return Sessions.Sum(s => s.HandsPlayed); }
         }
 
-        public double HandsPerHour => Hands / Duration.TotalHours;
+        public double HandsPerHour => HandsPlayed / Duration.TotalHours;
 
         public PlayingSession()
         {

@@ -185,7 +185,9 @@ namespace RAYTracker.ViewModels
         {
             var settings = new UserSettings();
 
-            _sessionRepository.ReadXml(settings.SessionXMLFilename);
+            var sessions = _sessionRepository.ReadXml(settings.SessionXMLFilename);
+            _sessionRepository.Add(sessions);
+
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }
 
@@ -255,7 +257,7 @@ namespace RAYTracker.ViewModels
                 EndDate = FilterViewModel.EndDate
             };
 
-            PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetFiltered(Filter));
+            PlayingSessions = _sessionRepository.GetFilteredPlayingSessions(Filter);
             ShowSessionsOnly();
         }
 
@@ -276,7 +278,7 @@ namespace RAYTracker.ViewModels
                     sessionsAdded = _sessionRepository.Add(sessions);
                     xmlImportSuccess = true;
                 }
-                catch (InvalidOperationException ex)
+                catch (InvalidOperationException)
                 {
                 }
 

@@ -4,5 +4,6 @@
     {
         public decimal Result { get; set; }
         public int Hands { get; set; }
+        public double Hours { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace RAYTracker.ViewModels
         private ITournamentService _tournamentService;
         private ITournamentRepository _tournamentRepository;
         private IOpenFileDialogService _openFileDialogService;
+        private ISaveFileDialogService _saveFileDialogService;
         private IWaitDialogService _waitDialogService;
         private IInfoDialogService _infoDialogService;
 
@@ -72,12 +73,14 @@ namespace RAYTracker.ViewModels
         public TournamentViewModel(ITournamentService tournamentService,
             ITournamentRepository tournamentRepository,
             IOpenFileDialogService openFileDialogService,
+            ISaveFileDialogService saveFileDialogService,
             IWaitDialogService waitDialogService,
             IInfoDialogService infoDialogService)
         {
             _tournamentService = tournamentService;
             _tournamentRepository = tournamentRepository;
             _openFileDialogService = openFileDialogService;
+            _saveFileDialogService = saveFileDialogService;
             _waitDialogService = waitDialogService;
             _infoDialogService = infoDialogService;
 
@@ -113,15 +116,23 @@ namespace RAYTracker.ViewModels
 
         private void LoadStoredTournaments()
         {
-            _tournamentRepository.ReadXml();
+            var settings = new UserSettings();
+
+            var tournaments = _tournamentRepository.ReadXml(settings.TournamentXMLFilename);
+            _tournamentRepository.Add(tournaments);
+
             Tournaments = _tournamentRepository.GetAll();
         }
 
         private void SaveTournaments()
         {
-            var filename = _tournamentRepository.SaveAsXml();
-
-            _infoDialogService.ShowInfoDialog(new InfoDialogViewModel("Turnaukset tallennettu tiedostoon " + filename));
+            var settings = new UserSettings();
+            var filename = _saveFileDialogService.ShowSaveFileDialog();
+            if (!string.IsNullOrEmpty(filename))
+            {
+                _tournamentRepository.SaveAsXml(filename);
+                _infoDialogService.ShowInfoDialog(new InfoDialogViewModel("Turnaukset tallennettu tiedostoon " + filename));
+            }
         }
 
         private void ClearTournaments()

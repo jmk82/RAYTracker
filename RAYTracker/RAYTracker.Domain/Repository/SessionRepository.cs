@@ -30,7 +30,7 @@ namespace RAYTracker.Domain.Repository
             return _gameTypes;
         }
 
-        public IList<Session> GetFiltered(CashGameFilter filter)
+        public IList<Session> GetFilteredSessions(CashGameFilter filter)
         {
             var sessions = _sessions;
 
@@ -41,15 +41,39 @@ namespace RAYTracker.Domain.Repository
 
             if (filter.StartDate != null)
             {
-                sessions = sessions.Where(s => s.StartTime >= filter.StartDate.Value).ToList();
+                sessions = sessions.Where(s => s.StartTime.Date >= filter.StartDate.Value.Date).ToList();
             }
 
             if (filter.EndDate != null)
             {
-                sessions = sessions.Where(s => s.EndTime <= filter.EndDate.Value).ToList();
+                sessions = sessions.Where(s => s.StartTime.Date <= filter.EndDate.Value.Date).ToList();
             }
 
             return sessions;
+        }
+
+        public IList<PlayingSession> GetFilteredPlayingSessions(CashGameFilter filter)
+        {
+            var sessions = _sessions;
+
+            if (filter.GameTypes != null)
+            {
+                sessions = _sessions.Where(s => filter.GameTypes.Contains(s.GameType)).ToList();
+            }
+
+            var playingSessions = PlayingSession.GroupToPlayingSessions(sessions);
+
+            if (filter.StartDate != null)
+            {
+                playingSessions = playingSessions.Where(s => s.StartTime.Date >= filter.StartDate.Value.Date).ToList();
+            }
+
+            if (filter.EndDate != null)
+            {
+                playingSessions = playingSessions.Where(s => s.StartTime.Date <= filter.EndDate.Value.Date).ToList();
+            }
+
+            return playingSessions;
         }
 
         public int Add(IList<Session> sessions)
@@ -83,8 +107,9 @@ namespace RAYTracker.Domain.Repository
                 StreamReader file = new StreamReader(filename);
                 sessions = (IList<Session>)reader.Deserialize(file);
             }
-            catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
-            { 
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
             return sessions;
@@ -101,9 +126,9 @@ namespace RAYTracker.Domain.Repository
                 Directory.CreateDirectory(Path.GetDirectoryName(filename));
                 file = File.Create(filename);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.StackTrace);
+                throw;
             }
            
             writer.Serialize(file, _sessions.ToList());

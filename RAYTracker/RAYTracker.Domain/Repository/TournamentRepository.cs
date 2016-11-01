@@ -11,16 +11,11 @@ namespace RAYTracker.Domain.Repository
     {
         private IList<Tournament> _tournaments;
         private IList<string> _tournamentNames;
-        private string _xmlFile;
 
         public TournamentRepository()
         {
             _tournaments = new List<Tournament>();
             _tournamentNames = new List<string>();
-            var path = Environment.GetFolderPath((Environment.SpecialFolder.ApplicationData));
-            var dirName = @"\RAYTracker";
-            Directory.CreateDirectory(path + dirName);
-            _xmlFile = path + dirName + "//TournamentData.xml";
         }
 
         public IList<Tournament> GetAll()
@@ -49,24 +44,40 @@ namespace RAYTracker.Domain.Repository
             return addedTournaments;
         }
 
-        public void ReadXml()
+        public IList<Tournament> ReadXml(string filename)
         {
             XmlSerializer reader = new XmlSerializer(typeof(List<Tournament>));
+            IList<Tournament> tournaments = new List<Tournament>();
 
             try
             {
-                StreamReader file = new StreamReader(_xmlFile);
-                Add((IList<Tournament>)reader.Deserialize(file));
+                StreamReader file = new StreamReader(filename);
+                tournaments = (IList<Tournament>)reader.Deserialize(file);
             }
-            catch (FileNotFoundException)
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
+
+            return tournaments;
         }
 
-        public string SaveAsXml()
+        public string SaveAsXml(string filename)
         {
+            if (string.IsNullOrEmpty(filename)) return null;
+
             XmlSerializer writer = new XmlSerializer(typeof(List<Tournament>));
-            FileStream file = File.Create(_xmlFile);
+            FileStream file;
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filename));
+                file = File.Create(filename);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
             writer.Serialize(file, _tournaments.ToList());
             file.Close();
 

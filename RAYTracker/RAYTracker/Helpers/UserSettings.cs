@@ -29,6 +29,18 @@ namespace RAYTracker.Helpers
                 Directory.CreateDirectory(path + dirName);
                 SessionXMLFilename = path + dirName + "//SessionData.xml";
             }
+
+            if (!string.IsNullOrWhiteSpace(tournamentFilename))
+            {
+                TournamentXMLFilename = Properties.Settings.Default.TournamentXMLFilename;
+            }
+            else
+            {
+                var path = Environment.GetFolderPath((Environment.SpecialFolder.ApplicationData));
+                var dirName = @"\RAYTracker";
+                Directory.CreateDirectory(path + dirName);
+                TournamentXMLFilename = path + dirName + "//TournamentData.xml";
+            }
         }
     }
 }

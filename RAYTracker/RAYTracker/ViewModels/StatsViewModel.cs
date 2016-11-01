@@ -75,9 +75,9 @@ namespace RAYTracker.ViewModels
         {
             var sessions = playingSessions.SelectMany(s => s.Sessions).ToList();
             ReportByGameType = Reporter.GameTypeReport(sessions, _separateTurbosAndAntes);
-            DailyReport = Reporter.DailyReport(sessions);
-            MonthlyReport = Reporter.MonthlyReport(sessions);
-            YearlyReport = Reporter.YearlyReport(sessions);
+            DailyReport = Reporter.DailyReport(playingSessions);
+            MonthlyReport = Reporter.MonthlyReport(playingSessions);
+            YearlyReport = Reporter.YearlyReport(playingSessions);
         }
     }
 }

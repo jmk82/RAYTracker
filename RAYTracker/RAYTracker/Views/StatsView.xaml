@@ -36,6 +36,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Päivä" Binding="{Binding Time, StringFormat={}{0:d.M.yyyy}}"/>
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tunteja" Binding="{Binding Hours, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
             <DataGrid.Style>
@@ -54,6 +55,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Kuukausi" Binding="{Binding Month, StringFormat={}{0:d.M.yyyy}}"/>
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tunteja" Binding="{Binding Hours, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
             <DataGrid.Style>
@@ -72,6 +74,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Vuosi" Binding="{Binding Year}"/>
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Tunteja" Binding="{Binding Hours, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
             <DataGrid.Style>
