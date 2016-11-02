@@ -25,6 +25,9 @@ namespace RAYTracker.Domain.Report
                     ((double) winningSessions/sessions.Count*100.0).ToString("N2") + " %)";
                 report += "\nVoitollisia pelikertoja: " + winningPlayingSessions + " (" +
                     ((double) winningPlayingSessions / playingSessions.Count * 100.0).ToString("N2") + " %)";
+                report += "\nSuurin downswing (sessiot): " + FindLargestDrop(sessions) + " €";
+                report += "\nSuurin downswing (pelikerrat): " + FindLargestDrop(playingSessions
+                    .Select(p => new Session { EndTime = p.EndTime, Result = p.Result })) + " €";
 
             return report;
         }
@@ -104,53 +107,31 @@ namespace RAYTracker.Domain.Report
             return (decimal)((double)(totalWinnings / bb) / (totalHands * 0.01));
         }
 
-        public static decimal[] CumulativeResults(IEnumerable<Session> sessions)
+        public static decimal FindLargestDrop(IEnumerable<Session> sessions)
         {
             var sessionArray = sessions.OrderBy(s => s.EndTime).ToArray();
-
-            decimal[] cumulativeResults = new decimal[sessionArray.Length];
-            decimal cumulativeResult = 0M;
+            decimal biggestDrop = 0M;
+            decimal currentMax = 0M;
+            decimal currentMin = 0M;
+            decimal cumResult = 0M;
 
             for (int i = 0; i < sessionArray.Length; i++)
             {
-                cumulativeResult += sessionArray[i].Result;
-                cumulativeResults[i] = cumulativeResult;
-            }
+                cumResult += sessionArray[i].Result;
 
-            return cumulativeResults;
-        }
-
-        public class CumulativeSessionResults
-        {
-            public Session[] Sessions { get; private set; }
-            public decimal[] CumulativeResults { get; private set; }
-            public int[] HighPointIndexes { get; private set; }
-
-            public CumulativeSessionResults(Session[] sessions)
-            {
-                Sessions = sessions.OrderBy(s => s.EndTime).ToArray();
-                CumulativeResults = CumulativeResults(Sessions);
-                HighPointIndexes = FindHighPoints(this);
-            }
-
-            private int[] FindHighPoints(CumulativeSessionResults cumulativeSessionResults)
-            {
-                var indexes = new List<int>();
-                var cumulativeResults = cumulativeSessionResults.CumulativeResults;
-                var previousHighPoint = cumulativeResults[0];
-                indexes.Add(0);
-
-                for (int i = 1; i < cumulativeResults.Length; i++)
+                if (cumResult < currentMin)
                 {
-                    if (cumulativeResults[i] > previousHighPoint)
-                    {
-                        indexes.Add(i);
-                        previousHighPoint = cumulativeResults[i];
-                    }
+                    currentMin = cumResult;
+                    biggestDrop = Math.Max(biggestDrop, currentMax - currentMin);
                 }
-
-                return indexes.ToArray();
+                else if (cumResult > currentMax)
+                {
+                    currentMax = cumResult;
+                    currentMin = cumResult;
+                }
             }
+
+            return biggestDrop;
         }
     }
 }
