@@ -57,7 +57,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid ItemsSource="{Binding SelectedPlayingSession.Sessions, IsAsync=True}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding SelectedPlayingSession.Sessions, IsAsync=True}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="SessionDataGrid" Margin="10" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Alku" Binding="{Binding StartTime, StringFormat={}{0:d.M.yyyy H:mm}}"/>
                 <DataGridTextColumn Header="Loppu" Binding="{Binding EndTime, StringFormat={}{0:d.M.yyyy H:mm}}"/>

@@ -32,7 +32,7 @@ namespace RAYTracker.Domain.Report.Tests
 
             var result = Reporter.FindLargestDrop(sessions);
 
-            Assert.AreEqual(35, result);
+            Assert.AreEqual(35M, result);
         }
 
         [TestMethod()]
@@ -55,7 +55,7 @@ namespace RAYTracker.Domain.Report.Tests
 
             var result = Reporter.FindLargestDrop(sessions);
 
-            Assert.AreEqual(45, result);
+            Assert.AreEqual(45M, result);
         }
 
         [TestMethod()]
@@ -78,7 +78,44 @@ namespace RAYTracker.Domain.Report.Tests
 
             var result = Reporter.FindLargestDrop(sessions);
 
-            Assert.AreEqual(95, result);
+            Assert.AreEqual(95M, result);
+        }
+
+        [TestMethod()]
+        public void FindLargestDropTest4NoDrop()
+        {
+            var endTime = new DateTime(2016, 1, 1);
+            Session[] sessions = new Session[]
+            {
+                new Session { Result = 10M, EndTime = new DateTime(2016, 1, 1) },
+                new Session { Result = 20M, EndTime = new DateTime(2016, 1, 2) },
+                new Session { Result = 10M, EndTime = new DateTime(2016, 1, 3) },
+                new Session { Result = 5M, EndTime = new DateTime(2016, 1, 4) },
+                new Session { Result = 10M, EndTime = new DateTime(2016, 1, 5) },
+            };
+
+            var result = Reporter.FindLargestDrop(sessions);
+
+            Assert.AreEqual(0M, result);
+        }
+
+        [TestMethod()]
+        public void FindLargestDropTest5JustAllDrop()
+        {
+            var endTime = new DateTime(2016, 1, 1);
+            Session[] sessions = new Session[]
+            {
+                new Session { Result = -10M, EndTime = new DateTime(2016, 1, 1) },
+                new Session { Result = -20M, EndTime = new DateTime(2016, 1, 2) },
+                new Session { Result = -10M, EndTime = new DateTime(2016, 1, 3) },
+                new Session { Result = -5M, EndTime = new DateTime(2016, 1, 4) },
+                new Session { Result = -10M, EndTime = new DateTime(2016, 1, 5) },
+                new Session { Result = -30M, EndTime = new DateTime(2016, 1, 6) }
+            };
+
+            var result = Reporter.FindLargestDrop(sessions);
+
+            Assert.AreEqual(85M, result);
         }
     }
 }
