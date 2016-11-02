@@ -55,6 +55,7 @@ namespace RAYTracker.ViewModels
 
         private void ShowSettings()
         {
+            _settingsViewModel.LoadSettings();
             _settingsWindowService.showWindow(_settingsViewModel);
         }
 

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAYTracker.Views"
         mc:Ignorable="d"
+        Style="{StaticResource {x:Type Window}}"
         Title="Noudetaan palvelimelta..." Height="120" Width="250" WindowStartupLocation="CenterOwner" WindowStyle="ThreeDBorderWindow" IsTabStop="False" Topmost="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="NoResize">
     <Grid>
         <ProgressBar x:Name="FetchProgressBar" Height="20" Margin="10,25,10,-1" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>

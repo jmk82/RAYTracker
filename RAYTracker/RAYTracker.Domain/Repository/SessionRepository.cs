@@ -107,9 +107,8 @@ namespace RAYTracker.Domain.Repository
                 StreamReader file = new StreamReader(filename);
                 sessions = (IList<Session>)reader.Deserialize(file);
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
             return sessions;

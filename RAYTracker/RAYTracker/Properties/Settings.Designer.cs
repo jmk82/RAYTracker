@@ -25,7 +25,7 @@ namespace RAYTracker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\temp\\sess.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string SessionXMLFilename {
             get {
                 return ((string)(this["SessionXMLFilename"]));

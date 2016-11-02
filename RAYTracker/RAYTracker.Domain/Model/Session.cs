@@ -42,9 +42,26 @@ namespace RAYTracker.Domain.Model
         {
             if (other == null) return false;
 
-            return this.TableName == other.TableName &&
+            var oneHour = new TimeSpan(1, 0, 0);
+
+            return (this.TableName == other.TableName &&
                    this.StartTime == other.StartTime &&
-                   this.EndTime == other.EndTime;
+                   this.EndTime == other.EndTime) ||
+
+                   /* T‰st‰ seuraavat tarkistukset lis‰tty, koska RAY:n serveri palauttaa kaikki ajat siin‰ ajassa (kes‰/talvi),
+                   jossa ollaan teht‰ess‰ kysely. Aika siis voi heitt‰‰ tasan tunnin suuntaan tai toiseen riippuen siit‰ koska tiedot haetaan
+                   */
+                   (this.TableName == other.TableName &&
+                   this.StartTime + oneHour == other.StartTime &&
+                   this.EndTime + oneHour == other.EndTime &&
+                   this.HandsPlayed == other.HandsPlayed &&
+                   this.Result == other.Result) ||
+
+                   (this.TableName == other.TableName &&
+                   this.StartTime - oneHour == other.StartTime &&
+                   this.EndTime - oneHour == other.EndTime &&
+                   this.HandsPlayed == other.HandsPlayed &&
+                   this.Result == other.Result);
         }
     }
 }

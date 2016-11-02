@@ -131,14 +131,28 @@ namespace RAYTracker.ViewModels
             if (!string.IsNullOrEmpty(filename))
             {
                 _tournamentRepository.SaveAsXml(filename);
-                _infoDialogService.ShowInfoDialog(new InfoDialogViewModel("Turnaukset tallennettu tiedostoon " + filename));
+                _infoDialogService.ShowDialog(new InfoDialogViewModel("Turnaukset tallennettu tiedostoon " + filename));
             }
         }
 
         private void ClearTournaments()
         {
-            _tournamentRepository.RemoveAll();
-            Tournaments = _tournamentRepository.GetAll();
+            bool confirmed = false;
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification == "InfoDialogConfirmed") confirmed = true;
+            });
+
+            _infoDialogService.ShowDialog(new InfoDialogViewModel("Haluatko varmasti tyhjentää kaikki turnaustiedot?", showCancelButton: true));
+
+            Messenger.Default.Unregister<NotificationMessage>(this);
+
+            if (confirmed)
+            {
+                _tournamentRepository.RemoveAll();
+                Tournaments = _tournamentRepository.GetAll();
+                _infoDialogService.ShowDialog(new InfoDialogViewModel("Turnaustiedot tyhjennetty"));
+            }
         }
 
         private async void FetchFromServer()
@@ -151,7 +165,7 @@ namespace RAYTracker.ViewModels
             {
                 var tournaments = await _tournamentService.FetchTournamentsFromServerAsync(_userSessionId, StartDate, EndDate);
                 var newTournaments = _tournamentRepository.Add(tournaments);
-                message += "Palvelimelta turnausta " + tournaments.Count + " sessiota, joista uusia " + newTournaments;
+                message += "Palvelimelta haettu " + tournaments.Count + " turnausta, joista uusia " + newTournaments;
             }
             catch (Exception ex)
             {
@@ -160,7 +174,7 @@ namespace RAYTracker.ViewModels
             
             _waitDialogService.CloseWaitDialog();
 
-            _infoDialogService.ShowInfoDialog(new InfoDialogViewModel(message));
+            _infoDialogService.ShowDialog(new InfoDialogViewModel(message));
 
             Tournaments = _tournamentRepository.GetAll();
         }

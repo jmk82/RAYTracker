@@ -7,5 +7,6 @@ namespace RAYTracker.ViewModels
         RelayCommand ChooseSessionFileCommand { get; set; }
         RelayCommand SaveSettingsCommand { get; set; }
         string SessionXMLFilename { get; set; }
+        void LoadSettings();
     }
 }

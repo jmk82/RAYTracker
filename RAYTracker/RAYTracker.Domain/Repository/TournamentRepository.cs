@@ -54,9 +54,8 @@ namespace RAYTracker.Domain.Repository
                 StreamReader file = new StreamReader(filename);
                 tournaments = (IList<Tournament>)reader.Deserialize(file);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
             return tournaments;

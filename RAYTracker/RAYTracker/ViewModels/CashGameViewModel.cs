@@ -161,9 +161,23 @@ namespace RAYTracker.ViewModels
 
         private void ClearSessions()
         {
-            _sessionRepository.RemoveAll();
-            PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
-            SelectedPlayingSession = null;
+            bool confirmed = false;
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification == "InfoDialogConfirmed") confirmed = true;
+            });
+
+            _infoDialogService.ShowDialog(new InfoDialogViewModel("Haluatko varmasti tyhjentää kaikki käteispelitiedot?", showCancelButton: true));
+
+            Messenger.Default.Unregister<NotificationMessage>(this);
+
+            if (confirmed)
+            {
+                _sessionRepository.RemoveAll();
+                PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
+                SelectedPlayingSession = null;
+                _infoDialogService.ShowDialog(new InfoDialogViewModel("Käteissessiot tyhjennetty"));
+            }
         }
 
         private void ShowSessionsOnly(bool isChecked = true)
@@ -185,8 +199,15 @@ namespace RAYTracker.ViewModels
         {
             var settings = new UserSettings();
 
-            var sessions = _sessionRepository.ReadXml(settings.SessionXMLFilename);
-            _sessionRepository.Add(sessions);
+            try
+            {
+                var sessions = _sessionRepository.ReadXml(settings.SessionXMLFilename);
+                _sessionRepository.Add(sessions);
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
 
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }
@@ -198,7 +219,7 @@ namespace RAYTracker.ViewModels
             if (!string.IsNullOrEmpty(filename))
             {
                 _sessionRepository.SaveAsXml(filename);
-                _infoDialogService.ShowInfoDialog(new InfoDialogViewModel("Käteissessiot tallennettu tiedostoon " + filename));
+                _infoDialogService.ShowDialog(new InfoDialogViewModel("Käteissessiot tallennettu tiedostoon " + filename));
             }
         }
 
@@ -221,7 +242,7 @@ namespace RAYTracker.ViewModels
             
             _waitDialogService.CloseWaitDialog();
 
-            _infoDialogService.ShowInfoDialog(new InfoDialogViewModel(message));
+            _infoDialogService.ShowDialog(new InfoDialogViewModel(message));
 
             PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
         }
@@ -289,8 +310,8 @@ namespace RAYTracker.ViewModels
                     sessionsAdded = _sessionRepository.Add(sessions);
                 }
 
-                message += "Tiedostosta löytyi " + sessions.Count() + " sessiota, joista tuotu " + sessionsAdded;
-                _infoDialogService.ShowInfoDialog(new InfoDialogViewModel(message));
+                message += "Tiedostosta löytyi " + sessions.Count() + " sessiota, joista uusia " + sessionsAdded;
+                _infoDialogService.ShowDialog(new InfoDialogViewModel(message));
 
                 PlayingSessions = PlayingSession.GroupToPlayingSessions(_sessionRepository.GetAll());
                 UpdateFilterDates();

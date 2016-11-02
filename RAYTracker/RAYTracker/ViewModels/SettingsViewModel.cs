@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RAYTracker.ViewModels
 {
-    public class SettingsViewModel : ViewModelBase, ISettingsViewModel
+    public sealed class SettingsViewModel : ViewModelBase, ISettingsViewModel
     {
         private IOpenFileDialogService _openFileDialogService;
 
@@ -51,8 +51,7 @@ namespace RAYTracker.ViewModels
         public SettingsViewModel(IOpenFileDialogService openFileDialogService)
         {
             _openFileDialogService = openFileDialogService;
-            SessionXMLFilename = Properties.Settings.Default.SessionXMLFilename;
-            TournamentXMLFilename = Properties.Settings.Default.TournamentXMLFilename;
+            LoadSettings();
 
             ChooseSessionFileCommand = new RelayCommand(ChooseSessionFile);
             ChooseTournamentFileCommand = new RelayCommand(ChooseTournamentFile);
@@ -102,6 +101,12 @@ namespace RAYTracker.ViewModels
             {
                 TournamentXMLFilename = filename;
             }
+        }
+
+        public void LoadSettings()
+        {
+            SessionXMLFilename = Properties.Settings.Default.SessionXMLFilename;
+            TournamentXMLFilename = Properties.Settings.Default.TournamentXMLFilename;
         }
     }
 }

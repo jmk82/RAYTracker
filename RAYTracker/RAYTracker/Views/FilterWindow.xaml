@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAYTracker.Views"
         mc:Ignorable="d"
-        Title="Valitse suodattimet" Height="450" Width="500" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+        Style="{StaticResource {x:Type Window}}"
+        Title="Valitse suodattimet" Height="460" Width="500" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid>
         <DataGrid ItemsSource="{Binding GameTypes}" x:Name="GameTypeDataGrid" Margin="20" VerticalAlignment="Top" Height="350" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" Width="300" HorizontalAlignment="Left">
             <DataGrid.Columns>
@@ -22,7 +23,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Command="{Binding CloseWindowCommand}" x:Name="OkButton" Content="OK" HorizontalAlignment="Right" Margin="0,385,20,0" VerticalAlignment="Top" Width="100"/>
+        <Button Command="{Binding CloseWindowCommand}" x:Name="OkButton" Content="OK" HorizontalAlignment="Right" Margin="0,385,20,0" VerticalAlignment="Top" Width="100" IsDefault="True"/>
         <Button Command="{Binding SelectAllGamesCommand}" x:Name="SelectAllButton" Content="Valitse kaikki" HorizontalAlignment="Left" Margin="20,385,0,0" VerticalAlignment="Top" Width="100"/>
         <Button Command="{Binding ClearGameSelectionsCommand}" x:Name="SelecteNoneButton" Content="Poista valinnat" HorizontalAlignment="Left" Margin="140,385,0,0" VerticalAlignment="Top" Width="100"/>
 

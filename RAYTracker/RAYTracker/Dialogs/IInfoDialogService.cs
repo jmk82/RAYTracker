@@ -4,7 +4,7 @@ namespace RAYTracker.Dialogs
 {
     public interface IInfoDialogService
     {
-        void ShowInfoDialog(InfoDialogViewModel vm);
+        void ShowDialog(InfoDialogViewModel vm);
         void CloseInfoDialog();
     }
 }

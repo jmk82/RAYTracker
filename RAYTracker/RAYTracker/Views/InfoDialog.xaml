@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RAYTracker.Views"
         mc:Ignorable="d"
+        Style="{StaticResource {x:Type Window}}"
         Height="160" Width="400" ResizeMode="NoResize" ScrollViewer.VerticalScrollBarVisibility="Disabled" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
     <Grid>
-        <Button x:Name="button" Command="{Binding CloseDialogCommand}" Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" Height="25" Width="75" VerticalContentAlignment="Center" VerticalAlignment="Bottom" />
+        <Button x:Name="okButton" Command="{Binding ConfirmCommand}" Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" Height="25" Width="75" VerticalContentAlignment="Center" VerticalAlignment="Bottom" IsDefault="True" />
 
         <Grid Margin="10,10,10,40">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <TextBlock x:Name="textBlock" Text="{Binding InfoText}" Margin="10,10,8,40" TextWrapping="Wrap" />
             </ScrollViewer>
         </Grid>
-        
+        <Button x:Name="cancelButton" Command="{Binding CloseDialogCommand}" Visibility="{Binding CancelButtonVisibility}" Content="Peruuta" HorizontalAlignment="Right" Margin="0,0,116,10" Height="25" Width="75" VerticalContentAlignment="Center" VerticalAlignment="Bottom" IsCancel="True" />
+
     </Grid>
 </Window>

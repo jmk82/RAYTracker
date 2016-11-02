@@ -52,7 +52,7 @@
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="MT ratio" Binding="{Binding MtRatio, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="€/h" Binding="{Binding HourlyRate, StringFormat={}{0:0.00 €}}" ElementStyle="{StaticResource AlignRight}"/>
-                <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="Käsiä" Binding="{Binding HandsPlayed}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Käsiä/h" Binding="{Binding HandsPerHour, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
         </DataGrid>

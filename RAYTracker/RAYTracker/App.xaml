@@ -7,5 +7,11 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <vm:ViewModelLocator x:Key="Locator" />
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value ="#eeeeee"/>
+        </Style>
+        <Style TargetType="Window">
+            <Setter Property="Background" Value ="#eeeeee"/>
+        </Style>
     </Application.Resources>
 </Application>

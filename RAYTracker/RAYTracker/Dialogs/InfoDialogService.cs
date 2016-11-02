@@ -9,7 +9,7 @@ namespace RAYTracker.Dialogs
     {
         private InfoDialog _infoDialog;
 
-        public void ShowInfoDialog(InfoDialogViewModel vm)
+        public void ShowDialog(InfoDialogViewModel vm)
         {
             _infoDialog = new InfoDialog()
             {
