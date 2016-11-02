@@ -12,20 +12,19 @@ namespace RAYTracker.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private ISettingsViewModel _settingsViewModel;
-
         public CashGameViewModel CashGameViewModel { get; set; }
         public ReportViewModel ReportViewModel { get; set; }
         public TournamentViewModel TournamentViewModel { get; set; }
         public StatsViewModel StatsViewModel { get; set; }
-        private SettingsWindowService _settingsWindowService { get; set; }
+        private SettingsViewModel _settingsViewModel;
+        private ISettingsWindowService _settingsWindowService { get; set; }
 
         public RelayCommand CreateReportCommand { get; set; }
         public RelayCommand ExitApplicationCommand { get; set; }
         public RelayCommand ShowSettingsDialog { get; set; }
 
         public MainViewModel(CashGameViewModel cashGameVM, ReportViewModel reportVM, TournamentViewModel tournamentViewModel, StatsViewModel statsViewModel,
-            SettingsWindowService settingsWindowService, ISettingsViewModel settingsViewModel)
+            SettingsViewModel settingsViewModel, ISettingsWindowService settingsWindowService)
         {
             CashGameViewModel = cashGameVM;
             ReportViewModel = reportVM;

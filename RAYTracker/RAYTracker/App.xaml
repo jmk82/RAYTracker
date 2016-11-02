@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:RAYTracker"
              xmlns:vm="clr-namespace:RAYTracker.ViewModels"
              DispatcherUnhandledException="Application_DispatcherUnhandledException"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Views\MainWindow.xaml">
     <Application.Resources>
         <vm:ViewModelLocator x:Key="Locator" />
         <Style TargetType="TabControl">

@@ -12,7 +12,6 @@
         DataContext="{Binding Main, Source={StaticResource Locator}}">
 
     <DockPanel>
-
         <Menu x:Name="Menu" DockPanel.Dock="Top" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
             <MenuItem Header="Tiedosto">
                 <MenuItem Header="Tuo käteispelejä..." Command="{Binding CashGameViewModel.OpenFileCommand}" ToolTip="Tuo käteispelejä ohjelman luomasta XML-tiedostosta tai tekstitiedostosta"></MenuItem>

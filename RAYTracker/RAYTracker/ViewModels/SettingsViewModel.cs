@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RAYTracker.ViewModels
 {
-    public sealed class SettingsViewModel : ViewModelBase, ISettingsViewModel
+    public sealed class SettingsViewModel : ViewModelBase
     {
         private IOpenFileDialogService _openFileDialogService;
 

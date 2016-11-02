@@ -18,7 +18,7 @@ namespace RAYTracker.ViewModels
             SimpleIoc.Default.Register<ReportViewModel>();
             SimpleIoc.Default.Register<StatsViewModel>();
             SimpleIoc.Default.Register<InfoDialogViewModel>();
-            SimpleIoc.Default.Register<ISettingsViewModel, SettingsViewModel>();
+            SimpleIoc.Default.Register<SettingsViewModel>();
 
             SimpleIoc.Default.Register<ICashGameService, CashGameService>();
             SimpleIoc.Default.Register<ITournamentService, TournamentService>();
@@ -28,7 +28,7 @@ namespace RAYTracker.ViewModels
             SimpleIoc.Default.Register<IWaitDialogService, WaitDialogService>();
             SimpleIoc.Default.Register<IFilterWindowService, FilterWindowService>();
             SimpleIoc.Default.Register<IInfoDialogService, InfoDialogService>();
-            SimpleIoc.Default.Register<SettingsWindowService>();
+            SimpleIoc.Default.Register<ISettingsWindowService, SettingsWindowService>();
 
             SimpleIoc.Default.Register<ISessionRepository, SessionRepository>();
             SimpleIoc.Default.Register<ITournamentRepository, TournamentRepository>();
@@ -40,15 +40,6 @@ namespace RAYTracker.ViewModels
         {
             get { return ServiceLocator.Current.GetInstance<MainViewModel>(); }
         }
-
-        //public TournamentViewModel Tournament
-        //{
-        //    get { return ServiceLocator.Current.GetInstance<TournamentViewModel>(); }
-        //}
-        //public FilterViewModel FilterVM
-        //{
-        //    get { return ServiceLocator.Current.GetInstance<FilterViewModel>(); }
-        //}
 
         public static ViewModelLocator Instance
         {

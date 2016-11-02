@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace RAYTracker.ViewModels
 {
-    public sealed class FilterViewModel : ViewModelBase, IFilterViewModel
+    public sealed class FilterViewModel : ViewModelBase
     {
         private IList<GameTypeWrapper> _gameTypes;
 

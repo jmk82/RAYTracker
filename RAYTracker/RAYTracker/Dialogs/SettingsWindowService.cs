@@ -10,11 +10,11 @@ using System.Windows;
 
 namespace RAYTracker.Dialogs
 {
-    public class SettingsWindowService
+    public class SettingsWindowService : ISettingsWindowService
     {
         private SettingsWindow _settingsWindow;
 
-        public void showWindow(ISettingsViewModel viewModel)
+        public void showWindow(SettingsViewModel viewModel)
         {
             _settingsWindow = new SettingsWindow
             {
@@ -30,7 +30,7 @@ namespace RAYTracker.Dialogs
             _settingsWindow.ShowDialog();
         }
 
-        private void CloseWindow()
+        public void CloseWindow()
         {
             _settingsWindow.Close();
         }

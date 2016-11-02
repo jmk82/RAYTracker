@@ -29,33 +29,6 @@ namespace RAYTracker.Domain.Report
             return report;
         }
 
-        //public static IEnumerable<DailyReport> DailyReport(IList<Session> sessions)
-        //{
-        //    //// V‰hennet‰‰n v‰liaikaisesti kuusi tuntia aloitusajasta, jotta klo 00-06 v‰lill‰ aloitetut sessiot kirjataan viel‰ edelt‰v‰n p‰iv‰n tulokseen
-        //    //var dayStartMargin = new TimeSpan(6,0,0);
-        //    //foreach (var session in sessions)
-        //    //{
-        //    //    session.StartTime = session.StartTime - dayStartMargin;
-        //    //}
-
-        //    var data = sessions.GroupBy(t => t.StartTime.Date).OrderBy(t => t.Key)
-        //        .Select(t => new DailyReport
-        //        {
-        //            Time = t.Key.Date,
-        //            Result = t.Sum(s => s.Result),
-        //            Hands = t.Sum(s => s.HandsPlayed),
-        //            Hours = GetPlayingHours(t)
-        //        }).ToList();
-
-        //    //// Ja lis‰t‰‰n v‰hennetty aika takaisin
-        //    //foreach (var session in sessions)
-        //    //{
-        //    //    session.StartTime = session.StartTime + dayStartMargin;
-        //    //}
-
-        //    return data;
-        //}
-
         public static IEnumerable<DailyReport> DailyReport(IList<PlayingSession> playingSessions)
         {
             var data = playingSessions.GroupBy(p => p.StartTime.Date).OrderBy(g => g.Key)
@@ -83,26 +56,6 @@ namespace RAYTracker.Domain.Report
 
             return data;
         }
-
-        //private static double GetPlayingHours(IGrouping<DateTime, Session> t)
-        //{
-        //    var playingSessions = PlayingSession.GroupToPlayingSessions(t.Select(s => s).ToList());
-
-        //    return playingSessions.Sum(p => p.Duration.TotalHours);
-        //}
-
-        //public static IEnumerable<MonthlyReport> MonthlyReport(IList<Session> sessions)
-        //{
-        //    var data = sessions.GroupBy(t => new { t.StartTime.Year, t.StartTime.Month}).OrderBy(t => t.Key.Year).ThenBy(t => t.Key.Month)
-        //        .Select(t => new MonthlyReport
-        //        {
-        //            Month = t.Key.Year.ToString() + "/" + t.Key.Month.ToString(),
-        //            Result = t.Sum(s => s.Result),
-        //            Hands = t.Sum(s => s.HandsPlayed)
-        //        });
-
-        //    return data;
-        //}
 
         public static IEnumerable<YearlyReport> YearlyReport(IList<PlayingSession> playingSessions)
         {
@@ -149,6 +102,55 @@ namespace RAYTracker.Domain.Report
             var totalHands = t.Sum(s => s.HandsPlayed);
 
             return (decimal)((double)(totalWinnings / bb) / (totalHands * 0.01));
+        }
+
+        public static decimal[] CumulativeResults(IEnumerable<Session> sessions)
+        {
+            var sessionArray = sessions.OrderBy(s => s.EndTime).ToArray();
+
+            decimal[] cumulativeResults = new decimal[sessionArray.Length];
+            decimal cumulativeResult = 0M;
+
+            for (int i = 0; i < sessionArray.Length; i++)
+            {
+                cumulativeResult += sessionArray[i].Result;
+                cumulativeResults[i] = cumulativeResult;
+            }
+
+            return cumulativeResults;
+        }
+
+        public class CumulativeSessionResults
+        {
+            public Session[] Sessions { get; private set; }
+            public decimal[] CumulativeResults { get; private set; }
+            public int[] HighPointIndexes { get; private set; }
+
+            public CumulativeSessionResults(Session[] sessions)
+            {
+                Sessions = sessions.OrderBy(s => s.EndTime).ToArray();
+                CumulativeResults = CumulativeResults(Sessions);
+                HighPointIndexes = FindHighPoints(this);
+            }
+
+            private int[] FindHighPoints(CumulativeSessionResults cumulativeSessionResults)
+            {
+                var indexes = new List<int>();
+                var cumulativeResults = cumulativeSessionResults.CumulativeResults;
+                var previousHighPoint = cumulativeResults[0];
+                indexes.Add(0);
+
+                for (int i = 1; i < cumulativeResults.Length; i++)
+                {
+                    if (cumulativeResults[i] > previousHighPoint)
+                    {
+                        indexes.Add(i);
+                        previousHighPoint = cumulativeResults[i];
+                    }
+                }
+
+                return indexes.ToArray();
+            }
         }
     }
 }
