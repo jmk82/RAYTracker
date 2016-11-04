@@ -46,5 +46,17 @@ namespace RAYTracker.Properties {
                 this["TournamentXMLFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SaveAutomaticallyAfterFetch {
+            get {
+                return ((bool)(this["SaveAutomaticallyAfterFetch"]));
+            }
+            set {
+                this["SaveAutomaticallyAfterFetch"] = value;
+            }
+        }
     }
 }

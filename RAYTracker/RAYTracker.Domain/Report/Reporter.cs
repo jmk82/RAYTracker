@@ -25,9 +25,9 @@ namespace RAYTracker.Domain.Report
                     ((double) winningSessions/sessions.Count*100.0).ToString("N2") + " %)";
                 report += "\nVoitollisia pelikertoja: " + winningPlayingSessions + " (" +
                     ((double) winningPlayingSessions / playingSessions.Count * 100.0).ToString("N2") + " %)";
-                report += "\nSuurin downswing (sessiot): " + FindLargestDrop(sessions) + " €";
-                report += "\nSuurin downswing (pelikerrat): " + FindLargestDrop(playingSessions
-                    .Select(p => new Session { EndTime = p.EndTime, Result = p.Result })) + " €";
+                //report += "\nSuurin downswing (sessiot): " + FindLargestDrop(sessions) + " €";
+                //report += "\nSuurin downswing (pelikerrat): " + FindLargestDrop(playingSessions
+                //    .Select(p => new Session { EndTime = p.EndTime, Result = p.Result })) + " €";
 
             return report;
         }
@@ -115,19 +115,31 @@ namespace RAYTracker.Domain.Report
             decimal currentMin = 0M;
             decimal cumResult = 0M;
 
+            Session currentMinSession;
+            Session currentMaxSession = sessionArray[0];
+
             for (int i = 0; i < sessionArray.Length; i++)
             {
                 cumResult += sessionArray[i].Result;
 
-                if (cumResult < currentMin)
-                {
-                    currentMin = cumResult;
-                    biggestDrop = Math.Max(biggestDrop, currentMax - currentMin);
-                }
-                else if (cumResult > currentMax)
+                if (cumResult >= currentMax)
                 {
                     currentMax = cumResult;
+                    currentMaxSession = sessionArray[i];
                     currentMin = cumResult;
+                }
+                else if (cumResult < currentMin)
+                {
+                    currentMin = cumResult;
+                    currentMinSession = sessionArray[i];
+                    var currentDrop = currentMax - currentMin;
+                    biggestDrop = Math.Max(biggestDrop, currentDrop);
+
+                    if (currentDrop == biggestDrop)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Drop start: " + currentMaxSession.EndTime + "cum: " + cumResult + ", drop: " + currentDrop);
+                        System.Diagnostics.Debug.WriteLine("Drop end: " + currentMinSession.EndTime + "cum: " + cumResult + ", drop: " + currentDrop);
+                    }
                 }
             }
 

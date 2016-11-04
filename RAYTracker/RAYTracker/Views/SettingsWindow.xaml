@@ -7,15 +7,17 @@
         mc:Ignorable="d"
         Style="{StaticResource {x:Type Window}}"
         Title="Asetukset" Height="300" Width="350.16" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
-    <Grid>
+    <Grid ToolTip="Kirjoita valittu tiedosto automaattisesti uudelleen aina kun palvelimelta on noudettu uusia sessioita">
         <TextBox x:Name="sessionFilenameTextBox" Text="{Binding SessionXMLFilename}" HorizontalAlignment="Left" Height="23" Margin="10,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" IsReadOnly="True" IsTabStop="False"/>
-        <Label x:Name="sessionFileLabel" Content="Käynnistyksessä avattava XML-tiedosto käteispeleille:" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="sessionFileLabel" Content="Käynnistyksessä avattava XML-tiedosto käteispeleille:" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top"/>
         <Button x:Name="selectSessionfileButton" Command="{Binding ChooseSessionFileCommand}" Content="Valitse tiedosto..." HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="107"/>
         
         <TextBox x:Name="tournamentFilenameTextBox" Text="{Binding TournamentXMLFilename}" HorizontalAlignment="Left" Height="23" Margin="10,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" IsReadOnly="True" IsTabStop="False"/>
-        <Label x:Name="tournamentFileLabel" Content="Käynnistyksessä avattava XML-tiedosto turnauksille" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="tournamentFileLabel" Content="Käynnistyksessä avattava XML-tiedosto turnauksille" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top"/>
         <Button x:Name="selectTournamentfileButton" Command="{Binding ChooseTournamentFileCommand}" Content="Valitse tiedosto..." HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top" Width="107"/>
 
+        <CheckBox x:Name="autoSaveCheckBox" IsChecked="{Binding AutoSave}" Content="Tallenna tiedosto automaattisesti" HorizontalAlignment="Left" Margin="136,80,0,0" VerticalAlignment="Top"/>
+        
         <Button x:Name="saveSettingsButton" Command="{Binding SaveSettingsCommand}" Content="OK" HorizontalAlignment="Left" Margin="126,219,0,0" VerticalAlignment="Top" Width="70" IsDefault="True"/>
         <Button x:Name="cancelButton" Command="{Binding CancelCommand}" Content="Peruuta" HorizontalAlignment="Left" Margin="212,219,0,0" VerticalAlignment="Top" Width="70" IsCancel="True"/>
     </Grid>

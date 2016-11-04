@@ -12,11 +12,14 @@ namespace RAYTracker.Helpers
     {
         public string SessionXMLFilename { get; set; }
         public string TournamentXMLFilename { get; set; }
+        public bool SaveAutomaticallyAfterFetch { get; set; }
 
         public UserSettings()
         {
             var sessionFilename = Properties.Settings.Default.SessionXMLFilename;
             var tournamentFilename = Properties.Settings.Default.TournamentXMLFilename;
+
+            SaveAutomaticallyAfterFetch = Properties.Settings.Default.SaveAutomaticallyAfterFetch;
 
             if (!string.IsNullOrWhiteSpace(sessionFilename))
             {

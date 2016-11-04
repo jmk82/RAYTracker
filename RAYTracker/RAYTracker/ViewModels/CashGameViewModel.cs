@@ -228,12 +228,20 @@ namespace RAYTracker.ViewModels
             _waitDialogService.ShowWaitDialog();
 
             string message = "";
+            var settings = new UserSettings();
 
             try
             {
                 var sessions = await _cashGameService.FetchSessionsFromServer(_userSessionId, StartDate, EndDate);
                 var newSessions = _sessionRepository.Add(sessions);
+
                 message += "Palvelimelta haettu " + sessions.Count + " sessiota, joista uusia " + newSessions;
+
+                if (settings.SaveAutomaticallyAfterFetch && newSessions > 0)
+                {
+                    _sessionRepository.SaveAsXml(settings.SessionXMLFilename);
+                    message += "\nTiedosto " + settings.SessionXMLFilename + " päivitetty.";
+                }
             }
             catch (Exception ex)
             {
