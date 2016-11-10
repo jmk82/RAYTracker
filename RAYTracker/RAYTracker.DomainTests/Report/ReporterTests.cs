@@ -117,5 +117,37 @@ namespace RAYTracker.Domain.Report.Tests
 
             Assert.AreEqual(85M, result);
         }
+
+        [TestMethod]
+        public void TestCalculateHourly1()
+        {
+            PlayingSession[] sessions = new PlayingSession[]
+            {
+                new PlayingSession { Duration = new TimeSpan(1, 0, 0), Result = 10M },
+                new PlayingSession { Duration = new TimeSpan(2, 0, 0), Result = 30M },
+                new PlayingSession { Duration = new TimeSpan(1, 0, 0), Result = 0M },
+                new PlayingSession { Duration = new TimeSpan(3, 0, 0), Result = 30M }
+            };
+
+            var result = Reporter.CalculateResultPerHour(sessions);
+
+            Assert.AreEqual(10M, result);
+        }
+
+        [TestMethod]
+        public void TestCalculateHourly2()
+        {
+            PlayingSession[] sessions = new PlayingSession[]
+            {
+                new PlayingSession { Duration = new TimeSpan(1, 0, 0), Result = -10M },
+                new PlayingSession { Duration = new TimeSpan(2, 0, 0), Result = -30M },
+                new PlayingSession { Duration = new TimeSpan(1, 0, 0), Result = 0M },
+                new PlayingSession { Duration = new TimeSpan(6, 0, 0), Result = 30M }
+            };
+
+            decimal result = Reporter.CalculateResultPerHour(sessions);
+
+            Assert.AreEqual(-1M, result);
+        }
     }
 }

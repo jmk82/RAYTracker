@@ -38,6 +38,7 @@
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tunteja" Binding="{Binding Hours, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="€/h" Binding="{Binding ResultPerHour, StringFormat={}{0:0.00} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
             <DataGrid.Style>
                 <Style TargetType="DataGrid">
@@ -57,6 +58,7 @@
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tunteja" Binding="{Binding Hours, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="€/h" Binding="{Binding ResultPerHour, StringFormat={}{0:0.00} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
             <DataGrid.Style>
                 <Style TargetType="DataGrid">
@@ -76,6 +78,7 @@
                 <DataGridTextColumn Header="Käsiä" Binding="{Binding Hands}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tunteja" Binding="{Binding Hours, StringFormat={}{0:0.00}}" ElementStyle="{StaticResource AlignRight}"/>
                 <DataGridTextColumn Header="Tulos" Binding="{Binding Result, StringFormat={}{0} €}" ElementStyle="{StaticResource AlignRight}"/>
+                <DataGridTextColumn Header="€/h" Binding="{Binding ResultPerHour, StringFormat={}{0:0.00} €}" ElementStyle="{StaticResource AlignRight}"/>
             </DataGrid.Columns>
             <DataGrid.Style>
                 <Style TargetType="DataGrid">

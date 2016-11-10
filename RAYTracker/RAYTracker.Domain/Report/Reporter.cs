@@ -32,6 +32,16 @@ namespace RAYTracker.Domain.Report
             return report;
         }
 
+        public static decimal CalculateResultPerHour(PlayingSession[] playingSessions)
+        {
+            var hoursPlayed = playingSessions.Sum(s => s.Duration.TotalHours);
+            var profit = playingSessions.Sum(s => s.Result);
+
+            var resultPerHour = (double)profit / hoursPlayed;
+
+            return (decimal)resultPerHour;
+        }
+
         public static IEnumerable<DailyReport> DailyReport(IList<PlayingSession> playingSessions)
         {
             var data = playingSessions.GroupBy(p => p.StartTime.Date).OrderBy(g => g.Key)
@@ -40,7 +50,8 @@ namespace RAYTracker.Domain.Report
                     Time = g.Key.Date,
                     Result = g.Sum(p => p.Result),
                     Hands = g.Sum(p => p.HandsPlayed),
-                    Hours = g.Sum(p => p.Duration.TotalHours)
+                    Hours = g.Sum(p => p.Duration.TotalHours),
+                    ResultPerHour = CalculateResultPerHour(g.ToArray())
                 });
 
             return data;
@@ -54,7 +65,8 @@ namespace RAYTracker.Domain.Report
                     Month = g.Key.Year.ToString() + "/" + g.Key.Month.ToString(),
                     Result = g.Sum(p => p.Result),
                     Hands = g.Sum(p => p.HandsPlayed),
-                    Hours = g.Sum(p => p.Duration.TotalHours)
+                    Hours = g.Sum(p => p.Duration.TotalHours),
+                    ResultPerHour = CalculateResultPerHour(g.ToArray())
                 });
 
             return data;
@@ -68,7 +80,8 @@ namespace RAYTracker.Domain.Report
                     Year = g.Key,
                     Result = g.Sum(p => p.Result),
                     Hands = g.Sum(p => p.HandsPlayed),
-                    Hours = g.Sum(p => p.Duration.TotalHours)
+                    Hours = g.Sum(p => p.Duration.TotalHours),
+                    ResultPerHour = CalculateResultPerHour(g.ToArray())
                 });
 
             return data;
