@@ -30,8 +30,8 @@ namespace RAYTracker.ViewModels
             SimpleIoc.Default.Register<IInfoDialogService, InfoDialogService>();
             SimpleIoc.Default.Register<ISettingsWindowService, SettingsWindowService>();
 
-            SimpleIoc.Default.Register<ISessionRepository, SessionRepository>();
-            SimpleIoc.Default.Register<ITournamentRepository, TournamentRepository>();
+            SimpleIoc.Default.Register<ISessionRepository, XmlSessionRepository>();
+            SimpleIoc.Default.Register<ITournamentRepository, XmlTournamentRepository>();
 
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
         }

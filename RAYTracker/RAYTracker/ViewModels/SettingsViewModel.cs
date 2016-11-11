@@ -16,6 +16,7 @@ namespace RAYTracker.ViewModels
         private IOpenFileDialogService _openFileDialogService;
 
         private string _sessionXMLFilename;
+
         public string SessionXMLFilename
         {
             get
@@ -30,6 +31,7 @@ namespace RAYTracker.ViewModels
         }
 
         private string _tournamentXMLFilename;
+
         public string TournamentXMLFilename
         {
             get

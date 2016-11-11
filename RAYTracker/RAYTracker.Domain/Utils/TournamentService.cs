@@ -19,7 +19,6 @@ namespace RAYTracker.Domain.Utils
             fetcher.EndDate = endDateString;
 
             var data = await fetcher.GetTournamentsAsync();
-            Debug.WriteLine(data);
             DataParser parser = new DataParser(data);
 
             var tournaments = parser.ParseTournaments();

@@ -13,6 +13,7 @@ namespace RAYTracker.ViewModels
         private IEnumerable<DailyReport> _dailyReport;
         private IEnumerable<MonthlyReport> _monthlyReport;
         private IEnumerable<YearlyReport> _yearlyReport;
+
         private bool _separateTurbosAndAntes;
 
         public IEnumerable<GameTypeReport> ReportByGameType

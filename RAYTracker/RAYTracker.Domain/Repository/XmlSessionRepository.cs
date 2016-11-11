@@ -9,12 +9,12 @@ using System.Xml.Serialization;
 
 namespace RAYTracker.Domain.Repository
 {
-    public class SessionRepository : ISessionRepository
+    public class XmlSessionRepository : ISessionRepository
     {
         private IList<Session> _sessions;
         private IList<GameType> _gameTypes;
 
-        public SessionRepository()
+        public XmlSessionRepository()
         {
             _sessions = new List<Session>();
             _gameTypes = new List<GameType>();

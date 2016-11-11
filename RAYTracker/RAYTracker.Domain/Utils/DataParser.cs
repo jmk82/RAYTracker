@@ -148,11 +148,6 @@ namespace RAYTracker.Domain.Utils
                 rowDatas[i] = GetDataFromRow(rows[i]);
             }
 
-            for (int i = 0; i < rowDatas.Length; i++)
-            {
-                Debug.WriteLine("[" + i + "]: " + rowDatas[i]);
-            }
-
             tournament.Id = rowDatas[0];
             tournament.Name = rowDatas[1];
             tournament.FinalPosition = int.Parse(rowDatas[2]);

@@ -74,19 +74,6 @@ namespace RAYTracker.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        private void UpdateFilterDates()
-        {
-            Filter.StartDate = _sessionRepository.GetAll().Min(s => s.StartTime);
-            Filter.EndDate = _sessionRepository.GetAll().Max(s => s.EndTime);
-            Filter.GameTypes = _sessionRepository.GetAllGameTypes();
-
-            FilterViewModel.StartDate = Filter.StartDate;
-            FilterViewModel.OriginalStartDate = Filter.StartDate;
-
-            FilterViewModel.EndDate = Filter.EndDate;
-            FilterViewModel.OriginalEndDate = Filter.EndDate;
-        }
-
         public RelayCommand OpenFileCommand { get; set; }
         public RelayCommand FetchFromServerCommand { get; set; }
         public RelayCommand ClearCommand { get; set; }
@@ -102,6 +89,7 @@ namespace RAYTracker.ViewModels
         private IWaitDialogService _waitDialogService;
         private IFilterWindowService _filterWindowService;
         private IInfoDialogService _infoDialogService;
+
         public FilterViewModel FilterViewModel { get; set; }
         public CashGameFilter Filter { get; set; }
         public InfoDialogViewModel InfoDialogViewModel { get; set; }
@@ -157,6 +145,19 @@ namespace RAYTracker.ViewModels
             
             EndDate = DateTime.Now;
             Filter = new CashGameFilter();
+        }
+
+        private void UpdateFilterDates()
+        {
+            Filter.StartDate = _sessionRepository.GetAll().Min(s => s.StartTime);
+            Filter.EndDate = _sessionRepository.GetAll().Max(s => s.EndTime);
+            Filter.GameTypes = _sessionRepository.GetAllGameTypes();
+
+            FilterViewModel.StartDate = Filter.StartDate;
+            FilterViewModel.OriginalStartDate = Filter.StartDate;
+
+            FilterViewModel.EndDate = Filter.EndDate;
+            FilterViewModel.OriginalEndDate = Filter.EndDate;
         }
 
         private void ClearSessions()

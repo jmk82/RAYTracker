@@ -55,8 +55,8 @@
     <Compile Include="Report\YearlyReport.cs" />
     <Compile Include="Repository\ISessionRepository.cs" />
     <Compile Include="Repository\ITournamentRepository.cs" />
-    <Compile Include="Repository\SessionRepository.cs" />
-    <Compile Include="Repository\TournamentRepository.cs" />
+    <Compile Include="Repository\XmlSessionRepository.cs" />
+    <Compile Include="Repository\XmlTournamentRepository.cs" />
     <Compile Include="Utils\CashGameService.cs" />
     <Compile Include="Utils\DataConverter.cs" />
     <Compile Include="Utils\DataFetcher.cs" />

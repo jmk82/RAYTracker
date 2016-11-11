@@ -28,6 +28,8 @@ namespace RAYTracker.ViewModels
         public DateTime? OriginalStartDate { get; set; }
         public DateTime? OriginalEndDate { get; set; }
 
+        private DateTime? _startDate;
+
         public DateTime? StartDate
         {
             get { return _startDate; }
@@ -38,6 +40,8 @@ namespace RAYTracker.ViewModels
             }
         }
 
+        private DateTime? _endDate;
+
         public DateTime? EndDate
         {
             get { return _endDate; }
@@ -47,14 +51,18 @@ namespace RAYTracker.ViewModels
                 RaisePropertyChanged();
             }
         }
-
-        private DateTime? _startDate;
-        private DateTime? _endDate;
-
+        
         public RelayCommand CloseWindowCommand { get; set; }
         public RelayCommand SelectAllGamesCommand { get; set; }
         public RelayCommand ClearGameSelectionsCommand { get; set; }
         public RelayCommand ResetDatesCommand { get; set; }
+
+        [PreferredConstructor]
+        public FilterViewModel(DateTime originalStart, DateTime originalEnd) : this()
+        {
+            OriginalStartDate = originalStart;
+            OriginalEndDate = originalEnd;
+        }
 
         public FilterViewModel()
         {
@@ -68,13 +76,6 @@ namespace RAYTracker.ViewModels
             SelectAllGamesCommand = new RelayCommand(() => ChangeGameSelection(true));
             ClearGameSelectionsCommand = new RelayCommand(() => ChangeGameSelection(false));
             ResetDatesCommand = new RelayCommand(ResetDates);
-        }
-
-        [PreferredConstructor]
-        public FilterViewModel(DateTime originalStart, DateTime originalEnd) : this()
-        {
-            OriginalStartDate = originalStart;
-            OriginalEndDate = originalEnd;
         }
 
         private void ResetDates()

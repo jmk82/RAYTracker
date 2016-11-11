@@ -7,12 +7,12 @@ using System.Xml.Serialization;
 
 namespace RAYTracker.Domain.Repository
 {
-    public class TournamentRepository : ITournamentRepository
+    public class XmlTournamentRepository : ITournamentRepository
     {
         private IList<Tournament> _tournaments;
         private IList<string> _tournamentNames;
 
-        public TournamentRepository()
+        public XmlTournamentRepository()
         {
             _tournaments = new List<Tournament>();
             _tournamentNames = new List<string>();

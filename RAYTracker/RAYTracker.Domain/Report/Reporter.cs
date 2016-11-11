@@ -2,6 +2,7 @@ using RAYTracker.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace RAYTracker.Domain.Report
 {
@@ -15,21 +16,25 @@ namespace RAYTracker.Domain.Report
             var winningSessions = sessions.Count(s => s.Result > 0);
             var winningPlayingSessions = playingSessions.Count(s => s.Result > 0);
 
-            var report = sessions.Count + " sessiota.\nYhteensä " + playingSessions.Count + " pelikertaa.";
-                report += "\nTulos: " + result + " €";
-                report += "\nPelattu " + (timePlayed / 60.0).ToString("N2") + " tuntia";
-                report += "\nTulos tuntia kohti: " + ((double)result / (timePlayed / 60.0)).ToString("N2") + " €/h";
-                report += "\nTulos pöytätuntia kohti: " + ((double)result / (tableTimePlayed)).ToString("N2") + " €/h";
-                report += "\nKäsiä yhteensä: " + sessions.Sum(t => t.HandsPlayed);
-                report += "\nVoitollisia sessioita: " + winningSessions + " (" + 
-                    ((double) winningSessions/sessions.Count*100.0).ToString("N2") + " %)";
-                report += "\nVoitollisia pelikertoja: " + winningPlayingSessions + " (" +
-                    ((double) winningPlayingSessions / playingSessions.Count * 100.0).ToString("N2") + " %)";
-                //report += "\nSuurin downswing (sessiot): " + FindLargestDrop(sessions) + " €";
-                //report += "\nSuurin downswing (pelikerrat): " + FindLargestDrop(playingSessions
-                //    .Select(p => new Session { EndTime = p.EndTime, Result = p.Result })) + " €";
+            StringBuilder report = new StringBuilder();
 
-            return report;
+            report.Append(sessions.Count + " sessiota.\nYhteensä " + playingSessions.Count + " pelikertaa.");
+            report.Append("\nTulos: " + result + " €");
+            report.Append("\nPelattu " + (timePlayed / 60.0).ToString("N2") + " tuntia");
+            report.Append("\nTulos tuntia kohti: " + ((double)result / (timePlayed / 60.0)).ToString("N2") + " €/h");
+            report.Append("\nTulos pöytätuntia kohti: " + ((double)result / (tableTimePlayed)).ToString("N2") + " €/h");
+            report.Append("\nKäsiä yhteensä: " + sessions.Sum(t => t.HandsPlayed));
+            report.Append("\nVoitollisia sessioita: " + winningSessions + " (" + 
+                    ((double) winningSessions/sessions.Count*100.0).ToString("N2") + " %)");
+            report.Append("\nVoitollisia pelikertoja: " + winningPlayingSessions + " (" +
+                    ((double) winningPlayingSessions / playingSessions.Count * 100.0).ToString("N2") + " %)");
+
+            // Ei vielä valmis
+            //report.Append("\nSuurin downswing (sessiot): " + FindLargestDrop(sessions) + " €");
+            //report.Append("\nSuurin downswing (pelikerrat): " + FindLargestDrop(playingSessions
+            //    .Select(p => new Session { EndTime = p.EndTime, Result = p.Result })) + " €");
+
+            return report.ToString();
         }
 
         public static decimal CalculateResultPerHour(PlayingSession[] playingSessions)
