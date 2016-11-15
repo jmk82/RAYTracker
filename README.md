@@ -17,6 +17,9 @@ Puutteita/kesken/ei toteutettu:
 - ei automaattisia testejä
 - turnauksista saa vain yksinkertaisen raportin
 
+<p><a href="https://github.com/jmk82/RAYTracker/blob/master/RAYTracker/RAYTracker/RAYTrackerSetup.msi">Asennustiedosto</a></p>
+<p>Asennushakemistosta voi tuoda sample.txt -tiedostosta hieman pelitietoja, joilla ohjelmaa voi kokeilla</p>
+
 <p><a href="https://www.youtube.com/watch?v=zFDXRh5QRas">Ohjelman esittelyvideo (5 min)</a></p>
 <p><a href="https://www.youtube.com/watch?v=4ghVsb3OLUg">Ohjelman tarkempi esittely (15 min)</a></p>
 
